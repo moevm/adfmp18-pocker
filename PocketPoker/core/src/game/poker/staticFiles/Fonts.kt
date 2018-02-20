@@ -1,4 +1,4 @@
-package game.poker
+package game.poker.staticFiles
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Color

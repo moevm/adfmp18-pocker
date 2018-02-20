@@ -1,9 +1,9 @@
 package game.poker.gui
 
 import com.badlogic.gdx.graphics.g2d.Sprite
-import game.poker.Textures
+import game.poker.staticFiles.Textures
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import game.poker.Fonts
+import game.poker.staticFiles.Fonts
 import game.poker.Settings
 
 

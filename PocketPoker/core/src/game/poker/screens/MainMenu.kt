@@ -3,10 +3,10 @@ package game.poker.screens
 import com.badlogic.gdx.Screen
 import com.badlogic.gdx.graphics.g2d.Sprite
 
-import game.poker.Textures
 import game.poker.PocketPoker
 import game.poker.gui.Button
 import game.poker.Settings
+import game.poker.staticFiles.Textures
 
 
 class MainMenu(val game: PocketPoker) : Screen {

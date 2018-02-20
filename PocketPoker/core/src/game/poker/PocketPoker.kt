@@ -9,7 +9,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport
 import com.badlogic.gdx.utils.viewport.Viewport
 
 import game.poker.screens.MainMenu
-import game.poker.Textures
+import game.poker.staticFiles.Textures
 
 class PocketPoker : Game() {
 
