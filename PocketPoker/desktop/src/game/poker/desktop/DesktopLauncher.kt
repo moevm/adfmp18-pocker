@@ -9,8 +9,9 @@ object DesktopLauncher {
     fun main(arg: Array<String>) {
         val config = LwjglApplicationConfiguration()
         config.title = "PocketPoker"
-        config.height = 640
-        config.width = 480
+        // so height/width == 1920/1080
+        config.height = 576
+        config.width = 324
         LwjglApplication(PocketPoker(), config)
     }
 }
