@@ -8,6 +8,9 @@ object DesktopLauncher {
     @JvmStatic
     fun main(arg: Array<String>) {
         val config = LwjglApplicationConfiguration()
+        config.title = "PocketPoker"
+        config.height = 640
+        config.width = 480
         LwjglApplication(PocketPoker(), config)
     }
 }
