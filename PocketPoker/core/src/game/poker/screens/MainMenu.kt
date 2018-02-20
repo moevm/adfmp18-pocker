@@ -6,11 +6,12 @@ import com.badlogic.gdx.graphics.g2d.Sprite
 import game.poker.Textures
 import game.poker.PocketPoker
 import game.poker.gui.Button
+import game.poker.Fonts
 
 
 class MainMenu(val game: PocketPoker) : Screen {
     private val background = Sprite(Textures.mainMenuBg)
-    private val easyGame = Button(200f, 700f, 700f, 150f, "Quick game")
+    private val easyGame = Button(200f, 700f, 700f, 150f, "Быстрая игра")
 
     init {
         background.setBounds(0f, 0f, game.gameWidth, game.gameHeight)
