@@ -19,7 +19,7 @@ import game.poker.staticFiles.Fonts
 
 class MainMenu(val game: PocketPoker) : Screen {
 
-    private val stage = Stage()
+    private val stage = Stage(game.view)
 
     init {
 
@@ -34,7 +34,7 @@ class MainMenu(val game: PocketPoker) : Screen {
         val table = Table()
         table.width = stage.width
         table.align(Align.center)
-        table.setPosition(0f, Gdx.graphics.height.toFloat() / 2f)
+        table.setPosition(0f, game.gameHeight / 2f)
 
         val titleLabel = Label(Settings.getText(Settings.TextKeys.POKCET_POKER), labelStyle)
         table.add(titleLabel).padBottom(10f).row()
