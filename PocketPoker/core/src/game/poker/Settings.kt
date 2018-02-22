@@ -5,6 +5,7 @@ object Settings{
     enum class Langs{ RUS, ENG }
     enum class TextKeys{
         POKCET_POKER,
+        NICK,
         QUICK_GAME,
         TOURNAMENT,
         ARCHIVE,
@@ -17,6 +18,9 @@ object Settings{
 
         map[Pair(Langs.RUS, TextKeys.POKCET_POKER)] = "PocketPoker"
         map[Pair(Langs.ENG, TextKeys.POKCET_POKER)] = "PocketPoker"
+
+        map[Pair(Langs.RUS, TextKeys.NICK)] = "Ник"
+        map[Pair(Langs.ENG, TextKeys.NICK)] = "Nick"
 
         map[Pair(Langs.RUS, TextKeys.QUICK_GAME)] = "Быстрая игра"
         map[Pair(Langs.ENG, TextKeys.QUICK_GAME)] = "Quick game"

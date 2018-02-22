@@ -10,7 +10,7 @@ object Fonts {
         val generator = FreeTypeFontGenerator(Gdx.files.internal("fonts/arial.ttf"))
         val parameter = FreeTypeFontGenerator.FreeTypeFontParameter()
         parameter.characters = FONT_CHARS
-        parameter.size = 25
+        parameter.size = 70
         parameter.color = Color.BLACK
         return generator.generateFont(parameter)
     }
@@ -18,7 +18,7 @@ object Fonts {
         val generator = FreeTypeFontGenerator(Gdx.files.internal("fonts/Esteban-Regular.ttf"))
         val parameter = FreeTypeFontGenerator.FreeTypeFontParameter()
         parameter.characters = FONT_CHARS
-        parameter.size = 50
+        parameter.size = 150
         parameter.color = Color.BLACK
         return generator.generateFont(parameter)
     }
