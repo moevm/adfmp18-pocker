@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport
 import com.badlogic.gdx.utils.viewport.Viewport
 
 import game.poker.screens.MainMenu
+import game.poker.screens.SettingsMenu
 import game.poker.staticFiles.Textures
 
 class PocketPoker : Game() {
@@ -24,7 +25,7 @@ class PocketPoker : Game() {
         batch = SpriteBatch()
         view = StretchViewport(gameWidth, gameHeight)
 
-        screen = MainMenu(this)
+        screen = SettingsMenu(this)
 
         img = Sprite(Textures.test)
         img.setBounds(200f, 200f, 400f, 400f)

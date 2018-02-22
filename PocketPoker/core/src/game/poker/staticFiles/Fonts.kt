@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator
 
 object Fonts {
-    fun generateMenuButtonFont():BitmapFont {
+    private fun generateMenuButtonFont():BitmapFont {
         val generator = FreeTypeFontGenerator(Gdx.files.internal("fonts/arial.ttf"))
         val parameter = FreeTypeFontGenerator.FreeTypeFontParameter()
         parameter.characters = FONT_CHARS
@@ -14,7 +14,7 @@ object Fonts {
         parameter.color = Color.BLACK
         return generator.generateFont(parameter)
     }
-    fun generateMenuLogoFont():BitmapFont {
+    private fun generateMenuLogoFont():BitmapFont {
         val generator = FreeTypeFontGenerator(Gdx.files.internal("fonts/Esteban-Regular.ttf"))
         val parameter = FreeTypeFontGenerator.FreeTypeFontParameter()
         parameter.characters = FONT_CHARS
@@ -22,9 +22,10 @@ object Fonts {
         parameter.color = Color.BLACK
         return generator.generateFont(parameter)
     }
-    val FONT_CHARS = "абвгдежзийклмнопрстуфхцчшщъыьэюяabcdefghijklmnopqrstuvwxyzАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789][_!$%#@|\\/?-+=()*&.;:,{}\"´`'<>"
+    private val FONT_CHARS = "абвгдежзийклмнопрстуфхцчшщъыьэюяabcdefghijklmnopqrstuvwxyzАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789][_!$%#@|\\/?-+=()*&.;:,{}\"´`'<>"
     val mainMenuButtonFont = generateMenuButtonFont()
     val mainMenuLogoFont = generateMenuLogoFont()
+    val mainMenuLabelFont = mainMenuButtonFont
 }
 
 
