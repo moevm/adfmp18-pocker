@@ -11,6 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle
 import com.badlogic.gdx.scenes.scene2d.ui.List
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable
 import com.badlogic.gdx.utils.Align
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 
 import game.poker.PocketPoker
 import game.poker.Settings
@@ -72,6 +74,12 @@ class SettingsMenu(val game: PocketPoker) : Screen {
 
         val mainMenuButton = TextButton(Settings.getText(Settings.TextKeys.MAIN_MENU), buttonStyle)
         table.add(mainMenuButton).colspan(2).pad(PADDING).fill()
+        class MClickListener():ClickListener() {
+            override fun clicked(event: InputEvent, x: Float, y: Float) {
+                mainMenuButton.setText("You clicked the button")
+            }
+        }
+        mainMenuButton.addListener(MClickListener())
 
         stage.addActor(table)
         Gdx.input.inputProcessor = stage
