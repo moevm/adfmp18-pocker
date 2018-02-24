@@ -17,4 +17,9 @@ class AndroidLauncher : AndroidApplication() {
         val config = AndroidApplicationConfiguration()
         initialize(PocketPoker(), config)
     }
+
+    override fun onDestroy() {
+        android.os.Process.killProcess(android.os.Process.myPid())
+        super.onDestroy()
+    }
 }
