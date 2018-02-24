@@ -24,7 +24,7 @@ import game.poker.staticFiles.Fonts
 class SettingsMenu(val game: PocketPoker) : Screen {
 
     private val stage = Stage(game.view)
-    private val PADDING = 20f
+    private val PADDING = 50f
     private val languageSelect: SelectBox<String>
     private val soundLabel: Label
     private val musicLabel: Label
@@ -65,22 +65,22 @@ class SettingsMenu(val game: PocketPoker) : Screen {
         val table = Table()
         table.pad(PADDING)
         table.setFillParent(true)
-        table.align(Align.center)
+        table.align(Align.bottom)
 
         soundLabel = Label(Settings.getText(Settings.TextKeys.SOUND_LEVEL), labelStyle)
         table.add(soundLabel).colspan(2).pad(PADDING).row()
 
         val soundScroll = Slider(0f,100f,1f,false, sliderStyle)
-        table.add(soundScroll).colspan(2).pad(PADDING).fill().row()
+        table.add(soundScroll).colspan(2).pad(PADDING).fill().width(game.gameWidth * 0.8f).row()
 
         musicLabel = Label(Settings.getText(Settings.TextKeys.MUSIC_LEVEL), labelStyle)
         table.add(musicLabel).colspan(2).pad(PADDING).row()
 
         val musicScroll = Slider(0f,100f,1f,false, sliderStyle)
-        table.add(musicScroll).colspan(2).pad(PADDING).fill().row()
+        table.add(musicScroll).colspan(2).pad(PADDING).width(game.gameWidth * 0.8f).fill().row()
 
         languageLabel = Label(Settings.getText(Settings.TextKeys.LANGUAGE), labelStyle)
-        table.add(languageLabel).pad(PADDING)
+        table.add(languageLabel).pad(PADDING).width(game.gameWidth * 0.25f)
 
         languageSelect = SelectBox<String>(selectBoxStyle)
         languageSelect.setItems(Settings.getText(Settings.TextKeys.LANG_RUS),
@@ -98,19 +98,18 @@ class SettingsMenu(val game: PocketPoker) : Screen {
                 }
             }
         })
-        table.add(languageSelect).pad(PADDING).row()
+        table.add(languageSelect).pad(PADDING).width(game.gameWidth * 0.55f).row()
 
         cardsLabel = Label(Settings.getText(Settings.TextKeys.CARDS), labelStyle)
-        table.add(cardsLabel).pad(PADDING)
+        table.add(cardsLabel).pad(PADDING).width(game.gameWidth * 0.25f)
 
         cardSelect = SelectBox<String>(selectBoxStyle)
         cardSelect.setItems(Settings.getText(Settings.TextKeys.CARD_2_COLOR),
                 Settings.getText(Settings.TextKeys.CARD_4_COLOR))
-        table.add(cardSelect).pad(PADDING).row()
+        table.add(cardSelect).pad(PADDING).width(game.gameWidth * 0.55f).row()
 
         mainMenuButton = TextButton(Settings.getText(Settings.TextKeys.MAIN_MENU), buttonStyle)
-        table.add(mainMenuButton).colspan(2).pad(PADDING).fill()
-
+        table.add(mainMenuButton).colspan(2).pad(PADDING).padTop(400f).padRight(game.gameWidth * 0.3f).fill().height(100f)
         stage.addActor(table)
         Gdx.input.inputProcessor = stage
     }
