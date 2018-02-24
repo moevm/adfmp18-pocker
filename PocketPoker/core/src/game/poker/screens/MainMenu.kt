@@ -25,7 +25,7 @@ class MainMenu(val game: PocketPoker) : Screen {
 
     init {
 
-        stage.addActor(Image(Textures.mainMenuBg))
+        stage.addActor(Image(Textures.menuBg))
 
         val buttonSprite = SpriteDrawable(Sprite(Textures.menuButton))
         val buttonDownSprite = SpriteDrawable(Sprite(Textures.menuButtonDown))
@@ -44,7 +44,7 @@ class MainMenu(val game: PocketPoker) : Screen {
         table.setFillParent(true)
         table.align(Align.center)
 
-        val titleLabel = Label(Settings.getText(Settings.TextKeys.POKCET_POKER), logoStyle)
+        val titleLabel = Label(Settings.getText(Settings.TextKeys.POCKET_POKER), logoStyle)
         table.add(titleLabel).colspan(2).pad(PADDING).expand().fill().center().row()
 
         val nickLabel = Label(Settings.getText(Settings.TextKeys.NICK), labelStyle)
@@ -94,5 +94,8 @@ class MainMenu(val game: PocketPoker) : Screen {
 
     override fun dispose(){
 
+    }
+    fun update() {
+        //TODO: implement
     }
 }
