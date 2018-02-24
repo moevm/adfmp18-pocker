@@ -7,7 +7,6 @@ object Textures{
     val menuButtonDown = Texture("pics/buttonDown.png")
     val edit = Texture("pics/edit.png")
     val editCursor = Texture("pics/editCursor.png")
-    val test = Texture("pics/badlogic.jpg")
     val scroll = Texture("pics/scroll.png")
     val list_selection = scroll //TODO: добавить текстуры для List и Scroll
     val scrollBg = scroll
