@@ -1,7 +1,6 @@
 package game.poker.screens
 
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.Screen
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.scenes.scene2d.Stage
@@ -18,10 +17,17 @@ import game.poker.staticFiles.Textures
 import game.poker.staticFiles.Fonts
 
 
-class MainMenu(val game: PocketPoker) : Screen {
+class MainMenu(val game: PocketPoker) : BaseScreen {
 
     private val stage = Stage(game.view)
     private val PADDING = 50f
+
+    private val nickLabel: Label
+    private val quickGameButton: TextButton
+    private val tournamentButton: TextButton
+    private val archiveButton: TextButton
+    private val settingsButton: TextButton
+    private val exitButton: TextButton
 
     init {
 
@@ -47,32 +53,35 @@ class MainMenu(val game: PocketPoker) : Screen {
         val titleLabel = Label(Settings.getText(Settings.TextKeys.POCKET_POKER), logoStyle)
         table.add(titleLabel).colspan(2).pad(PADDING).expand().fill().center().row()
 
-        val nickLabel = Label(Settings.getText(Settings.TextKeys.NICK), labelStyle)
+        nickLabel = Label(Settings.getText(Settings.TextKeys.NICK), labelStyle)
         table.add(nickLabel).pad(PADDING)
 
         val nickEdit = TextField("", editStyle)
         table.add(nickEdit).pad(PADDING).expand().fill().row()
 
-        fun addButtonToTable(textKey: Settings.TextKeys) {
+        fun addButtonToTable(textKey: Settings.TextKeys): TextButton {
             val button = TextButton(Settings.getText(textKey), buttonStyle)
             table.add(button).colspan(2).pad(PADDING).expand().fill().row()
+            return button
         }
 
-        addButtonToTable(Settings.TextKeys.QUICK_GAME)
-        addButtonToTable(Settings.TextKeys.TOURNAMENT)
-        addButtonToTable(Settings.TextKeys.ARCHIVE)
-        addButtonToTable(Settings.TextKeys.SETTINGS)
-        addButtonToTable(Settings.TextKeys.EXIT)
+        quickGameButton = addButtonToTable(Settings.TextKeys.QUICK_GAME)
+        tournamentButton = addButtonToTable(Settings.TextKeys.TOURNAMENT)
+        archiveButton = addButtonToTable(Settings.TextKeys.ARCHIVE)
+        settingsButton = addButtonToTable(Settings.TextKeys.SETTINGS)
+        exitButton = addButtonToTable(Settings.TextKeys.EXIT)
+
+        settingsButton.addListener(game.switches[ScreenType.SETTINGS])
 
         stage.addActor(table)
-        Gdx.input.inputProcessor = stage
     }
 
     override fun show(){
-        println("MainMenu show")
+        Gdx.input.inputProcessor = stage
     }
 
     override fun render(delta: Float) {
+        stage.act()
         stage.draw()
     }
 
@@ -95,7 +104,13 @@ class MainMenu(val game: PocketPoker) : Screen {
     override fun dispose(){
 
     }
-    fun update() {
-        //TODO: implement
+
+    override fun update() {
+        nickLabel.setText(Settings.getText(Settings.TextKeys.NICK))
+        quickGameButton.setText(Settings.getText(Settings.TextKeys.QUICK_GAME))
+        tournamentButton.setText(Settings.getText(Settings.TextKeys.TOURNAMENT))
+        archiveButton.setText(Settings.getText(Settings.TextKeys.ARCHIVE))
+        settingsButton.setText(Settings.getText(Settings.TextKeys.SETTINGS))
+        exitButton.setText(Settings.getText(Settings.TextKeys.EXIT))
     }
 }

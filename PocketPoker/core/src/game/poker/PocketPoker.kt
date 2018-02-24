@@ -3,11 +3,12 @@ package game.poker
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Game
 import com.badlogic.gdx.graphics.GL20
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.viewport.StretchViewport
 import com.badlogic.gdx.utils.viewport.Viewport
+import com.badlogic.gdx.scenes.scene2d.InputEvent
 
-import game.poker.screens.MainMenu
-import game.poker.screens.SettingsMenu
+import game.poker.screens.*
 
 class PocketPoker : Game() {
 
@@ -15,15 +16,23 @@ class PocketPoker : Game() {
     val gameHeight = 1920f
 
     lateinit var view: Viewport private set
-    lateinit var settingsMenu: SettingsMenu private set
-    lateinit var mainMenu: MainMenu private set
+    val screens = mutableMapOf<ScreenType, BaseScreen>()
+    val switches = mutableMapOf<ScreenType, ClickListener>()
 
     override fun create() {
         view = StretchViewport(gameWidth, gameHeight)
 
-        mainMenu = MainMenu(this)
-        settingsMenu = SettingsMenu(this)
-        screen = settingsMenu
+        fun switchTo(screen: ScreenType) = object : ClickListener() {
+            override fun clicked(event: InputEvent, x: Float, y: Float) {
+                this@PocketPoker.setCurrScreen(screen)
+            }
+        }
+
+        ScreenType.values().forEach { switches[it] = switchTo(it) }
+
+        screens[ScreenType.MAIN_MENU] = MainMenu(this)
+        screens[ScreenType.SETTINGS] = SettingsMenu(this)
+        setCurrScreen(ScreenType.MAIN_MENU)
     }
 
     override fun render() {
@@ -36,13 +45,16 @@ class PocketPoker : Game() {
         view.update(width, height, true)
     }
 
+    fun setCurrScreen(type: ScreenType) {
+        screen = screens[type]
+        screen.show()
+    }
+
     override fun dispose() {
-        settingsMenu.dispose()
-        mainMenu.dispose()
+        screens.forEach { it.value.dispose() }
     }
 
     fun updateLang() {
-        settingsMenu.update()
-        mainMenu.update()
+        screens.forEach { it.value.update() }
     }
 }

@@ -1,7 +1,6 @@
 package game.poker.screens
 
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.Screen
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.scenes.scene2d.Actor
@@ -21,7 +20,7 @@ import game.poker.staticFiles.Textures
 import game.poker.staticFiles.Fonts
 
 
-class SettingsMenu(val game: PocketPoker) : Screen {
+class SettingsMenu(val game: PocketPoker) : BaseScreen {
 
     private val stage = Stage(game.view)
     private val PADDING = 50f
@@ -109,12 +108,12 @@ class SettingsMenu(val game: PocketPoker) : Screen {
         table.add(cardSelect).pad(PADDING).width(game.gameWidth * 0.55f).row()
 
         mainMenuButton = TextButton(Settings.getText(Settings.TextKeys.MAIN_MENU), buttonStyle)
+        mainMenuButton.addListener(game.switches[ScreenType.MAIN_MENU])
         table.add(mainMenuButton).colspan(2).pad(PADDING).padTop(400f).padRight(game.gameWidth * 0.3f).fill().height(100f)
         stage.addActor(table)
-        Gdx.input.inputProcessor = stage
     }
 
-    fun update(){
+    override fun update(){
         soundLabel.setText(Settings.getText(Settings.TextKeys.SOUND_LEVEL))
         musicLabel.setText(Settings.getText(Settings.TextKeys.MUSIC_LEVEL))
         languageLabel.setText(Settings.getText(Settings.TextKeys.LANGUAGE))
@@ -129,7 +128,7 @@ class SettingsMenu(val game: PocketPoker) : Screen {
     }
 
     override fun show(){
-        println("SettingsMenu show")
+        Gdx.input.inputProcessor = stage
     }
 
     override fun render(delta: Float) {
