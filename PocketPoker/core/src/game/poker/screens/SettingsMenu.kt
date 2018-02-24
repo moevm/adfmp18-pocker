@@ -25,13 +25,13 @@ class SettingsMenu(val game: PocketPoker) : Screen {
 
     private val stage = Stage(game.view)
     private val PADDING = 20f
-    private val languageSelect:SelectBox<String>
-    private var curLang = 0
-    private val soundLabel:Label
-    private val musicLabel:Label
-    private val languageLabel:Label
-    private val cardsLabel:Label
-    private val mainMenuButton:TextButton
+    private val languageSelect: SelectBox<String>
+    private val soundLabel: Label
+    private val musicLabel: Label
+    private val languageLabel: Label
+    private val cardsLabel: Label
+    private val mainMenuButton: TextButton
+    private val cardSelect: SelectBox<String>
 
     init {
 
@@ -83,16 +83,17 @@ class SettingsMenu(val game: PocketPoker) : Screen {
         table.add(languageLabel).pad(PADDING)
 
         languageSelect = SelectBox<String>(selectBoxStyle)
-        languageSelect.setItems("Русский","English")
-        languageSelect.addListener(object :ChangeListener() {
+        languageSelect.setItems(Settings.getText(Settings.TextKeys.LANG_RUS),
+                Settings.getText(Settings.TextKeys.LANG_ENG))
+        languageSelect.addListener(object : ChangeListener() {
             override fun changed(event: ChangeEvent?, actor: Actor?) {
-                if (languageSelect.selectedIndex != curLang) {
-                    curLang = languageSelect.selectedIndex
-                    if (curLang == 0) {
-                        Settings.currLang = Settings.Langs.RUS
-                    } else {
-                        Settings.currLang = Settings.Langs.ENG
-                    }
+                val newLang = when(languageSelect.selectedIndex){
+                    0 -> Settings.Langs.RUS
+                    1 -> Settings.Langs.ENG
+                    else -> throw IllegalArgumentException("Bad index")
+                }
+                if(newLang != Settings.currLang){
+                    Settings.currLang = newLang
                     game.updateLang()
                 }
             }
@@ -102,8 +103,9 @@ class SettingsMenu(val game: PocketPoker) : Screen {
         cardsLabel = Label(Settings.getText(Settings.TextKeys.CARDS), labelStyle)
         table.add(cardsLabel).pad(PADDING)
 
-        val cardSelect = SelectBox<String>(selectBoxStyle)
-        cardSelect.setItems("Black","Colorful")
+        cardSelect = SelectBox<String>(selectBoxStyle)
+        cardSelect.setItems(Settings.getText(Settings.TextKeys.CARD_2_COLOR),
+                Settings.getText(Settings.TextKeys.CARD_4_COLOR))
         table.add(cardSelect).pad(PADDING).row()
 
         mainMenuButton = TextButton(Settings.getText(Settings.TextKeys.MAIN_MENU), buttonStyle)
@@ -119,6 +121,12 @@ class SettingsMenu(val game: PocketPoker) : Screen {
         languageLabel.setText(Settings.getText(Settings.TextKeys.LANGUAGE))
         cardsLabel.setText(Settings.getText(Settings.TextKeys.CARDS))
         mainMenuButton.setText(Settings.getText(Settings.TextKeys.MAIN_MENU))
+        val currCardColor = cardSelect.selectedIndex
+        cardSelect.setItems(Settings.getText(Settings.TextKeys.CARD_2_COLOR),
+                Settings.getText(Settings.TextKeys.CARD_4_COLOR))
+        cardSelect.selectedIndex = currCardColor
+        languageSelect.setItems(Settings.getText(Settings.TextKeys.LANG_RUS),
+                Settings.getText(Settings.TextKeys.LANG_ENG))
     }
 
     override fun show(){

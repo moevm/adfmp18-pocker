@@ -20,8 +20,8 @@ class PocketPoker : Game() {
     lateinit var batch: SpriteBatch
     lateinit var img: Sprite
     lateinit var view: Viewport
-    lateinit var settingsMenu:SettingsMenu
-    lateinit var mainMenu:MainMenu
+    lateinit var settingsMenu: SettingsMenu
+    lateinit var mainMenu: MainMenu
 
     override fun create() {
         batch = SpriteBatch()

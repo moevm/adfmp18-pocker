@@ -14,7 +14,11 @@ object Settings{
         SOUND_LEVEL,
         MUSIC_LEVEL,
         LANGUAGE,
+        LANG_RUS,
+        LANG_ENG,
         CARDS,
+        CARD_2_COLOR,
+        CARD_4_COLOR,
         MAIN_MENU
     }
 
@@ -51,8 +55,20 @@ object Settings{
         map[Pair(Langs.RUS, TextKeys.LANGUAGE)] = "Язык"
         map[Pair(Langs.ENG, TextKeys.LANGUAGE)] = "Language"
 
+        map[Pair(Langs.RUS, TextKeys.LANG_RUS)] = "Русский"
+        map[Pair(Langs.ENG, TextKeys.LANG_RUS)] = "Русский"
+
+        map[Pair(Langs.RUS, TextKeys.LANG_ENG)] = "English"
+        map[Pair(Langs.ENG, TextKeys.LANG_ENG)] = "English"
+
         map[Pair(Langs.RUS, TextKeys.CARDS)] = "Карты"
         map[Pair(Langs.ENG, TextKeys.CARDS)] = "Cards"
+
+        map[Pair(Langs.RUS, TextKeys.CARD_2_COLOR)] = "2 цвета"
+        map[Pair(Langs.ENG, TextKeys.CARD_2_COLOR)] = "2 colors"
+
+        map[Pair(Langs.RUS, TextKeys.CARD_4_COLOR)] = "4 цвета"
+        map[Pair(Langs.ENG, TextKeys.CARD_4_COLOR)] = "4 colors"
 
         map[Pair(Langs.RUS, TextKeys.MAIN_MENU)] = "Главное меню"
         map[Pair(Langs.ENG, TextKeys.MAIN_MENU)] = "Main menu"
