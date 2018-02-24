@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Screen
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.Sprite
+import com.badlogic.gdx.scenes.scene2d.Actor
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.*
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle
@@ -11,8 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle
 import com.badlogic.gdx.scenes.scene2d.ui.List
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable
 import com.badlogic.gdx.utils.Align
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
+import com.badlogic.gdx.scenes.scene2d.ui.Slider
 
 import game.poker.PocketPoker
 import game.poker.Settings
@@ -24,6 +25,13 @@ class SettingsMenu(val game: PocketPoker) : Screen {
 
     private val stage = Stage(game.view)
     private val PADDING = 20f
+    private val languageSelect:SelectBox<String>
+    private var curLang = 0
+    private val soundLabel:Label
+    private val musicLabel:Label
+    private val languageLabel:Label
+    private val cardsLabel:Label
+    private val mainMenuButton:TextButton
 
     init {
 
@@ -31,28 +39,16 @@ class SettingsMenu(val game: PocketPoker) : Screen {
 
         val buttonSprite = SpriteDrawable(Sprite(Textures.menuButton))
         val buttonDownSprite = SpriteDrawable(Sprite(Textures.menuButtonDown))
-        val editSprite = SpriteDrawable(Sprite(Textures.edit))
         val selectBoxSprite = SpriteDrawable(Sprite(Textures.scroll))
+        val sliderSprite = Sprite(Textures.sliderKnob)
+        sliderSprite.setSize(100f,100f)
 
         val labelStyle = LabelStyle(Fonts.mainMenuLabelFont, Color.BLACK)
         val buttonStyle = TextButtonStyle(buttonSprite, buttonDownSprite, buttonSprite,
                 Fonts.mainMenuButtonFont)
-
-        val table = Table()
-        table.pad(PADDING)
-        table.setFillParent(true)
-        table.align(Align.center)
-
-        val soundLabel = Label(Settings.getText(Settings.TextKeys.SOUND_LEVEL), labelStyle)
-        table.add(soundLabel).colspan(2).pad(PADDING).row()
-
-        val musicLabel = Label(Settings.getText(Settings.TextKeys.MUSIC_LEVEL), labelStyle)
-        table.add(musicLabel).colspan(2).pad(PADDING).row()
-
-        val languageLabel = Label(Settings.getText(Settings.TextKeys.LANGUAGE), labelStyle)
-        table.add(languageLabel).pad(PADDING)
-
-        val languageSelect = SelectBox<String>(SelectBox.SelectBoxStyle(Fonts.mainMenuLabelFont,
+        val sliderStyle = Slider.SliderStyle(SpriteDrawable(Sprite(Textures.sliderBg)),
+                SpriteDrawable(sliderSprite))
+        val selectBoxStyle = SelectBox.SelectBoxStyle(Fonts.mainMenuLabelFont,
                 Color.BLACK,
                 selectBoxSprite,
                 ScrollPane.ScrollPaneStyle(SpriteDrawable(Sprite(Textures.scrollBg)),
@@ -64,25 +60,65 @@ class SettingsMenu(val game: PocketPoker) : Screen {
                         Color.BLACK,
                         Color.GRAY,
                         SpriteDrawable(Sprite(Textures.list_selection)))
-                 ))
-        val str = arrayOf("First","Second","Third")
-        languageSelect.setItems(com.badlogic.gdx.utils.Array<String>(str))
+        )
+
+        val table = Table()
+        table.pad(PADDING)
+        table.setFillParent(true)
+        table.align(Align.center)
+
+        soundLabel = Label(Settings.getText(Settings.TextKeys.SOUND_LEVEL), labelStyle)
+        table.add(soundLabel).colspan(2).pad(PADDING).row()
+
+        val soundScroll = Slider(0f,100f,1f,false, sliderStyle)
+        table.add(soundScroll).colspan(2).pad(PADDING).fill().row()
+
+        musicLabel = Label(Settings.getText(Settings.TextKeys.MUSIC_LEVEL), labelStyle)
+        table.add(musicLabel).colspan(2).pad(PADDING).row()
+
+        val musicScroll = Slider(0f,100f,1f,false, sliderStyle)
+        table.add(musicScroll).colspan(2).pad(PADDING).fill().row()
+
+        languageLabel = Label(Settings.getText(Settings.TextKeys.LANGUAGE), labelStyle)
+        table.add(languageLabel).pad(PADDING)
+
+        languageSelect = SelectBox<String>(selectBoxStyle)
+        languageSelect.setItems("Русский","English")
+        languageSelect.addListener(object :ChangeListener() {
+            override fun changed(event: ChangeEvent?, actor: Actor?) {
+                if (languageSelect.selectedIndex != curLang) {
+                    curLang = languageSelect.selectedIndex
+                    if (curLang == 0) {
+                        Settings.currLang = Settings.Langs.RUS
+                    } else {
+                        Settings.currLang = Settings.Langs.ENG
+                    }
+                    game.updateLang()
+                }
+            }
+        })
         table.add(languageSelect).pad(PADDING).row()
 
-        val cardsLabel = Label(Settings.getText(Settings.TextKeys.CARDS), labelStyle)
-        table.add(cardsLabel).pad(PADDING).row()
+        cardsLabel = Label(Settings.getText(Settings.TextKeys.CARDS), labelStyle)
+        table.add(cardsLabel).pad(PADDING)
 
-        val mainMenuButton = TextButton(Settings.getText(Settings.TextKeys.MAIN_MENU), buttonStyle)
+        val cardSelect = SelectBox<String>(selectBoxStyle)
+        cardSelect.setItems("Black","Colorful")
+        table.add(cardSelect).pad(PADDING).row()
+
+        mainMenuButton = TextButton(Settings.getText(Settings.TextKeys.MAIN_MENU), buttonStyle)
         table.add(mainMenuButton).colspan(2).pad(PADDING).fill()
-        class MClickListener():ClickListener() {
-            override fun clicked(event: InputEvent, x: Float, y: Float) {
-                mainMenuButton.setText("You clicked the button")
-            }
-        }
-        mainMenuButton.addListener(MClickListener())
 
         stage.addActor(table)
         Gdx.input.inputProcessor = stage
+    }
+
+    fun update(){
+        soundLabel.setText(Settings.getText(Settings.TextKeys.SOUND_LEVEL))
+        musicLabel.setText(Settings.getText(Settings.TextKeys.MUSIC_LEVEL))
+        languageLabel.setText(Settings.getText(Settings.TextKeys.LANGUAGE))
+        cardsLabel.setText(Settings.getText(Settings.TextKeys.CARDS))
+        mainMenuButton.setText(Settings.getText(Settings.TextKeys.MAIN_MENU))
     }
 
     override fun show(){
@@ -90,6 +126,7 @@ class SettingsMenu(val game: PocketPoker) : Screen {
     }
 
     override fun render(delta: Float) {
+        stage.act()
         stage.draw()
     }
 

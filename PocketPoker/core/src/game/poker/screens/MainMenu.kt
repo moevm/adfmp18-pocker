@@ -95,4 +95,7 @@ class MainMenu(val game: PocketPoker) : Screen {
     override fun dispose(){
 
     }
+    fun update() {
+        //TODO: implement
+    }
 }

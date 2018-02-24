@@ -9,10 +9,12 @@ object Textures{
     val editCursor = Texture("pics/editCursor.png")
     val test = Texture("pics/badlogic.jpg")
     val scroll = Texture("pics/scroll.png")
-    val list_selection = scroll //TODO: запилить текстуры List и Scroll
+    val list_selection = scroll //TODO: добавить текстуры для List и Scroll
     val scrollBg = scroll
     val hScroll = scroll
     val hScrollKnob = scroll
     val vScroll = scroll
     val vScrollKnob = scroll
+    val sliderBg = Texture("pics/sliderBg.png")
+    val sliderKnob = Texture("pics/slider.png")
 }
