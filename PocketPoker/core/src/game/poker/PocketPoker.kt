@@ -57,6 +57,7 @@ class PocketPoker : Game() {
 
     override fun dispose() {
         screens.forEach { it.value.dispose() }
+        Gdx.app.exit()
     }
 
     fun updateLang() {
