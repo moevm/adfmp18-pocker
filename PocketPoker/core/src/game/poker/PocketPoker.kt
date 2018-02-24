@@ -16,8 +16,8 @@ class PocketPoker : Game() {
     val gameHeight = 1920f
 
     lateinit var view: Viewport private set
-    val screens = mutableMapOf<ScreenType, BaseScreen>()
-    val switches = mutableMapOf<ScreenType, ClickListener>()
+    lateinit var screens: Map<ScreenType, BaseScreen> private set
+    lateinit var switches: Map<ScreenType, ClickListener> private set
 
     override fun create() {
         view = StretchViewport(gameWidth, gameHeight)
@@ -28,10 +28,15 @@ class PocketPoker : Game() {
             }
         }
 
+        val switches = mutableMapOf<ScreenType, ClickListener>()
         ScreenType.values().forEach { switches[it] = switchTo(it) }
+        this.switches = switches
 
+        val screens = mutableMapOf<ScreenType, BaseScreen>()
         screens[ScreenType.MAIN_MENU] = MainMenu(this)
         screens[ScreenType.SETTINGS] = SettingsMenu(this)
+        this.screens = screens
+
         setCurrScreen(ScreenType.MAIN_MENU)
     }
 
