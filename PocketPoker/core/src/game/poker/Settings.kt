@@ -3,6 +3,9 @@ package game.poker
 object Settings{
 
     enum class Langs{ RUS, ENG }
+
+    enum class CardsType{ COLOR_4, COLOR_2 }
+
     enum class TextKeys{
         POCKET_POKER,
         NICK,
@@ -78,6 +81,7 @@ object Settings{
 
     private val langMap = generateLanguages()
     var currLang = Langs.RUS
+    var currCards = CardsType.COLOR_4
 
     fun getText(key: TextKeys) = langMap[Pair(currLang, key)]
 }
