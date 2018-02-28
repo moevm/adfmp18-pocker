@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.viewport.StretchViewport
 import com.badlogic.gdx.utils.viewport.Viewport
 import com.badlogic.gdx.scenes.scene2d.InputEvent
+import game.poker.gui.Chipstack
 
 import game.poker.screens.*
 

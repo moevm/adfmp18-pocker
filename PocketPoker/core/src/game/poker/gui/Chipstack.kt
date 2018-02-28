@@ -6,23 +6,18 @@ import game.poker.core.Chip
 class Chipstack {
 
     var money: Int = 0
+        private set
 
-    private val stacks = arrayOf(
-            mutableListOf<ChipTexture>(),
-            mutableListOf<ChipTexture>(),
-            mutableListOf<ChipTexture>(),
-            mutableListOf<ChipTexture>(),
-            mutableListOf<ChipTexture>(),
-            mutableListOf<ChipTexture>(),
-            mutableListOf<ChipTexture>(),
-            mutableListOf<ChipTexture>()
-    )
+    private val stacksCount = 8
+
+    private val stacks: Array<MutableList<ChipTexture>> =
+            Array(stacksCount) { mutableListOf<ChipTexture>() }
 
     fun setChips(newMoney: Int){
         money = newMoney
         var count = newMoney
 
-        // below is near copy paste from javascript code
+        // below is copy paste from javascript code
         val amounts = mutableListOf<MutableList<Pair<Chip, Int>>>()
 
         for(chip in Chip.values().reversed()){
@@ -35,11 +30,11 @@ class Chipstack {
             }
         }
 
-        while (amounts.size > 8){
+        while (amounts.size > stacksCount){
             var minBetweens = -1
             var indexBetweens = -1
 
-            for(i in 0 until amounts.size){
+            for(i in 0 until amounts.size-1){
 
                 var currBetween = 0
 
@@ -70,7 +65,9 @@ class Chipstack {
         }
 
         for((i, currAmounts) in amounts.withIndex()){
+            println("" + (i + 1) + ")")
             for(currChip in currAmounts){
+                println("    " + currChip.first.price() + " * " + currChip.second)
                 for(currChipAmount in 1..currChip.second){
                     stacks[i].add(ChipTexture(0, 0, currChip.first))
                 }
