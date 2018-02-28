@@ -48,6 +48,7 @@ object Textures{
 
     private val cardsMap: Map<Pair<Settings.CardsType, Card>, Texture> = createCards()
     fun getCard(card: Card) = cardsMap[Pair(Settings.currCards, card)]
+            ?: throw IllegalArgumentException("Card texture does not exists: $card")
 
     val pokerTable = Texture("pics/poker_table.png")
     val cardBackground = Texture("pics/cards/4color/open/UP.png")
@@ -63,4 +64,5 @@ object Textures{
 
     private val chipsMap: Map<Chip, Texture> = createChips()
     fun getChip(chip: Chip) = chipsMap[chip]
+            ?: throw IllegalArgumentException("Chip texture does not exists: $chip")
 }
