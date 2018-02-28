@@ -7,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.viewport.StretchViewport
 import com.badlogic.gdx.utils.viewport.Viewport
 import com.badlogic.gdx.scenes.scene2d.InputEvent
-import game.poker.gui.Chipstack
 
 import game.poker.screens.*
 
@@ -36,6 +35,7 @@ class PocketPoker : Game() {
         val screens = mutableMapOf<ScreenType, BaseScreen>()
         screens[ScreenType.MAIN_MENU] = MainMenu(this)
         screens[ScreenType.SETTINGS] = SettingsMenu(this)
+        screens[ScreenType.TABLE] = TableScreen(this)
         this.screens = screens
 
         setCurrScreen(ScreenType.MAIN_MENU)
@@ -52,6 +52,7 @@ class PocketPoker : Game() {
     }
 
     fun setCurrScreen(type: ScreenType) {
+        screen?.hide()
         screen = screens[type]
         screen.show()
     }

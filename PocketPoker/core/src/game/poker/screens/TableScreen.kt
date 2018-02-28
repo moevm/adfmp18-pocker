@@ -6,11 +6,7 @@ import game.poker.gui.Seat
 class TableScreen(val game: PocketPoker) : BaseScreen {
 
     private var isLandscape: Boolean = false
-    private var seats: Array<Seat>
-
-    init {
-        seats = Array(9) { Seat() }
-    }
+    private var seats = Array(9) { Seat() }
 
     override fun update(){
 
