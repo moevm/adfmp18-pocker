@@ -1,17 +1,15 @@
 package game.poker.gui
 
+import game.poker.screens.TableScreen
 
-class Seat {
 
-    var isVisible = false
-    // if player is null in final table should hide
-    // but not in final table should be visible with text "Empty seat"
+class Seat(val table: TableScreen) {
 
-    var card1 = CardTexture()
-    var card2 = CardTexture()
+    val card1 = CardTexture()
+    val card2 = CardTexture()
 
-    var chipstack = Chipstack()
+    val chipstack = Chipstack()
 
-    var player: Player? = null
+    val player = Player(this,"", 0)
 
 }

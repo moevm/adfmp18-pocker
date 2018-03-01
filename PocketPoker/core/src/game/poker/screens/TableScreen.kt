@@ -5,8 +5,16 @@ import game.poker.gui.Seat
 
 class TableScreen(val game: PocketPoker) : BaseScreen {
 
-    private var isLandscape: Boolean = false
-    private var seats = Array(9) { Seat() }
+    var isLandscape = false
+        private set
+    // if isLandscape true then render horizontal layout else vertical layout
+
+    var isFinal = false
+    // describes is this table is final or not
+    // note: in final table all empty seats are hidden
+    //     but in other tables all empty seats just shows with text "Empty seat"
+
+    private val seats = Array(9) { Seat(this) }
 
     override fun update(){
 
