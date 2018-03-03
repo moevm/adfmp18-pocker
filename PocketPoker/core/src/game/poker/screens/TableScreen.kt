@@ -46,7 +46,9 @@ class TableScreen(val game: PocketPoker) : BaseScreen {
         seats.forEach {
             //it.setCards(Card(Rank.Ace,Suit.Clubs, Visibility.Open),Card(Rank.Jack,Suit.Diamonds, Visibility.Open))
             //it.overturnCards()
-            //it.playerView.playerName = "Name1"
+            //it.playerView.playerName = "Name"
+            //it.playerView.money = "999 999"
+            //it.playerView.info = ""
             stage.addActor(it)
         }
         stage.addActor(mainMenuButton)

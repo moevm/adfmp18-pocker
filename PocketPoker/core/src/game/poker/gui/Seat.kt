@@ -9,10 +9,9 @@ import game.poker.core.Card
 import game.poker.staticFiles.Textures
 
 
-class Seat(val i:Int) : Widget(){
+class Seat(val positionNumber:Int) : Widget(){
     // if playerView is null in final table should hide
     // but not in final table should be visible with text "Empty seat"
-
     var chipstack = Chipstack()
     var playerView : PlayerView
     private var card1 = Image(SpriteDrawable(Sprite(Textures.cardBackground)))
@@ -30,41 +29,37 @@ class Seat(val i:Int) : Widget(){
         updateCardsPosition(true)
     }
 
+    fun clearCards(){
+        card1.drawable = SpriteDrawable(Sprite(Textures.cardPlaceholder))
+        card2.drawable = SpriteDrawable(Sprite(Textures.cardPlaceholder))
+    }
+
     private fun updateCardsPosition(isCardsUp: Boolean){
         if (isCardsUp){
-            if (i == 0 || i == 6 || i == 7 ||i == 8){
-                card1.x = x
-                card1.y = y
-                card2.x = x + 20f
-                card2.y = y - 20f
-            }
-            else {
-                card2.x = x + 20f
-                card2.y = y - 20
-            }
+            card1.x = x
+            card1.y = y
+            card2.x = x + 20f
+            card2.y = y - 20f
         } else {
-            if(i == 0){
+            card1.y = y
+            card2.y = y
+            if(positionNumber == 0){
                 card1.x = x - 80f
-                card1.y = y
                 card2.x = x + 80f
-                card2.y = y
                 return
             }
-            if (i == 6 || i == 7 ||i == 8){
+            if (positionNumber == 6 || positionNumber == 7 || positionNumber == 8){
                 card1.x = x - 50f
-                card1.y = y
                 card2.x = x + 50f
-                card2.y = y
             }
             else {
                 card2.x = x + 110f
-                card2.y = y
             }
         }
     }
 
     init {
-        when(i){
+        when(positionNumber){
             0 -> {
                 x = 500f
                 y = 100f
@@ -103,21 +98,15 @@ class Seat(val i:Int) : Widget(){
             }
             else -> throw IllegalArgumentException("Bad index")
         }
-        if (i == 0){
-            card1.width = 150f
-            card1.height = 210f
-            card2.width = 150f
-            card2.height = 210f
+        if (positionNumber == 0){
+            card1.setSize(150f,210f)
+            card2.setSize(150f,210f)
         } else {
-            card1.width = 100f
-            card1.height = 140f
-            card2.width = 100f
-            card2.height = 140f
+            card1.setSize(100f,140f)
+            card2.setSize(100f,140f)
         }
-        card1.x = x
-        card2.x = x
-        card1.y = y
-        card2.y = y
+        card1.setPosition(x,y)
+        card2.setPosition(x,y)
         updateCardsPosition(true)
         playerView = PlayerView(this)
     }
@@ -127,6 +116,5 @@ class Seat(val i:Int) : Widget(){
         card1.draw(batch, parentAlpha)
         card2.draw(batch, parentAlpha)
         playerView.draw(batch, parentAlpha)
-
     }
 }
