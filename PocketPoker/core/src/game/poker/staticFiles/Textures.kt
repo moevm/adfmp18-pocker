@@ -23,6 +23,9 @@ object Textures{
     val vScrollKnob = scroll
     val sliderBg = Texture("pics/sliderBg.png")
     val sliderKnob = Texture("pics/slider.png")
+    val exitButton = Texture("pics/exit.png")
+    val exitButtonDown = Texture("pics/exitDown.png")
+    val labelBg = Texture("pics/labelBg.png")
 
     private fun createCards() : Map<Pair<Settings.CardsType, Card>, Texture>{
         val map = mutableMapOf<Pair<Settings.CardsType, Card>, Texture>()
