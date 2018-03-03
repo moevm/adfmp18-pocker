@@ -17,7 +17,12 @@ import game.poker.staticFiles.Textures
 
 class TableScreen(val game: PocketPoker) : BaseScreen {
 
-    private var isLandscape: Boolean = false
+    private var isLandscape = false
+        private set
+    var isFinal = false
+    // describes is this table is final or not
+    // note: in final table all empty seats are hidden
+    //     but in other tables all empty seats just shows with text "Empty seat"
     private val stage = Stage(game.view)
     private var seats = Array(9) { i -> Seat(i) }
     private val mainMenuButton: ImageButton

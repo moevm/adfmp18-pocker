@@ -129,5 +129,4 @@ class Seat(val i:Int) : Widget(){
         playerView.draw(batch, parentAlpha)
 
     }
-
 }
