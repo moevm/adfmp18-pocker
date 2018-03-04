@@ -22,7 +22,14 @@ object Settings{
         CARDS,
         CARD_2_COLOR,
         CARD_4_COLOR,
-        MAIN_MENU
+        MAIN_MENU,
+        OPENED,
+        CLOSED,
+        PLAYERS,
+        HANDS,
+        CHIPS,
+        BLINDS,
+        ANTE
     }
 
     private fun generateLanguages() : Map<Pair<Langs, TextKeys>, String>{
@@ -75,6 +82,27 @@ object Settings{
 
         map[Pair(Langs.RUS, TextKeys.MAIN_MENU)] = "Главное меню"
         map[Pair(Langs.ENG, TextKeys.MAIN_MENU)] = "Main menu"
+
+        map[Pair(Langs.RUS, TextKeys.OPENED)] = "Открытый"
+        map[Pair(Langs.ENG, TextKeys.OPENED)] = "Opened"
+
+        map[Pair(Langs.RUS, TextKeys.CLOSED)] = "Закрытый"
+        map[Pair(Langs.ENG, TextKeys.CLOSED)] = "Closed"
+
+        map[Pair(Langs.RUS, TextKeys.PLAYERS)] = "Игроков"
+        map[Pair(Langs.ENG, TextKeys.PLAYERS)] = "Players"
+
+        map[Pair(Langs.RUS, TextKeys.CHIPS)] = "Фишек"
+        map[Pair(Langs.ENG, TextKeys.CHIPS)] = "Chips"
+
+        map[Pair(Langs.RUS, TextKeys.HANDS)] = "Сыграно рук"
+        map[Pair(Langs.ENG, TextKeys.HANDS)] = "Hands played"
+
+        map[Pair(Langs.RUS, TextKeys.BLINDS)] = "Блайнды"
+        map[Pair(Langs.ENG, TextKeys.BLINDS)] = "Blinds"
+
+        map[Pair(Langs.RUS, TextKeys.ANTE)] = "Анте"
+        map[Pair(Langs.ENG, TextKeys.ANTE)] = "Ante"
 
         return map
     }
