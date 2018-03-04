@@ -12,20 +12,25 @@ import game.poker.staticFiles.Fonts
 import game.poker.staticFiles.Textures
 
 class Pot() : Widget(){
-    var money = "9 999 999 999"
+    var money = 9999L
         set(value) {
             field = value
-            label.setText(Settings.getText(Settings.TextKeys.BANK) + ":\n" + money)
+            chipstack.setChips(money)
         }
-    val label = Label(Settings.getText(Settings.TextKeys.BANK) + ":\n" + money, Label.LabelStyle(Fonts.gameLabelFont, Color.BLACK))
-    var chipstack = Chipstack(450f,850f)
+    var count = "9 999"
+        set(value) {
+            field = value
+            label.setText(Settings.getText(Settings.TextKeys.BANK) + ":\n" + count)
+        }
+    val label = Label(Settings.getText(Settings.TextKeys.BANK) + ":\n" + count, Label.LabelStyle(Fonts.gameLabelFont, Color.BLACK))
+    var chipstack = Chipstack(450f, 850f)
 
     init {
         label.style.background = SpriteDrawable(Sprite(Textures.labelBg))
-        label.setSize(240f,100f)
-        label.setPosition(445f,1300f)
+        label.setSize(240f, 100f)
+        label.setPosition(445f, 1300f)
         label.setAlignment(Align.center)
-        chipstack.setChips(9999999999)
+        chipstack.setChips(money)
     }
     override fun draw(batch: Batch?, parentAlpha: Float) {
         super.draw(batch, parentAlpha)
@@ -33,6 +38,6 @@ class Pot() : Widget(){
         chipstack.draw(batch, parentAlpha)
     }
     fun update(){
-        label.setText(Settings.getText(Settings.TextKeys.BANK) + ": " + money)
+        label.setText(Settings.getText(Settings.TextKeys.BANK) + ":\n" + money)
     }
 }

@@ -12,6 +12,8 @@ import game.poker.staticFiles.Textures
 
 
 class PlayerView(seat:Seat) : Widget() {
+    var isDisabled = false // gray background - playerView in game but disconnected
+    var isActive = false // yellow background - playerView is thinking
     private val maxNameLength = 10
     var money = "9 999"
         set(value) {
@@ -21,7 +23,7 @@ class PlayerView(seat:Seat) : Widget() {
     var playerName: String = "Name"
         set(value) {
             if(value.length >= maxNameLength + 3) {
-                field = value.substring(0,maxNameLength) + "..."
+                field = value.substring(0, maxNameLength) + "..."
             }
             else{
                 field = value
@@ -31,16 +33,13 @@ class PlayerView(seat:Seat) : Widget() {
     var info: String = ""
         set(value) {
             if(value.length >= maxNameLength + 3) {
-                field = value.substring(0,maxNameLength) + "..."
+                field = value.substring(0, maxNameLength) + "..."
             }
             else{
                 field = value
             }
             label.setText(playerName + "\n" + money + "\n"  + info)
         }
-
-    var isDisabled = false // gray background - playerView in game but disconnected
-    var isActive = false // yellow background - playerView is thinking
     private val label = Label(playerName + "\n" + money + "\n"  + info, Label.LabelStyle(Fonts.gameLabelFont, Color.BLACK))
     override fun draw(batch: Batch?, parentAlpha: Float) {
         super.draw(batch, parentAlpha)
@@ -50,15 +49,15 @@ class PlayerView(seat:Seat) : Widget() {
         x = seat.x
         y = seat.y
         label.style.background = SpriteDrawable(Sprite(Textures.labelBg))
-        label.setSize(250f,150f)
-        label.setPosition(x,y + 150f)
+        label.setSize(250f, 150f)
+        label.setPosition(x, y + 150f)
         label.setAlignment(Align.center)
         when(seat.positionNumber){
             0 -> {
                 label.x = x - 350f
                 label.y = y
             }
-            6,7,8 -> {
+            6, 7, 8 -> {
                 label.x = x - 100f
             }
         }

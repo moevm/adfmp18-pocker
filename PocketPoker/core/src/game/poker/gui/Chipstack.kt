@@ -85,11 +85,11 @@ class Chipstack(posX:Float,posY:Float) : Widget() {
         stacks.forEach {
             var row = 0
             it.forEach {
-                it.setSize(50f,50f)
+                it.setSize(50f, 50f)
                 if(col < stacksCount/2){
-                    it.setPosition(x + stacksCount*25f - (col + 1)*50f,y + row * 5f)
+                    it.setPosition(x + stacksCount*25f - (col + 1)*50f, y + row * 5f)
                 } else {
-                    it.setPosition(x + stacksCount*25f - (col + 1 - stacksCount/2)*50f,y + row * 5f - 50f)
+                    it.setPosition(x + stacksCount*25f - (col + 1 - stacksCount/2)*50f, y + row * 5f - 50f)
                 }
                 row += 1
             }

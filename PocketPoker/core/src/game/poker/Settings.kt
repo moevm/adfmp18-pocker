@@ -23,7 +23,13 @@ object Settings{
         CARD_2_COLOR,
         CARD_4_COLOR,
         MAIN_MENU,
-        BANK
+        BANK,
+        EMPTY_PLAYER,
+        CHAT,
+        INFO,
+        FOLD,
+        CALL,
+        RAISE
     }
 
     private fun generateLanguages() : Map<Pair<Langs, TextKeys>, String>{
@@ -79,6 +85,24 @@ object Settings{
 
         map[Pair(Langs.RUS, TextKeys.BANK)] = "Банк"
         map[Pair(Langs.ENG, TextKeys.BANK)] = "Pot"
+
+        map[Pair(Langs.RUS, TextKeys.EMPTY_PLAYER)] = "Пустое место" //Свободное место - length 15>13
+        map[Pair(Langs.ENG, TextKeys.EMPTY_PLAYER)] = "Empty seat"
+
+        map[Pair(Langs.RUS, TextKeys.CHAT)] = "Чат"
+        map[Pair(Langs.ENG, TextKeys.CHAT)] = "Chat"
+
+        map[Pair(Langs.RUS, TextKeys.INFO)] = "Инфо"
+        map[Pair(Langs.ENG, TextKeys.INFO)] = "Info"
+
+        map[Pair(Langs.RUS, TextKeys.FOLD)] = "Фолд"
+        map[Pair(Langs.ENG, TextKeys.FOLD)] = "Fold"
+
+        map[Pair(Langs.RUS, TextKeys.CALL)] = "Колл"
+        map[Pair(Langs.ENG, TextKeys.CALL)] = "Call"
+
+        map[Pair(Langs.RUS, TextKeys.RAISE)] = "Рейз"
+        map[Pair(Langs.ENG, TextKeys.RAISE)] = "Raise"
 
         return map
     }

@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.ui.Widget
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable
+import game.poker.Settings
 import game.poker.core.Card
 import game.poker.staticFiles.Textures
 
@@ -12,8 +13,9 @@ import game.poker.staticFiles.Textures
 class Seat(val positionNumber:Int) : Widget(){
     // if playerView is null in final table should hide
     // but not in final table should be visible with text "Empty seat"
-    var chipstack : Chipstack
-    var playerView : PlayerView
+    var isEmpty = false
+    private val chipstack = Chipstack(x,y)
+    var playerView : PlayerView //todo: make private
     private var card1 = Image(SpriteDrawable(Sprite(Textures.cardBackground)))
     private var card2 = Image(SpriteDrawable(Sprite(Textures.cardBackground)))
 
@@ -34,10 +36,14 @@ class Seat(val positionNumber:Int) : Widget(){
         card2.drawable = SpriteDrawable(Sprite(Textures.cardPlaceholder))
     }
 
+    fun setChips(chips: Long) {
+        chipstack.setChips(chips)
+    }
+
     private fun updateCardsPosition(isCardsUp: Boolean){
         if (isCardsUp){
             card1.setPosition(x,y)
-            card2.setPosition(x + 20f,y - 20f)
+            card2.setPosition(x + 20f, y - 20f)
         } else {
             card1.y = y
             card2.y = y
@@ -57,58 +63,63 @@ class Seat(val positionNumber:Int) : Widget(){
     }
 
     init {
-        chipstack = Chipstack(x,y)
         when(positionNumber){
             0 -> {
-                setPosition(500f,100f)
-                chipstack.setPosition(450f,400f)
+                setPosition(500f, 150f)
+                chipstack.setPosition(x - 50f, y + 300f)
             }
             1 -> {
-                setPosition(70f,500f)
-                chipstack.setPosition(290f,560f)
+                setPosition(70f, 500f)
+                chipstack.setPosition(x + 210f, y + 60f)
             }
             2 -> {
-                setPosition(70f,950f)
-                chipstack.setPosition(150f,860f)
+                setPosition(70f, 950f)
+                chipstack.setPosition(x + 80f, y - 90f)
             }
             3 -> {
-                setPosition(70f,1400f)
-                chipstack.setPosition(150f,1310f)
+                setPosition(70f, 1400f)
+                chipstack.setPosition(x + 80f, y - 90f)
             }
             4 -> {
-                setPosition(330f,1600f)
-                chipstack.setPosition(330f,1500f)
+                setPosition(330f, 1600f)
+                chipstack.setPosition(x, y - 100f)
             }
             5 -> {
-                setPosition(600f,1600f)
-                chipstack.setPosition(600f,1500f)
+                setPosition(600f, 1600f)
+                chipstack.setPosition(x, y - 100f)
             }
             6 -> {
-                setPosition(900f,1400f)
-                chipstack.setPosition(750f,1310f)
+                setPosition(900f, 1400f)
+                chipstack.setPosition(x - 150f, y - 90f)
             }
             7 -> {
-                setPosition(900f,950f)
-                chipstack.setPosition(750f,860f)
+                setPosition(900f, 950f)
+                chipstack.setPosition(x - 150f, y - 90f)
             }
             8 -> {
-                setPosition(900f,500f)
-                chipstack.setPosition(640f,560f)
+                setPosition(900f, 500f)
+                chipstack.setPosition(x - 260f, y + 60f)
             }
             else -> throw IllegalArgumentException("Bad index")
         }
         if (positionNumber == 0){
-            card1.setSize(150f,210f)
-            card2.setSize(150f,210f)
+            card1.setSize(150f, 210f)
+            card2.setSize(150f, 210f)
         } else {
-            card1.setSize(100f,140f)
-            card2.setSize(100f,140f)
+            card1.setSize(100f, 140f)
+            card2.setSize(100f, 140f)
         }
         card1.setPosition(x,y)
         card2.setPosition(x,y)
         updateCardsPosition(true)
         playerView = PlayerView(this)
         chipstack.setChips(9999)
+    }
+
+    fun update(){
+        if (isEmpty) {
+            playerView.playerName = Settings.getText(Settings.TextKeys.EMPTY_PLAYER) + "" //String? -> String
+        }
     }
 
     override fun draw(batch: Batch?, parentAlpha: Float) {
