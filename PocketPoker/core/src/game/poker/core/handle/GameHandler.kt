@@ -1,6 +1,7 @@
 package game.poker.core.handle
 
 import com.google.gson.JsonObject
+import game.poker.Settings
 import game.poker.core.*
 import game.poker.screens.TableScreen
 
@@ -98,11 +99,11 @@ class GameHandler(val name: String,
         val tableNumber = data["table_number"].asLong.insertSpaces()
 
         if(data["is_final"].asBoolean){
-            table.setTableNum("Final table")
+            table.setTableNum(Settings.getText(Settings.TextKeys.FINAL_TABLE))
             table.isFinal = true
         }
         else{
-            table.setTableNum("Table #$tableNumber")
+            table.setTableNum("${Settings.getText(Settings.TextKeys.TABLE)} #$tableNumber")
         }
 
         seats = Seats(table, data, gameMode)

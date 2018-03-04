@@ -22,7 +22,18 @@ object Settings{
         CARDS,
         CARD_2_COLOR,
         CARD_4_COLOR,
-        MAIN_MENU
+        MAIN_MENU,
+        FINAL_TABLE,
+        TABLE,
+        ANTE,
+        BIG_BLIND,
+        SMALL_BLIND,
+        FOLD,
+        CHECK,
+        CALL,
+        RAISE,
+        ALL_IN,
+        SECONDS,
     }
 
     private fun generateLanguages() : Map<Pair<Langs, TextKeys>, String>{
@@ -76,6 +87,42 @@ object Settings{
         map[Pair(Langs.RUS, TextKeys.MAIN_MENU)] = "Главное меню"
         map[Pair(Langs.ENG, TextKeys.MAIN_MENU)] = "Main menu"
 
+        map[Pair(Langs.RUS, TextKeys.FINAL_TABLE)] = "Финальный стол"
+        map[Pair(Langs.ENG, TextKeys.FINAL_TABLE)] = "Final table"
+
+        map[Pair(Langs.RUS, TextKeys.TABLE)] = "Стол"
+        map[Pair(Langs.ENG, TextKeys.TABLE)] = "Table"
+
+        map[Pair(Langs.RUS, TextKeys.ANTE)] = "Анте"
+        map[Pair(Langs.ENG, TextKeys.ANTE)] = "Ante"
+
+        map[Pair(Langs.RUS, TextKeys.ANTE)] = "Анте"
+        map[Pair(Langs.ENG, TextKeys.ANTE)] = "Ante"
+
+        map[Pair(Langs.RUS, TextKeys.BIG_BLIND)] = "ББ"
+        map[Pair(Langs.ENG, TextKeys.BIG_BLIND)] = "BB"
+
+        map[Pair(Langs.RUS, TextKeys.SMALL_BLIND)] = "МБ"
+        map[Pair(Langs.ENG, TextKeys.SMALL_BLIND)] = "SB"
+
+        map[Pair(Langs.RUS, TextKeys.FOLD)] = "Фолд"
+        map[Pair(Langs.ENG, TextKeys.FOLD)] = "Fold"
+
+        map[Pair(Langs.RUS, TextKeys.CHECK)] = "Чек"
+        map[Pair(Langs.ENG, TextKeys.CHECK)] = "Check"
+
+        map[Pair(Langs.RUS, TextKeys.CALL)] = "Колл"
+        map[Pair(Langs.ENG, TextKeys.CALL)] = "Call"
+
+        map[Pair(Langs.RUS, TextKeys.RAISE)] = "Рейз"
+        map[Pair(Langs.ENG, TextKeys.RAISE)] = "Raise"
+
+        map[Pair(Langs.RUS, TextKeys.ALL_IN)] = "Олл-ин"
+        map[Pair(Langs.ENG, TextKeys.ALL_IN)] = "All-in"
+
+        map[Pair(Langs.RUS, TextKeys.SECONDS)] = "сек"
+        map[Pair(Langs.ENG, TextKeys.SECONDS)] = "sec"
+
         return map
     }
 
@@ -84,4 +131,5 @@ object Settings{
     var currCards = CardsType.COLOR_4
 
     fun getText(key: TextKeys) = langMap[Pair(currLang, key)]
+            ?: throw IllegalArgumentException("Bad text key")
 }

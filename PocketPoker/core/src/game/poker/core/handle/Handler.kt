@@ -3,6 +3,7 @@ package game.poker.core.handle
 import java.util.*
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
+import game.poker.Settings
 import game.poker.core.Card
 import game.poker.core.InfoCreator
 import game.poker.core.Seats
@@ -208,10 +209,10 @@ abstract class Handler(val socket: WebSocketConnection,
         val tableNumber = data["table_number"].asLong.insertSpaces()
 
         if(data["is_final"].asBoolean){
-            table.setTableNum("Final table")
+            table.setTableNum(Settings.getText(Settings.TextKeys.FINAL_TABLE))
         }
         else{
-            table.setTableNum("Table #$tableNumber")
+            table.setTableNum("${Settings.getText(Settings.TextKeys.TABLE)} #$tableNumber")
         }
 
         val handNumber = data["hand_number"].asLong.insertSpaces()
@@ -244,7 +245,8 @@ abstract class Handler(val socket: WebSocketConnection,
         val paid = data["paid"].asJsonArray
         for(player in paid){
             val json = player.asJsonObject
-            seats.setBet(json["id"].asInt, json["paid"].asLong, "Ante")
+            seats.setBet(json["id"].asInt, json["paid"].asLong,
+                    Settings.getText(Settings.TextKeys.ANTE))
         }
     }
 
@@ -258,13 +260,16 @@ abstract class Handler(val socket: WebSocketConnection,
         val info = data["info"].asJsonArray
         if(info.size() == 1){
             seats.setBet(info[0].asJsonObject["id"].asInt,
-                    info[0].asJsonObject["paid"].asLong, "BB")
+                    info[0].asJsonObject["paid"].asLong,
+                    Settings.getText(Settings.TextKeys.BIG_BLIND))
         }
         else{
             seats.setBet(info[0].asJsonObject["id"].asInt,
-                    info[0].asJsonObject["paid"].asLong, "SB")
+                    info[0].asJsonObject["paid"].asLong,
+                    Settings.getText(Settings.TextKeys.SMALL_BLIND))
             seats.setBet(info[1].asJsonObject["id"].asInt,
-                    info[1].asJsonObject["paid"].asLong, "BB")
+                    info[1].asJsonObject["paid"].asLong,
+                    Settings.getText(Settings.TextKeys.BIG_BLIND))
         }
     }
 
@@ -306,19 +311,22 @@ abstract class Handler(val socket: WebSocketConnection,
         when(data["result"].asString){
             "fold" -> {
                 table.hideCards(seat.localSeat)
-                seats.updateInfo(seat.id, "Fold")
+                seats.updateInfo(seat.id, Settings.getText(Settings.TextKeys.FOLD))
             }
             "check" -> {
-                seats.updateInfo(seat.id, "Check")
+                seats.updateInfo(seat.id, Settings.getText(Settings.TextKeys.CHECK))
             }
             "call" -> {
-                seats.setBet(seat.id, data["money"].asLong,"Call")
+                seats.setBet(seat.id, data["money"].asLong,
+                        Settings.getText(Settings.TextKeys.CALL))
             }
             "raise" -> {
-                seats.setBet(seat.id, data["money"].asLong,"Raise")
+                seats.setBet(seat.id, data["money"].asLong,
+                        Settings.getText(Settings.TextKeys.RAISE))
             }
             "all in" -> {
-                seats.setBet(seat.id, data["money"].asLong,"All in")
+                seats.setBet(seat.id, data["money"].asLong,
+                        Settings.getText(Settings.TextKeys.ALL_IN))
             }
             else -> {
                 throw IllegalArgumentException("bad result")
@@ -416,7 +424,7 @@ abstract class Handler(val socket: WebSocketConnection,
 
     open protected fun backCounting(data: JsonObject){
         seats.updateInfo(data["id"].asInt,
-                data["time"].asString + " sec")
+                data["time"].asString + " " + Settings.getText(Settings.TextKeys.SECONDS))
     }
 
     open protected fun setDecision(data: JsonObject){
