@@ -34,7 +34,11 @@ object Settings{
         RAISE,
         ALL_IN,
         SECONDS,
-        ANY
+        ANY,
+        POT,
+        EMPTY_SEAT,
+        CHAT,
+        INFO
     }
 
     private fun generateLanguages() : Map<Pair<Langs, TextKeys>, String>{
@@ -123,6 +127,18 @@ object Settings{
 
         map[Pair(Langs.RUS, TextKeys.ANY)] = "люб."
         map[Pair(Langs.ENG, TextKeys.ANY)] = "any"
+
+        map[Pair(Langs.RUS, TextKeys.POT)] = "Банк"
+        map[Pair(Langs.ENG, TextKeys.POT)] = "Pot"
+
+        map[Pair(Langs.RUS, TextKeys.EMPTY_SEAT)] = "Место пусто"
+        map[Pair(Langs.ENG, TextKeys.EMPTY_SEAT)] = "Empty seat"
+
+        map[Pair(Langs.RUS, TextKeys.CHAT)] = "Чат"
+        map[Pair(Langs.ENG, TextKeys.CHAT)] = "Chat"
+
+        map[Pair(Langs.RUS, TextKeys.INFO)] = "Инфо"
+        map[Pair(Langs.ENG, TextKeys.INFO)] = "Info"
 
         return map
     }

@@ -73,6 +73,7 @@ class MainMenu(val game: PocketPoker) : BaseScreen {
         settingsButton = addButtonToTable(Settings.TextKeys.SETTINGS)
         exitButton = addButtonToTable(Settings.TextKeys.EXIT)
 
+        quickGameButton.addListener(game.switches[ScreenType.TABLE])
         settingsButton.addListener(game.switches[ScreenType.SETTINGS])
         exitButton.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent, x: Float, y: Float) {

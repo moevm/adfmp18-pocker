@@ -4,7 +4,8 @@ import com.badlogic.gdx.Screen
 
 enum class ScreenType{
     MAIN_MENU,
-    SETTINGS
+    SETTINGS,
+    TABLE
 }
 
 interface BaseScreen : Screen {
