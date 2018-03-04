@@ -7,6 +7,7 @@ import game.poker.core.Card
 import game.poker.core.InfoCreator
 import game.poker.core.Seats
 import game.poker.core.WebSocketConnection
+import game.poker.screens.TableScreen
 
 fun Long.insertSpaces(): String{
     val num = this.toString()
@@ -92,7 +93,7 @@ abstract class Handler(val socket: WebSocketConnection,
     var waitForInit = true
     var gameMode = false
     lateinit var seats: Seats
-    val info = InfoCreator(this)
+    val info = InfoCreator(table)
 
     val parser = JsonParser()
 
@@ -297,7 +298,7 @@ abstract class Handler(val socket: WebSocketConnection,
 
     open protected fun switchDecision(data: JsonObject){
         seats.idInDecision = data["id"].asInt
-        table.switchDecision(seats.idToLocalSeat[data["id"].asInt])
+        table.switchDecision(seats.idToLocalSeat[data["id"].asInt]!!)
     }
 
     open protected fun madeDecision(data: JsonObject){
@@ -390,7 +391,7 @@ abstract class Handler(val socket: WebSocketConnection,
     }
 
     open protected fun place(data: JsonObject){
-        table.setCurrPlace(data["place"].asInt)
+        table.setCurrPlace(data["place"].asLong.insertSpaces())
     }
 
     open protected fun chat(data: JsonObject){

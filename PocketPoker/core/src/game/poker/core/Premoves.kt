@@ -1,6 +1,7 @@
 package game.poker.core
 
 import game.poker.core.handle.shortcut
+import game.poker.screens.TableScreen
 
 
 class Premoves(val table: TableScreen) {
@@ -15,7 +16,7 @@ class Premoves(val table: TableScreen) {
         if(isVisible){
             isVisible = false
             reset()
-            table.hidePremoves()
+            table.setPremoves(false)
         }
     }
 
@@ -23,7 +24,7 @@ class Premoves(val table: TableScreen) {
         if(!isVisible){
             isVisible = true
             reset()
-            table.showPremoves()
+            table.setPremoves(true)
         }
     }
 

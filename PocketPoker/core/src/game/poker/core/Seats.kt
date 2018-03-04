@@ -3,6 +3,7 @@ package game.poker.core
 import com.google.gson.JsonObject
 import game.poker.core.handle.insertSpaces
 import game.poker.core.handle.shortcut
+import game.poker.screens.TableScreen
 
 class Seats(val table: TableScreen, data: JsonObject, gameMode: Boolean) {
 
@@ -69,9 +70,8 @@ class Seats(val table: TableScreen, data: JsonObject, gameMode: Boolean) {
                 seats[localSeat] = player
 
                 table.setPlayer(localSeat,
-                        empty=false,
-                        disconnected=player.disconnected,
-                        name=player.name,
+                        player.disconnected,
+                        player.name,
                         stack=player.stack.insertSpaces())
 
                 if(gameMode && player.id == myId){
@@ -88,7 +88,7 @@ class Seats(val table: TableScreen, data: JsonObject, gameMode: Boolean) {
 
         table.isFinal = isFinal
 
-        TODO("add strange chipstack timeout")
+        //TODO("add strange chipstack timeout")
     }
 
     private fun getPlaces(seats: Int) = when(seats){
@@ -114,10 +114,9 @@ class Seats(val table: TableScreen, data: JsonObject, gameMode: Boolean) {
         idToLocalSeat[player.id] = localSeat
 
         table.setPlayer(localSeat,
-                empty=false,
-                disconnected=player.disconnected,
-                name=player.name,
-                stack=player.stack.insertSpaces())
+                player.disconnected,
+                player.name,
+                player.stack.insertSpaces())
 
         if(isFinal){
             updateInfo(player.id, "")
@@ -133,7 +132,7 @@ class Seats(val table: TableScreen, data: JsonObject, gameMode: Boolean) {
 
         table.deleteCards(player.localSeat)
 
-        table.setEmptySeat(player.localSeat)
+        setEmptySeat(player.localSeat)
 
         seats.remove(player.localSeat)
         idToLocalSeat.remove(player.localSeat)
@@ -146,7 +145,7 @@ class Seats(val table: TableScreen, data: JsonObject, gameMode: Boolean) {
 
     fun clearDecisions(){
         for(player in seats.values){
-            table.updatePlayerInfo(player.localSeat, "")
+            updateInfo(player.id, "")
         }
     }
 
@@ -192,7 +191,7 @@ class Seats(val table: TableScreen, data: JsonObject, gameMode: Boolean) {
         }
 
         if(id != -1){
-            table.setChips(idToLocalSeat[id], count)
+            table.setChips(idToLocalSeat[id]!!, count)
         }
         else{
             table.setPotChips(count)
@@ -205,12 +204,11 @@ class Seats(val table: TableScreen, data: JsonObject, gameMode: Boolean) {
     }
 
     fun clear(){
-        table.clearCommonCards()
+        table.clearAllCards()
 
         clearDecisionStates()
 
         for(seat in all()){
-            table.clearCards(seat.localSeat)
             setBet(seat.id, 0, "Clear")
         }
 
@@ -221,7 +219,7 @@ class Seats(val table: TableScreen, data: JsonObject, gameMode: Boolean) {
         val player = seats[localSeat]
                 ?: throw IllegalArgumentException("No such seat")
 
-        table.deletePlayer(player.localSeat)
+        table.setEmptyPlayer(player.localSeat)
     }
 
     fun updateInfo(id: Int, reason: String, count: Long = 0){
@@ -230,7 +228,7 @@ class Seats(val table: TableScreen, data: JsonObject, gameMode: Boolean) {
             info += " " + count.shortcut()
         }
         val player = getById(id)
-        table.setPlayerInfo(player.localSeat, player.name,
+        table.updatePlayerInfo(player.localSeat, player.name,
                 player.stack.insertSpaces(), info)
     }
 }

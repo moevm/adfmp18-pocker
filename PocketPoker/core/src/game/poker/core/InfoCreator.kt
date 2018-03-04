@@ -1,5 +1,7 @@
 package game.poker.core
 
+import game.poker.screens.TableScreen
+
 
 class InfoCreator(val table: TableScreen) {
 

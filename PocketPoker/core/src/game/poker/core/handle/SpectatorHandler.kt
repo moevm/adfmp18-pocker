@@ -2,9 +2,10 @@ package game.poker.core.handle
 
 import com.google.gson.JsonObject
 import game.poker.core.WebSocketConnection
+import game.poker.screens.TableScreen
 
 class SpectatorHandler(val tableToSpactate: String,
-                       val nick: String
+                       val nick: String,
                        conn: WebSocketConnection,
                        table: TableScreen) : Handler(conn, table) {
 

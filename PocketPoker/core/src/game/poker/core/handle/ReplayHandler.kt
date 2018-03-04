@@ -2,6 +2,7 @@ package game.poker.core.handle
 
 import com.google.gson.JsonObject
 import game.poker.core.WebSocketConnection
+import game.poker.screens.TableScreen
 
 
 class ReplayHandler(val replayId: String,

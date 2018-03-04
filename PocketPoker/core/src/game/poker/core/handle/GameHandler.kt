@@ -2,6 +2,7 @@ package game.poker.core.handle
 
 import com.google.gson.JsonObject
 import game.poker.core.*
+import game.poker.screens.TableScreen
 
 
 class GameHandler(val name: String,
@@ -10,7 +11,7 @@ class GameHandler(val name: String,
 
     var resitMode = false
     var inGame = false
-    val premoves = Premoves(this)
+    val premoves = Premoves(table)
     val raises = Raises(this)
 
     init {
@@ -87,7 +88,7 @@ class GameHandler(val name: String,
         val card1 = Card.fromString(data["first"].asString)
         val card2 = Card.fromString(data["second"].asString)
 
-        table.setPLayerCards(seats.me.localSeat, card1, card2)
+        table.setPlayerCards(seats.me.localSeat, card1, card2)
     }
 
     override fun resit(data: JsonObject) {
@@ -98,12 +99,13 @@ class GameHandler(val name: String,
 
         if(data["is_final"].asBoolean){
             table.setTableNum("Final table")
+            table.isFinal = true
         }
         else{
             table.setTableNum("Table #$tableNumber")
         }
 
-        seats = Seats(this, data, gameMode)
+        seats = Seats(table, data, gameMode)
     }
 
     override fun madeDecision(data: JsonObject) {
@@ -197,7 +199,8 @@ class GameHandler(val name: String,
 
     override fun place(data: JsonObject) {
         if(!reconnectMode){
-            table.setPlaceInfo(data["place"].asString + seats.playersLeft)
+            table.setPlaceInfo(data["place"].asString,
+                    seats.playersLeft.toLong().insertSpaces())
         }
     }
 
