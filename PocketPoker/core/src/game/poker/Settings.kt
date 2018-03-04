@@ -96,9 +96,6 @@ object Settings{
         map[Pair(Langs.RUS, TextKeys.ANTE)] = "Анте"
         map[Pair(Langs.ENG, TextKeys.ANTE)] = "Ante"
 
-        map[Pair(Langs.RUS, TextKeys.ANTE)] = "Анте"
-        map[Pair(Langs.ENG, TextKeys.ANTE)] = "Ante"
-
         map[Pair(Langs.RUS, TextKeys.BIG_BLIND)] = "ББ"
         map[Pair(Langs.ENG, TextKeys.BIG_BLIND)] = "BB"
 
