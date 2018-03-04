@@ -34,6 +34,7 @@ object Settings{
         RAISE,
         ALL_IN,
         SECONDS,
+        ANY
     }
 
     private fun generateLanguages() : Map<Pair<Langs, TextKeys>, String>{
@@ -119,6 +120,9 @@ object Settings{
 
         map[Pair(Langs.RUS, TextKeys.SECONDS)] = "сек"
         map[Pair(Langs.ENG, TextKeys.SECONDS)] = "sec"
+
+        map[Pair(Langs.RUS, TextKeys.ANY)] = "люб."
+        map[Pair(Langs.ENG, TextKeys.ANY)] = "any"
 
         return map
     }

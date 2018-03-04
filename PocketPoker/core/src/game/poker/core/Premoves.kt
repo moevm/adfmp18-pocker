@@ -1,5 +1,6 @@
 package game.poker.core
 
+import game.poker.Settings
 import game.poker.core.handle.shortcut
 import game.poker.screens.TableScreen
 
@@ -30,18 +31,27 @@ class Premoves(val table: TableScreen) {
 
     fun checkFold(){
         show()
-        table.setPremoveText("Check/Fold", "Check", "Call any")
+        table.setPremoveText(Settings.getText(Settings.TextKeys.CHECK) + "/" +
+                Settings.getText(Settings.TextKeys.FOLD),
+                Settings.getText(Settings.TextKeys.CHECK),
+                Settings.getText(Settings.TextKeys.CALL) + " " +
+                        Settings.getText(Settings.TextKeys.ANY))
     }
 
     fun callFold(money: Long){
         show()
-        table.setPremoveText("Fold", "Call " + money.shortcut(), "Call any")
+        table.setPremoveText(Settings.getText(Settings.TextKeys.FOLD),
+                Settings.getText(Settings.TextKeys.CALL) + " " + money.shortcut(),
+                Settings.getText(Settings.TextKeys.CALL) + " " +
+                        Settings.getText(Settings.TextKeys.ANY))
     }
 
     fun allInFold(money: Long){
         show()
         twoChoicesMode()
-        table.setPremoveText("Fold", "Call " + money.shortcut(), "")
+        table.setPremoveText(Settings.getText(Settings.TextKeys.FOLD),
+                Settings.getText(Settings.TextKeys.CALL) + " " + money.shortcut(),
+                "")
     }
 
     fun twoChoicesMode(){
