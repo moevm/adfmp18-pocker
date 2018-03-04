@@ -14,4 +14,14 @@ enum class Visibility{
     Open, Hidden
 }
 
-data class Card(val rank: Rank, val suit: Suit, val visibility: Visibility)
+data class Card(val rank: Rank, val suit: Suit, val visibility: Visibility){
+    companion object {
+        fun fromString(str: String) : Card{
+            val rank = Rank.values().find { it.r == str[0] }
+                    ?: throw IllegalArgumentException("Bad rank")
+            val suit = Suit.values().find { it.s == str[1] }
+                    ?: throw IllegalArgumentException("Bad suit")
+            return Card(rank, suit, Visibility.Open)
+        }
+    }
+}

@@ -11,6 +11,7 @@ class WebSocketConnection(private val queue: Queue<String>,
     : WebSocketClient(URI("ws://$ip:$port")){
 
     private var openMsg = ""
+    var clean = false
 
     fun connectToServer(openMsg: String){
         if(isOpen){
