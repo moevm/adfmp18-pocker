@@ -1,29 +1,36 @@
 package game.poker.gui
 
+import com.badlogic.gdx.graphics.g2d.Batch
+import com.badlogic.gdx.scenes.scene2d.ui.Image
+import com.badlogic.gdx.scenes.scene2d.ui.Widget
+import com.badlogic.gdx.graphics.g2d.Sprite
+import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable
 import game.poker.core.Chip
+import game.poker.staticFiles.Textures
 
 
-class Chipstack {
-
-    var money: Int = 0
+class Chipstack(posX:Float,posY:Float) : Widget() {
+    var money: Long = 0
         private set
 
     private val stacksCount = 8
 
-    private val stacks: Array<MutableList<ChipTexture>> =
-            Array(stacksCount) { mutableListOf<ChipTexture>() }
-
-    fun setChips(newMoney: Int){
+    private val stacks: Array<MutableList<Image>> =
+            Array(stacksCount) { mutableListOf<Image>() }
+    init {
+        setPosition(posX,posY)
+    }
+    fun setChips(newMoney: Long){
         money = newMoney
         var count = newMoney
 
         // below is copy paste from javascript code
-        val amounts = mutableListOf<MutableList<Pair<Chip, Int>>>()
+        val amounts = mutableListOf<MutableList<Pair<Chip, Long>>>()
 
         for(chip in Chip.values().reversed()){
             if(chip != Chip.DEALER){
                 if(count >= chip.price()){
-                    val intAmount = Math.floor(count.toDouble() / chip.price()).toInt()
+                    val intAmount = Math.floor(count.toDouble() / chip.price()).toLong()
                     amounts += mutableListOf(Pair(chip, intAmount))
                     count -= intAmount * chip.price()
                 }
@@ -39,11 +46,11 @@ class Chipstack {
                 var currBetween = 0
 
                 for (j in amounts[i]){
-                    currBetween += j.second
+                    currBetween += j.second.toInt()
                 }
 
                 for (j in amounts[i+1]){
-                    currBetween += j.second
+                    currBetween += j.second.toInt()
                 }
 
                 if(currBetween <= minBetweens || minBetweens == -1){
@@ -69,9 +76,28 @@ class Chipstack {
             for(currChip in currAmounts){
                 println("    " + currChip.first.price() + " * " + currChip.second)
                 for(currChipAmount in 1..currChip.second){
-                    stacks[i].add(ChipTexture(0, 0, currChip.first))
+                    stacks[i].add(Image(SpriteDrawable(Sprite(Textures.getChip(currChip.first)))))
                 }
             }
         }
+        var col = 0
+        stacks.reverse()
+        stacks.forEach {
+            var row = 0
+            it.forEach {
+                it.setSize(50f,50f)
+                if(col < stacksCount/2){
+                    it.setPosition(x + stacksCount*25f - (col + 1)*50f,y + row * 5f)
+                } else {
+                    it.setPosition(x + stacksCount*25f - (col + 1 - stacksCount/2)*50f,y + row * 5f - 50f)
+                }
+                row += 1
+            }
+            col += 1
+        }
+    }
+    override fun draw(batch: Batch?, parentAlpha: Float) {
+        super.draw(batch, parentAlpha)
+        stacks.forEach { it.forEach {it.draw(batch, parentAlpha)} }
     }
 }

@@ -22,7 +22,8 @@ object Settings{
         CARDS,
         CARD_2_COLOR,
         CARD_4_COLOR,
-        MAIN_MENU
+        MAIN_MENU,
+        BANK
     }
 
     private fun generateLanguages() : Map<Pair<Langs, TextKeys>, String>{
@@ -75,6 +76,9 @@ object Settings{
 
         map[Pair(Langs.RUS, TextKeys.MAIN_MENU)] = "Главное меню"
         map[Pair(Langs.ENG, TextKeys.MAIN_MENU)] = "Main menu"
+
+        map[Pair(Langs.RUS, TextKeys.BANK)] = "Банк"
+        map[Pair(Langs.ENG, TextKeys.BANK)] = "Pot"
 
         return map
     }

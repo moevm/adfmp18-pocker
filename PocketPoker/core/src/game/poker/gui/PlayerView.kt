@@ -13,19 +13,14 @@ import game.poker.staticFiles.Textures
 
 class PlayerView(seat:Seat) : Widget() {
     private val maxNameLength = 10
-    var money = "9 999 999 999"
+    var money = "9 999"
         set(value) {
-            if(value.length >= maxNameLength + 1) {
-                field = value.substring(0,maxNameLength) + "..."
-            }
-            else{
-                field = value
-            }
+            field = value
             label.setText(playerName + "\n" + money + "\n"  + info)
         }
     var playerName: String = "Name"
         set(value) {
-            if(value.length >= maxNameLength + 1) {
+            if(value.length >= maxNameLength + 3) {
                 field = value.substring(0,maxNameLength) + "..."
             }
             else{
@@ -35,7 +30,7 @@ class PlayerView(seat:Seat) : Widget() {
         }
     var info: String = ""
         set(value) {
-            if(value.length >= maxNameLength + 1) {
+            if(value.length >= maxNameLength + 3) {
                 field = value.substring(0,maxNameLength) + "..."
             }
             else{
@@ -56,8 +51,7 @@ class PlayerView(seat:Seat) : Widget() {
         y = seat.y
         label.style.background = SpriteDrawable(Sprite(Textures.labelBg))
         label.setSize(250f,150f)
-        label.x = x
-        label.y = y + 150
+        label.setPosition(x,y + 150f)
         label.setAlignment(Align.center)
         when(seat.positionNumber){
             0 -> {

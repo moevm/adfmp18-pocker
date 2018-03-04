@@ -12,7 +12,7 @@ import game.poker.staticFiles.Textures
 class Seat(val positionNumber:Int) : Widget(){
     // if playerView is null in final table should hide
     // but not in final table should be visible with text "Empty seat"
-    var chipstack = Chipstack()
+    var chipstack : Chipstack
     var playerView : PlayerView
     private var card1 = Image(SpriteDrawable(Sprite(Textures.cardBackground)))
     private var card2 = Image(SpriteDrawable(Sprite(Textures.cardBackground)))
@@ -23,7 +23,7 @@ class Seat(val positionNumber:Int) : Widget(){
         updateCardsPosition(false)
     }
 
-    fun overturnCards(){
+    fun upCards(){
         card1.drawable = SpriteDrawable(Sprite(Textures.cardBackground))
         card2.drawable = SpriteDrawable(Sprite(Textures.cardBackground))
         updateCardsPosition(true)
@@ -36,10 +36,8 @@ class Seat(val positionNumber:Int) : Widget(){
 
     private fun updateCardsPosition(isCardsUp: Boolean){
         if (isCardsUp){
-            card1.x = x
-            card1.y = y
-            card2.x = x + 20f
-            card2.y = y - 20f
+            card1.setPosition(x,y)
+            card2.setPosition(x + 20f,y - 20f)
         } else {
             card1.y = y
             card2.y = y
@@ -59,42 +57,43 @@ class Seat(val positionNumber:Int) : Widget(){
     }
 
     init {
+        chipstack = Chipstack(x,y)
         when(positionNumber){
             0 -> {
-                x = 500f
-                y = 100f
+                setPosition(500f,100f)
+                chipstack.setPosition(450f,400f)
             }
             1 -> {
-                x = 70f
-                y = 500f
+                setPosition(70f,500f)
+                chipstack.setPosition(290f,560f)
             }
             2 -> {
-                x = 70f
-                y = 950f
+                setPosition(70f,950f)
+                chipstack.setPosition(150f,860f)
             }
             3 -> {
-                x = 70f
-                y = 1400f
+                setPosition(70f,1400f)
+                chipstack.setPosition(150f,1310f)
             }
             4 -> {
-                x = 330f
-                y = 1600f
+                setPosition(330f,1600f)
+                chipstack.setPosition(330f,1500f)
             }
             5 -> {
-                x = 650f
-                y = 1600f
+                setPosition(600f,1600f)
+                chipstack.setPosition(600f,1500f)
             }
             6 -> {
-                x = 900f
-                y = 1400f
+                setPosition(900f,1400f)
+                chipstack.setPosition(750f,1310f)
             }
             7 -> {
-                x = 900f
-                y = 950f
+                setPosition(900f,950f)
+                chipstack.setPosition(750f,860f)
             }
             8 -> {
-                x = 900f
-                y = 500f
+                setPosition(900f,500f)
+                chipstack.setPosition(640f,560f)
             }
             else -> throw IllegalArgumentException("Bad index")
         }
@@ -109,6 +108,7 @@ class Seat(val positionNumber:Int) : Widget(){
         card2.setPosition(x,y)
         updateCardsPosition(true)
         playerView = PlayerView(this)
+        chipstack.setChips(9999)
     }
 
     override fun draw(batch: Batch?, parentAlpha: Float) {
@@ -116,5 +116,6 @@ class Seat(val positionNumber:Int) : Widget(){
         card1.draw(batch, parentAlpha)
         card2.draw(batch, parentAlpha)
         playerView.draw(batch, parentAlpha)
+        chipstack.draw(batch, parentAlpha)
     }
 }
