@@ -86,4 +86,144 @@ class TableScreen(val game: PocketPoker) : BaseScreen {
     override fun dispose(){
 
     }
+
+
+    // all events that received from handler
+
+    fun initTable(){
+
+    }
+
+    fun setTableNum(tableNum: String){
+
+    }
+
+    fun setHandNum(handNum: String){
+
+    }
+
+    fun setBlinds(smallBlind: String, bigBlind: String, ante: String){
+
+    }
+
+    fun setAverageStack(averageStack: String){
+
+    }
+
+    fun setPlayersLeft(playersLeft: String){
+
+    }
+
+    fun setTopPlayers(topPlayers: List<Pair<String, String>>){
+
+    }
+
+    fun setDealerPos(localSeat: Int){
+        // set dealer chip
+    }
+
+    fun switchDecision(localSeat: Int){
+        // set yellow background to other player
+    }
+
+    fun dealCards(){
+        // set to all players background card texture
+    }
+
+    fun hideCards(localSeat: Int){
+        // if cards are known then just set hidden texture
+        // else set to placeholder
+    }
+
+    fun deleteCards(localSeat: Int){
+        // always set to placeholder
+    }
+
+    fun setFlopCards(card1: Card, card2: Card, card3: Card){
+
+    }
+
+    fun setTurnCard(card: Card){
+
+    }
+
+    fun setRiverCard(card: Card){
+
+    }
+
+    fun setPlayerCards(localSeat: Int, card1: Card, card2: Card){
+
+    }
+
+    fun setCurrPlace(place: String){
+
+    }
+
+    fun addToChat(text: String){
+
+    }
+
+    fun setPlayerDisconnected(localSeat: Int, isDiscinnected: Boolean){
+
+    }
+
+    fun setPremoves(isVisible: Boolean){
+
+    }
+
+    fun setPremoveText(option1: String, option2: String, option3: String){
+
+    }
+
+    fun setThirdPremoveHidden(isHidden: Boolean){
+
+    }
+
+    fun setPremovesChecked(option1: Boolean, option2: Boolean, option3: Boolean){
+
+    }
+
+    fun setPlaceInfo(place: String, outOf: String){
+
+    }
+
+    fun removeDecisions(){
+
+    }
+
+    fun setPlayer(localSeat: Int, isDisconnected: Boolean,
+                  name: String, stack: String){
+
+    }
+
+    fun setEmptyPlayer(localSeat: Int){
+
+    }
+
+    fun clearInDecision(){
+        // remove yellow background from active player
+    }
+
+    fun setPotCount(potCount: String){
+
+    }
+
+    fun setChips(localSeat: Int, count: Long){
+
+    }
+
+    fun setPotChips(count: Long){
+
+    }
+
+    fun clearAllCards(){
+        // set all cards to placeholder
+    }
+
+    fun updatePlayerInfo(localSeat: Int, name: String,
+                         stack: String, info: String){
+
+    }
+
+
 }
