@@ -73,6 +73,7 @@ class MainMenu(val game: PocketPoker) : BaseScreen {
         settingsButton = addButtonToTable(Settings.TextKeys.SETTINGS)
         exitButton = addButtonToTable(Settings.TextKeys.EXIT)
 
+        tournamentButton.addListener(game.switches[ScreenType.TOURNAMENT])
         archiveButton.addListener(game.switches[ScreenType.ARCHIVE])
         settingsButton.addListener(game.switches[ScreenType.SETTINGS])
         exitButton.addListener(object : ClickListener() {

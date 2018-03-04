@@ -14,17 +14,17 @@ import game.poker.staticFiles.Textures
 import game.poker.staticFiles.Fonts
 import game.poker.gui.ScrollableContainer
 import game.poker.gui.ScrollableContainer.ClickHandler
-import game.poker.gui.ArchiveItem
+import game.poker.gui.TournamentItem
 
-class ArchiveMenu(val game: PocketPoker) : BaseScreen {
+class TournamentMenu(val game: PocketPoker) : BaseScreen {
 
     private val stage = Stage(game.view)
     private val PADDING = 50f
-    private val archiveList: ScrollableContainer
+    private val tournamentsList: ScrollableContainer
 
     init {
 
-        archiveList = ScrollableContainer(object: ClickHandler() {
+        tournamentsList = ScrollableContainer(object : ClickHandler() {
             override fun click(itemId: Int) {
                 println(itemId.toString() + " id clicked")
             }
@@ -45,24 +45,33 @@ class ArchiveMenu(val game: PocketPoker) : BaseScreen {
         table.pad(PADDING)
         table.setFillParent(true)
         table.top()
-
+        val createButton = TextButton(Settings.getText(Settings.TextKeys.CREATE_TOURNAMENT), buttonStyle)
+        //createButton.addListener(game.switches[ScreenType.CREATE_TOURNAMENT]) TODO: go to creating menu
+        table.add(createButton).pad(PADDING).fill().height(100f).row()
         table.add(TextField("", editStyle)).pad(PADDING).expand().fill().row()
-        table.add(archiveList.actor).row()
+        table.add(tournamentsList.actor).row()
         val mainMenuButton = TextButton(Settings.getText(Settings.TextKeys.MAIN_MENU), buttonStyle)
         mainMenuButton.addListener(game.switches[ScreenType.MAIN_MENU])
         table.add(mainMenuButton).pad(PADDING).padRight(game.gameWidth * 0.3f).fill().height(100f)
         stage.addActor(table)
 
         //test data
-        archiveList.add(ArchiveItem(0, "Tournament #55", 10, 100, 20))
-        archiveList.add(ArchiveItem(1, "Tournament #1253", 2, 10000, 43))
-        archiveList.add(ArchiveItem(2, "Tournament #5622", 10, 500, 232))
-        archiveList.add(ArchiveItem(3, "Tournament #55", 10, 100, 20))
-        archiveList.add(ArchiveItem(4, "Tournament #1253", 2, 10000, 43))
-        archiveList.add(ArchiveItem(5, "Tournament #5622", 10, 500, 232))
-        archiveList.add(ArchiveItem(6, "Tournament #55", 10, 100, 20))
-        archiveList.add(ArchiveItem(7, "Tournament #1253", 2, 10000, 43))
-        archiveList.add(ArchiveItem(8, "Tournament #5622", 10, 500, 232))
+        tournamentsList.add(TournamentItem(0, "Tournament #0", 20, 100,
+                10, 20, 5, false,true))
+        tournamentsList.add(TournamentItem(1, "Tournament #1", 30, 1000,
+                10, 20, 5, true))
+        tournamentsList.add(TournamentItem(2, "Tournament #2", 11, 1000,
+                10, 20, 5, false,true))
+        tournamentsList.add(TournamentItem(3, "Tournament #3", 5, 5000,
+                10, 20, 5, true))
+        val item = TournamentItem(4, "Tournament #4", 3, 2000,
+                10, 20, 5, false)
+        tournamentsList.add(item)
+        item.players = 2
+        item.isStarted = true
+        item.update()
+
+
 
     }
 

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Screen
 
 enum class ScreenType{
     MAIN_MENU,
+    TOURNAMENT,
     SETTINGS,
     ARCHIVE
 }

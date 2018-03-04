@@ -42,7 +42,7 @@ class ArchiveItem(id: Int, val title: String, val players: Int, val chips: Int, 
         val actionImage = Image(nextSprite)
         actionImage.addListener(clickListener)
 
-        add(actionImage).pad(PADDING).width(ACTION_IMAGE_SIZE).height(ACTION_IMAGE_SIZE).center()
+        add(actionImage).pad(PADDING).width(ACTION_IMAGE_SIZE).height(ACTION_IMAGE_SIZE).right()
     }
 
 }

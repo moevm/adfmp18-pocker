@@ -29,7 +29,8 @@ object Settings{
         HANDS,
         CHIPS,
         BLINDS,
-        ANTE
+        ANTE,
+        CREATE_TOURNAMENT
     }
 
     private fun generateLanguages() : Map<Pair<Langs, TextKeys>, String>{
@@ -103,6 +104,9 @@ object Settings{
 
         map[Pair(Langs.RUS, TextKeys.ANTE)] = "Анте"
         map[Pair(Langs.ENG, TextKeys.ANTE)] = "Ante"
+
+        map[Pair(Langs.RUS, TextKeys.CREATE_TOURNAMENT)] = "Создать турнир"
+        map[Pair(Langs.ENG, TextKeys.CREATE_TOURNAMENT)] = "New tournament"
 
         return map
     }

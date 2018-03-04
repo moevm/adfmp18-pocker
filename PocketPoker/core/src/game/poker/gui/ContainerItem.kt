@@ -33,8 +33,4 @@ open class ContainerItem(val id: Int): Table() {
         }
     }
 
-    open fun update() {
-
-    }
-
 }
