@@ -23,13 +23,22 @@ object Settings{
         CARD_2_COLOR,
         CARD_4_COLOR,
         MAIN_MENU,
-        BANK,
-        EMPTY_PLAYER,
-        CHAT,
-        INFO,
+        FINAL_TABLE,
+        TABLE,
+        ANTE,
+        BIG_BLIND,
+        SMALL_BLIND,
         FOLD,
+        CHECK,
         CALL,
-        RAISE
+        RAISE,
+        ALL_IN,
+        SECONDS,
+        ANY,
+        POT,
+        EMPTY_SEAT,
+        CHAT,
+        INFO
     }
 
     private fun generateLanguages() : Map<Pair<Langs, TextKeys>, String>{
@@ -83,26 +92,53 @@ object Settings{
         map[Pair(Langs.RUS, TextKeys.MAIN_MENU)] = "Главное меню"
         map[Pair(Langs.ENG, TextKeys.MAIN_MENU)] = "Main menu"
 
-        map[Pair(Langs.RUS, TextKeys.BANK)] = "Банк"
-        map[Pair(Langs.ENG, TextKeys.BANK)] = "Pot"
+        map[Pair(Langs.RUS, TextKeys.FINAL_TABLE)] = "Финальный стол"
+        map[Pair(Langs.ENG, TextKeys.FINAL_TABLE)] = "Final table"
 
-        map[Pair(Langs.RUS, TextKeys.EMPTY_PLAYER)] = "Пустое место" //Свободное место - length 15>13
-        map[Pair(Langs.ENG, TextKeys.EMPTY_PLAYER)] = "Empty seat"
+        map[Pair(Langs.RUS, TextKeys.TABLE)] = "Стол"
+        map[Pair(Langs.ENG, TextKeys.TABLE)] = "Table"
 
-        map[Pair(Langs.RUS, TextKeys.CHAT)] = "Чат"
-        map[Pair(Langs.ENG, TextKeys.CHAT)] = "Chat"
+        map[Pair(Langs.RUS, TextKeys.ANTE)] = "Анте"
+        map[Pair(Langs.ENG, TextKeys.ANTE)] = "Ante"
 
-        map[Pair(Langs.RUS, TextKeys.INFO)] = "Инфо"
-        map[Pair(Langs.ENG, TextKeys.INFO)] = "Info"
+        map[Pair(Langs.RUS, TextKeys.BIG_BLIND)] = "ББ"
+        map[Pair(Langs.ENG, TextKeys.BIG_BLIND)] = "BB"
+
+        map[Pair(Langs.RUS, TextKeys.SMALL_BLIND)] = "МБ"
+        map[Pair(Langs.ENG, TextKeys.SMALL_BLIND)] = "SB"
 
         map[Pair(Langs.RUS, TextKeys.FOLD)] = "Фолд"
         map[Pair(Langs.ENG, TextKeys.FOLD)] = "Fold"
+
+        map[Pair(Langs.RUS, TextKeys.CHECK)] = "Чек"
+        map[Pair(Langs.ENG, TextKeys.CHECK)] = "Check"
 
         map[Pair(Langs.RUS, TextKeys.CALL)] = "Колл"
         map[Pair(Langs.ENG, TextKeys.CALL)] = "Call"
 
         map[Pair(Langs.RUS, TextKeys.RAISE)] = "Рейз"
         map[Pair(Langs.ENG, TextKeys.RAISE)] = "Raise"
+
+        map[Pair(Langs.RUS, TextKeys.ALL_IN)] = "Олл-ин"
+        map[Pair(Langs.ENG, TextKeys.ALL_IN)] = "All-in"
+
+        map[Pair(Langs.RUS, TextKeys.SECONDS)] = "сек"
+        map[Pair(Langs.ENG, TextKeys.SECONDS)] = "sec"
+
+        map[Pair(Langs.RUS, TextKeys.ANY)] = "люб."
+        map[Pair(Langs.ENG, TextKeys.ANY)] = "any"
+
+        map[Pair(Langs.RUS, TextKeys.POT)] = "Банк"
+        map[Pair(Langs.ENG, TextKeys.POT)] = "Pot"
+
+        map[Pair(Langs.RUS, TextKeys.EMPTY_SEAT)] = "Место пусто"
+        map[Pair(Langs.ENG, TextKeys.EMPTY_SEAT)] = "Empty seat"
+
+        map[Pair(Langs.RUS, TextKeys.CHAT)] = "Чат"
+        map[Pair(Langs.ENG, TextKeys.CHAT)] = "Chat"
+
+        map[Pair(Langs.RUS, TextKeys.INFO)] = "Инфо"
+        map[Pair(Langs.ENG, TextKeys.INFO)] = "Info"
 
         return map
     }
@@ -112,4 +148,5 @@ object Settings{
     var currCards = CardsType.COLOR_4
 
     fun getText(key: TextKeys) = langMap[Pair(currLang, key)]
+            ?: throw IllegalArgumentException("Bad text key")
 }
