@@ -35,6 +35,8 @@ class PocketPoker : Game() {
         val screens = mutableMapOf<ScreenType, BaseScreen>()
         screens[ScreenType.MAIN_MENU] = MainMenu(this)
         screens[ScreenType.SETTINGS] = SettingsMenu(this)
+        screens[ScreenType.TOURNAMENT] = TournamentMenu(this)
+        screens[ScreenType.ARCHIVE] = ArchiveMenu(this)
         screens[ScreenType.TABLE] = TableScreen(this)
         this.screens = screens
 

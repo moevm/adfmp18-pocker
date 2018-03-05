@@ -38,7 +38,14 @@ object Settings{
         POT,
         EMPTY_SEAT,
         CHAT,
-        INFO
+        INFO,
+        OPENED,
+        CLOSED,
+        PLAYERS,
+        HANDS,
+        CHIPS,
+        BLINDS,
+        CREATE_TOURNAMENT
     }
 
     private fun generateLanguages() : Map<Pair<Langs, TextKeys>, String>{
@@ -139,6 +146,27 @@ object Settings{
 
         map[Pair(Langs.RUS, TextKeys.INFO)] = "Инфо"
         map[Pair(Langs.ENG, TextKeys.INFO)] = "Info"
+
+        map[Pair(Langs.RUS, TextKeys.OPENED)] = "Открытый"
+        map[Pair(Langs.ENG, TextKeys.OPENED)] = "Opened"
+
+        map[Pair(Langs.RUS, TextKeys.CLOSED)] = "Закрытый"
+        map[Pair(Langs.ENG, TextKeys.CLOSED)] = "Closed"
+
+        map[Pair(Langs.RUS, TextKeys.PLAYERS)] = "Игроков"
+        map[Pair(Langs.ENG, TextKeys.PLAYERS)] = "Players"
+
+        map[Pair(Langs.RUS, TextKeys.CHIPS)] = "Фишек"
+        map[Pair(Langs.ENG, TextKeys.CHIPS)] = "Chips"
+
+        map[Pair(Langs.RUS, TextKeys.HANDS)] = "Сыграно рук"
+        map[Pair(Langs.ENG, TextKeys.HANDS)] = "Hands played"
+
+        map[Pair(Langs.RUS, TextKeys.BLINDS)] = "Блайнды"
+        map[Pair(Langs.ENG, TextKeys.BLINDS)] = "Blinds"
+
+        map[Pair(Langs.RUS, TextKeys.CREATE_TOURNAMENT)] = "Создать турнир"
+        map[Pair(Langs.ENG, TextKeys.CREATE_TOURNAMENT)] = "New tournament"
 
         return map
     }

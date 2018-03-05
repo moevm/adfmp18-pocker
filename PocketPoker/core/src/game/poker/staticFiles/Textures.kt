@@ -23,6 +23,8 @@ object Textures{
     val vScrollKnob = scroll
     val sliderBg = Texture("pics/sliderBg.png")
     val sliderKnob = Texture("pics/slider.png")
+    val next = Texture("pics/next.png")
+    val watch = Texture("pics/watch.png")
     val exitButton = Texture("pics/exit.png")
     val exitButtonDown = Texture("pics/exitDown.png")
     val labelBg = Texture("pics/labelBg.png")
