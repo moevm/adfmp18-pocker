@@ -266,7 +266,7 @@ class TableScreen(val game: PocketPoker) : BaseScreen {
     }
 
     fun setEmptyPlayer(localSeat: Int){
-        seats[localSeat-1].playerView.playerName = Settings.getText(Settings.TextKeys.EMPTY_PLAYER) + "" //String? -> String
+        seats[localSeat-1].playerView.playerName = Settings.getText(Settings.TextKeys.EMPTY_SEAT)
         seats[localSeat-1].playerView.money = ""
         seats[localSeat-1].playerView.info = ""
         seats[localSeat-1].isEmpty = true

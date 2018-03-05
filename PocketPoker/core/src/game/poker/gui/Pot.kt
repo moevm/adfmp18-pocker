@@ -20,9 +20,10 @@ class Pot() : Widget(){
     var count = "9 999"
         set(value) {
             field = value
-            label.setText(Settings.getText(Settings.TextKeys.BANK) + ":\n" + count)
+            label.setText(Settings.getText(Settings.TextKeys.POT) + ":\n" + count)
         }
-    val label = Label(Settings.getText(Settings.TextKeys.BANK) + ":\n" + count, Label.LabelStyle(Fonts.gameLabelFont, Color.BLACK))
+    val label = Label(Settings.getText(Settings.TextKeys.POT) + ":\n" + count,
+                        Label.LabelStyle(Fonts.gameLabelFont, Color.BLACK))
     var chipstack = Chipstack(450f, 850f)
 
     init {
@@ -38,6 +39,6 @@ class Pot() : Widget(){
         chipstack.draw(batch, parentAlpha)
     }
     fun update(){
-        label.setText(Settings.getText(Settings.TextKeys.BANK) + ":\n" + money)
+        label.setText(Settings.getText(Settings.TextKeys.POT) + ":\n" + money)
     }
 }

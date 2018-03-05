@@ -118,7 +118,7 @@ class Seat(val positionNumber:Int) : Widget(){
 
     fun update(){
         if (isEmpty) {
-            playerView.playerName = Settings.getText(Settings.TextKeys.EMPTY_PLAYER) + "" //String? -> String
+            playerView.playerName = Settings.getText(Settings.TextKeys.EMPTY_SEAT)
         }
     }
 
