@@ -37,13 +37,14 @@ class PocketPoker : Game() {
         screens[ScreenType.SETTINGS] = SettingsMenu(this)
         screens[ScreenType.TOURNAMENT] = TournamentMenu(this)
         screens[ScreenType.ARCHIVE] = ArchiveMenu(this)
+        screens[ScreenType.TABLE] = TableScreen(this)
         this.screens = screens
 
         setCurrScreen(ScreenType.MAIN_MENU)
     }
 
     override fun render() {
-        Gdx.gl.glClearColor(0f, 0f, 0f, 1f)
+        Gdx.gl.glClearColor(0.9f, 0.9f, 0.9f, 1f)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
         screen.render(0f)
     }
@@ -53,6 +54,7 @@ class PocketPoker : Game() {
     }
 
     fun setCurrScreen(type: ScreenType) {
+        screen?.hide()
         screen = screens[type]
         screen.show()
     }

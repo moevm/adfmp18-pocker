@@ -75,6 +75,7 @@ class MainMenu(val game: PocketPoker) : BaseScreen {
 
         tournamentButton.addListener(game.switches[ScreenType.TOURNAMENT])
         archiveButton.addListener(game.switches[ScreenType.ARCHIVE])
+        quickGameButton.addListener(game.switches[ScreenType.TABLE])
         settingsButton.addListener(game.switches[ScreenType.SETTINGS])
         exitButton.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent, x: Float, y: Float) {

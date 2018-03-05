@@ -69,13 +69,13 @@ class SettingsMenu(val game: PocketPoker) : BaseScreen {
         soundLabel = Label(Settings.getText(Settings.TextKeys.SOUND_LEVEL), labelStyle)
         table.add(soundLabel).colspan(2).pad(PADDING).row()
 
-        val soundScroll = Slider(0f,100f,1f,false, sliderStyle)
+        val soundScroll = Slider(0f, 100f, 1f, false, sliderStyle)
         table.add(soundScroll).colspan(2).pad(PADDING).fill().width(game.gameWidth * 0.8f).row()
 
         musicLabel = Label(Settings.getText(Settings.TextKeys.MUSIC_LEVEL), labelStyle)
         table.add(musicLabel).colspan(2).pad(PADDING).row()
 
-        val musicScroll = Slider(0f,100f,1f,false, sliderStyle)
+        val musicScroll = Slider(0f, 100f, 1f, false, sliderStyle)
         table.add(musicScroll).colspan(2).pad(PADDING).width(game.gameWidth * 0.8f).fill().row()
 
         languageLabel = Label(Settings.getText(Settings.TextKeys.LANGUAGE), labelStyle)

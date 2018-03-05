@@ -25,6 +25,9 @@ object Textures{
     val sliderKnob = Texture("pics/slider.png")
     val next = Texture("pics/next.png")
     val watch = Texture("pics/watch.png")
+    val exitButton = Texture("pics/exit.png")
+    val exitButtonDown = Texture("pics/exitDown.png")
+    val labelBg = Texture("pics/labelBg.png")
 
     private fun createCards() : Map<Pair<Settings.CardsType, Card>, Texture>{
         val map = mutableMapOf<Pair<Settings.CardsType, Card>, Texture>()
@@ -50,6 +53,7 @@ object Textures{
 
     private val cardsMap: Map<Pair<Settings.CardsType, Card>, Texture> = createCards()
     fun getCard(card: Card) = cardsMap[Pair(Settings.currCards, card)]
+            ?: throw IllegalArgumentException("Card texture does not exists: $card")
 
     val pokerTable = Texture("pics/poker_table.png")
     val cardBackground = Texture("pics/cards/4color/open/UP.png")
@@ -65,4 +69,5 @@ object Textures{
 
     private val chipsMap: Map<Chip, Texture> = createChips()
     fun getChip(chip: Chip) = chipsMap[chip]
+            ?: throw IllegalArgumentException("Chip texture does not exists: $chip")
 }
