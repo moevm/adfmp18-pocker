@@ -29,6 +29,8 @@ object Textures{
     val players = Texture("pics/menu/players.png")
     val tables = Texture("pics/menu/tables.png")
     val hands = Texture("pics/menu/hands.png")
+    val locked = Texture("pics/menu/locked.png")
+    val unlocked = Texture("pics/menu/unlocked.png")
     val exitButton = Texture("pics/exit.png")
     val exitButtonDown = Texture("pics/exitDown.png")
     val labelBg = Texture("pics/labelBg.png")
