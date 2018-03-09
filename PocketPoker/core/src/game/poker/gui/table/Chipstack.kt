@@ -1,4 +1,4 @@
-package game.poker.gui
+package game.poker.gui.table
 
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.scenes.scene2d.ui.Image
@@ -9,7 +9,7 @@ import game.poker.core.Chip
 import game.poker.staticFiles.Textures
 
 
-class Chipstack(posX:Float,posY:Float) : Widget() {
+class Chipstack() : Widget() {
     var money: Long = 0
         private set
 
@@ -17,9 +17,7 @@ class Chipstack(posX:Float,posY:Float) : Widget() {
 
     private val stacks: Array<MutableList<Image>> =
             Array(stacksCount) { mutableListOf<Image>() }
-    init {
-        setPosition(posX,posY)
-    }
+
     fun setChips(newMoney: Long){
         money = newMoney
         var count = newMoney
@@ -72,9 +70,9 @@ class Chipstack(posX:Float,posY:Float) : Widget() {
         }
 
         for((i, currAmounts) in amounts.withIndex()){
-            println("" + (i + 1) + ")")
+            //println("" + (i + 1) + ")")
             for(currChip in currAmounts){
-                println("    " + currChip.first.price() + " * " + currChip.second)
+                //println("    " + currChip.first.price() + " * " + currChip.second)
                 for(currChipAmount in 1..currChip.second){
                     stacks[i].add(Image(SpriteDrawable(Sprite(Textures.getChip(currChip.first)))))
                 }

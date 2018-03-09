@@ -28,6 +28,8 @@ object Textures{
     val exitButton = Texture("pics/exit.png")
     val exitButtonDown = Texture("pics/exitDown.png")
     val labelBg = Texture("pics/labelBg.png")
+    val labelBgActive = Texture("pics/labelBgActive.png")
+    val labelBgDisabled = Texture("pics/labelBgDisabled.png")
 
     private fun createCards() : Map<Pair<Settings.CardsType, Card>, Texture>{
         val map = mutableMapOf<Pair<Settings.CardsType, Card>, Texture>()

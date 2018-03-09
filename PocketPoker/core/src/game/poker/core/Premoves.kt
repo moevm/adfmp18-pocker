@@ -17,7 +17,7 @@ class Premoves(val table: TableScreen) {
         if(isVisible){
             isVisible = false
             reset()
-            table.setPremoves(false)
+            table.currView.setPremoves(false)
         }
     }
 
@@ -25,13 +25,13 @@ class Premoves(val table: TableScreen) {
         if(!isVisible){
             isVisible = true
             reset()
-            table.setPremoves(true)
+            table.currView.setPremoves(true)
         }
     }
 
     fun checkFold(){
         show()
-        table.setPremoveText(Settings.getText(Settings.TextKeys.CHECK) + "/" +
+        table.currView.setPremoveText(Settings.getText(Settings.TextKeys.CHECK) + "/" +
                 Settings.getText(Settings.TextKeys.FOLD),
                 Settings.getText(Settings.TextKeys.CHECK),
                 Settings.getText(Settings.TextKeys.CALL) + " " +
@@ -40,7 +40,7 @@ class Premoves(val table: TableScreen) {
 
     fun callFold(money: Long){
         show()
-        table.setPremoveText(Settings.getText(Settings.TextKeys.FOLD),
+        table.currView.setPremoveText(Settings.getText(Settings.TextKeys.FOLD),
                 Settings.getText(Settings.TextKeys.CALL) + " " + money.shortcut(),
                 Settings.getText(Settings.TextKeys.CALL) + " " +
                         Settings.getText(Settings.TextKeys.ANY))
@@ -49,7 +49,7 @@ class Premoves(val table: TableScreen) {
     fun allInFold(money: Long){
         show()
         twoChoicesMode()
-        table.setPremoveText(Settings.getText(Settings.TextKeys.FOLD),
+        table.currView.setPremoveText(Settings.getText(Settings.TextKeys.FOLD),
                 Settings.getText(Settings.TextKeys.CALL) + " " + money.shortcut(),
                 "")
     }
@@ -63,14 +63,14 @@ class Premoves(val table: TableScreen) {
             else if(second){
                 set(2, true)
             }
-            table.setThirdPremoveHidden(true)
+            table.currView.setThirdPremoveHidden(true)
         }
     }
 
     fun threeChoicesMode(){
         if(inTwoChoices){
             inTwoChoices = false
-            table.setThirdPremoveHidden(false)
+            table.currView.setThirdPremoveHidden(false)
         }
     }
 
@@ -88,7 +88,7 @@ class Premoves(val table: TableScreen) {
             2 -> second = checked
             3 -> third = checked
         }
-        table.setPremovesChecked(first, second, third)
+        table.currView.setPremovesChecked(first, second, third)
     }
 
 }

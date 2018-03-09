@@ -69,7 +69,7 @@ class Seats(val table: TableScreen, data: JsonObject, gameMode: Boolean) {
                 val player = Player(curr, localSeat)
                 seats[localSeat] = player
 
-                table.setPlayer(localSeat,
+                table.currView.setPlayer(localSeat,
                         player.disconnected,
                         player.name,
                         stack=player.stack.insertSpaces())
@@ -82,7 +82,7 @@ class Seats(val table: TableScreen, data: JsonObject, gameMode: Boolean) {
 
             }
             else{
-                table.setEmptyPlayer(localSeat)
+                table.currView.setEmptyPlayer(localSeat)
             }
         }
 
@@ -113,7 +113,7 @@ class Seats(val table: TableScreen, data: JsonObject, gameMode: Boolean) {
 
         idToLocalSeat[player.id] = localSeat
 
-        table.setPlayer(localSeat,
+        table.currView.setPlayer(localSeat,
                 player.disconnected,
                 player.name,
                 player.stack.insertSpaces())
@@ -130,7 +130,7 @@ class Seats(val table: TableScreen, data: JsonObject, gameMode: Boolean) {
     fun deletePlayer(id: Int){
         val player = getById(id)
 
-        table.deleteCards(player.localSeat)
+        table.currView.deleteCards(player.localSeat)
 
         setEmptySeat(player.localSeat)
 
@@ -150,7 +150,7 @@ class Seats(val table: TableScreen, data: JsonObject, gameMode: Boolean) {
     }
 
     fun clearDecisionStates(){
-        table.clearInDecision()
+        table.currView.clearInDecision()
     }
 
     fun setBet(id: Int, count: Long, reason: String = ""){
@@ -187,14 +187,14 @@ class Seats(val table: TableScreen, data: JsonObject, gameMode: Boolean) {
         }
 
         if(reason != "Clear"){
-            table.setPotCount(potCount.insertSpaces())
+            table.currView.setPotCount(potCount.insertSpaces())
         }
 
         if(id != -1){
-            table.setChips(idToLocalSeat[id]!!, count)
+            table.currView.setChips(idToLocalSeat[id]!!, count)
         }
         else{
-            table.setPotChips(count)
+            table.currView.setPotChips(count)
         }
 
     }
@@ -204,7 +204,7 @@ class Seats(val table: TableScreen, data: JsonObject, gameMode: Boolean) {
     }
 
     fun clear(){
-        table.clearAllCards()
+        table.currView.clearAllCards()
 
         clearDecisionStates()
 
@@ -219,7 +219,7 @@ class Seats(val table: TableScreen, data: JsonObject, gameMode: Boolean) {
         val player = seats[localSeat]
                 ?: throw IllegalArgumentException("No such seat")
 
-        table.setEmptyPlayer(player.localSeat)
+        table.currView.setEmptyPlayer(player.localSeat)
     }
 
     fun updateInfo(id: Int, reason: String, count: Long = 0){
@@ -228,7 +228,7 @@ class Seats(val table: TableScreen, data: JsonObject, gameMode: Boolean) {
             info += " " + count.shortcut()
         }
         val player = getById(id)
-        table.updatePlayerInfo(player.localSeat, player.name,
+        table.currView.updatePlayerInfo(player.localSeat, player.name,
                 player.stack.insertSpaces(), info)
     }
 }
