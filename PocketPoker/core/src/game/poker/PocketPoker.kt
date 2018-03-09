@@ -19,7 +19,7 @@ class PocketPoker : Game() {
 
     lateinit var view: Viewport private set
     lateinit var screens: Map<ScreenType, BaseScreen> private set
-    lateinit var currScreen: BaseScreen private set
+    private var currScreen: BaseScreen? = null
     lateinit var switches: Map<ScreenType, ClickListener> private set
     lateinit var menuHandler: MenuHandler private set
 
@@ -44,8 +44,8 @@ class PocketPoker : Game() {
         screens[ScreenType.TABLE] = TableScreen(this)
         this.screens = screens
 
-        setCurrScreen(ScreenType.MAIN_MENU)
         menuHandler = MenuHandler(this)
+        setCurrScreen(ScreenType.MAIN_MENU)
     }
 
     override fun render() {
@@ -80,6 +80,6 @@ class PocketPoker : Game() {
     }
 
     fun recieveFromServer(json: JsonObject){
-        currScreen.recieveFromServer(json)
+        currScreen?.recieveFromServer(json)
     }
 }
