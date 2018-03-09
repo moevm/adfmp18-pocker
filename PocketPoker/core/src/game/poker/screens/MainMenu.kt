@@ -19,7 +19,6 @@ import game.poker.Settings
 import game.poker.staticFiles.Textures
 import game.poker.staticFiles.Fonts
 import java.util.*
-import javax.naming.Context
 
 
 class MainMenu(val game: PocketPoker) : BaseScreen {
