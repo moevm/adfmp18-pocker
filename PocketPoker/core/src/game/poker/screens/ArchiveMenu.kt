@@ -54,17 +54,6 @@ class ArchiveMenu(val game: PocketPoker) : BaseScreen {
         table.add(mainMenuButton).pad(PADDING).padRight(game.gameWidth * 0.3f).fill().height(100f)
         stage.addActor(table)
 
-        //test data
-        archiveList.add(ArchiveItem(0, "Tournament #55", 10, 100, 20))
-        archiveList.add(ArchiveItem(1, "Tournament #1253", 2, 10000, 43))
-        archiveList.add(ArchiveItem(2, "Tournament #5622", 10, 500, 232))
-        archiveList.add(ArchiveItem(3, "Tournament #55", 10, 100, 20))
-        archiveList.add(ArchiveItem(4, "Tournament #1253", 2, 10000, 43))
-        archiveList.add(ArchiveItem(5, "Tournament #5622", 10, 500, 232))
-        archiveList.add(ArchiveItem(6, "Tournament #55", 10, 100, 20))
-        archiveList.add(ArchiveItem(7, "Tournament #1253", 2, 10000, 43))
-        archiveList.add(ArchiveItem(8, "Tournament #5622", 10, 500, 232))
-
     }
 
     override fun update(){
@@ -73,6 +62,7 @@ class ArchiveMenu(val game: PocketPoker) : BaseScreen {
 
     override fun show(){
         Gdx.input.inputProcessor = stage
+        updateArchive()
     }
 
     override fun render(delta: Float) {
@@ -102,5 +92,26 @@ class ArchiveMenu(val game: PocketPoker) : BaseScreen {
 
     override fun recieveFromServer(json: JsonObject) {
 
+        if (json["type"].asString == "replays") {
+            archiveList.clear()
+            for (field in json["info"].asJsonArray) {
+                val item = field.asJsonObject
+                val id = item["id"].asInt
+                val date = item["date"].asString
+                val tables = item["tables"].asInt
+                val players = item["players"].asInt
+                val hands = item["hands"].asInt
+                var name = item["name"].asString
+                if (name == "") name = Settings.getText(Settings.TextKeys.TOURNAMENT) + " #" + id.toString()
+                archiveList.add(ArchiveItem(id, name, date, tables, players, hands))
+            }
+        }
+
+    }
+
+    private fun updateArchive() {
+        val data = JsonObject()
+        data.addProperty("type", "get replays")
+        game.menuHandler.sendToServer(data)
     }
 }

@@ -28,6 +28,10 @@ class ScrollableContainer(private val clickHandler: ClickHandler) {
         items.remove(id)
     }
 
+    fun clear() {
+        items.clear()
+    }
+
     open class ClickHandler {
 
         open fun click(itemId: Int) {
