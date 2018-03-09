@@ -4,10 +4,7 @@ import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import game.poker.PocketPoker
 import game.poker.core.WebSocketConnection
-import kotlinx.coroutines.experimental.delay
-import kotlinx.coroutines.experimental.launch
 import java.util.*
-import java.util.concurrent.TimeUnit
 
 
 class MenuHandler(private val game: PocketPoker) {
@@ -21,30 +18,38 @@ class MenuHandler(private val game: PocketPoker) {
         val json = JsonObject()
         json.addProperty("type", "kt")
         socket.connectToServer(json.toString())
-        launch {
-            handle()
-        }
+        Thread(Runnable { handle() }).start()
     }
 
-    suspend fun handle(){
+    fun handle(){
         inLoop = true
+        var ping = 0
 
         while (inLoop){
             if(queue.isEmpty()){
-                delay(1000L, TimeUnit.MILLISECONDS)
+                Thread.sleep(100)
                 println("TIME")
+                ping++
+                if (ping % 10 == 0){
+                    ping = 0
+                    val json = JsonObject()
+                    json.addProperty("type", "ping")
+                    sendToServer(json)
+                }
                 continue
             }
 
             val data =  parser.parse(queue.remove()).asJsonObject
 
-            println("MENU DATA: ${data.asString}")
+            println("MENU DATA: $data")
             game.recieveFromServer(data)
         }
     }
 
     fun sendToServer(json: JsonObject){
-        socket.send(json.asString)
+        val message = json.toString()
+        println("Send to server: $message")
+        socket.send(message)
     }
 
 }

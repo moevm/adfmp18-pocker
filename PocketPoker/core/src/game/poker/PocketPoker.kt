@@ -44,8 +44,8 @@ class PocketPoker : Game() {
         screens[ScreenType.TABLE] = TableScreen(this)
         this.screens = screens
 
-        menuHandler = MenuHandler(this)
         setCurrScreen(ScreenType.MAIN_MENU)
+        menuHandler = MenuHandler(this)
     }
 
     override fun render() {
@@ -67,6 +67,11 @@ class PocketPoker : Game() {
 
     override fun dispose() {
         screens.forEach { it.value.dispose() }
+        menuHandler.inLoop = false
+        val json = JsonObject()
+        json.addProperty("type", "close")
+        menuHandler.sendToServer(json)
+        menuHandler.socket.close()
         Gdx.app.exit()
     }
 
