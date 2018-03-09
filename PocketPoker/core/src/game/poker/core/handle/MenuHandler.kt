@@ -23,19 +23,10 @@ class MenuHandler(private val game: PocketPoker) {
 
     fun handle(){
         inLoop = true
-        var ping = 0
 
         while (inLoop){
             if(queue.isEmpty()){
                 Thread.sleep(100)
-                println("TIME")
-                ping++
-                if (ping % 10 == 0){
-                    ping = 0
-                    val json = JsonObject()
-                    json.addProperty("type", "ping")
-                    sendToServer(json)
-                }
                 continue
             }
 
