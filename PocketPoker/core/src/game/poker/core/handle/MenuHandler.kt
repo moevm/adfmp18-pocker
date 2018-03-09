@@ -34,7 +34,7 @@ class MenuHandler(private val game: PocketPoker) {
             val data =  parser.parse(queue.remove()).asJsonObject
 
             println("MENU DATA: $data")
-            game.recieveFromServer(data)
+            game.receiveFromServer(data)
         }
     }
 

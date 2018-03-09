@@ -144,7 +144,7 @@ class MainMenu(val game: PocketPoker) : BaseScreen {
         exitButton.setText(Settings.getText(Settings.TextKeys.EXIT))
     }
 
-    override fun recieveFromServer(json: JsonObject) {
+    override fun receiveFromServer(json: JsonObject) {
 
         if (json["type"].asString == "register") {
             if (json["answer"].asString == "success") {

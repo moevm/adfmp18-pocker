@@ -305,7 +305,7 @@ class TableScreen(val game: PocketPoker) : BaseScreen {
         seats[localSeat-1].isEmpty = false
     }
 
-    override fun recieveFromServer(json: JsonObject) {
+    override fun receiveFromServer(json: JsonObject) {
 
     }
 

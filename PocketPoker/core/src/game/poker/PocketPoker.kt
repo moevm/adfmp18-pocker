@@ -59,7 +59,7 @@ class PocketPoker : Game() {
 
     fun setCurrScreen(type: ScreenType) {
         screen?.hide()
-        currScreen = screens[type]!!
+        currScreen = screens[type]
         screen = currScreen
         screen.show()
     }
@@ -78,7 +78,7 @@ class PocketPoker : Game() {
         screens.forEach { it.value.update() }
     }
 
-    fun recieveFromServer(json: JsonObject){
-        currScreen?.recieveFromServer(json)
+    fun receiveFromServer(json: JsonObject){
+        currScreen?.receiveFromServer(json)
     }
 }

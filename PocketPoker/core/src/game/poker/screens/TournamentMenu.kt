@@ -109,7 +109,7 @@ class TournamentMenu(val game: PocketPoker) : BaseScreen {
 
     }
 
-    override fun recieveFromServer(json: JsonObject) {
+    override fun receiveFromServer(json: JsonObject) {
 
     }
 }

@@ -16,12 +16,16 @@ import game.poker.staticFiles.Fonts
 import game.poker.gui.ScrollableContainer
 import game.poker.gui.ScrollableContainer.ClickHandler
 import game.poker.gui.ArchiveItem
+import java.util.concurrent.locks.Lock
+import java.util.concurrent.locks.ReentrantLock
+import kotlin.concurrent.withLock
 
 class ArchiveMenu(val game: PocketPoker) : BaseScreen {
 
     private val stage = Stage(game.view)
     private val PADDING = 50f
     private val archiveList: ScrollableContainer
+    private val lock: Lock = ReentrantLock()
 
     init {
 
@@ -61,13 +65,17 @@ class ArchiveMenu(val game: PocketPoker) : BaseScreen {
     }
 
     override fun show(){
-        Gdx.input.inputProcessor = stage
-        updateArchive()
+        lock.withLock {
+            Gdx.input.inputProcessor = stage
+            updateArchive()
+        }
     }
 
     override fun render(delta: Float) {
-        stage.act()
-        stage.draw()
+        lock.withLock {
+            stage.act()
+            stage.draw()
+        }
     }
 
     override fun resize(width: Int, height: Int){
@@ -90,23 +98,23 @@ class ArchiveMenu(val game: PocketPoker) : BaseScreen {
 
     }
 
-    override fun recieveFromServer(json: JsonObject) {
-
-        if (json["type"].asString == "replays") {
-            archiveList.clear()
-            for (field in json["info"].asJsonArray) {
-                val item = field.asJsonObject
-                val id = item["id"].asInt
-                val date = item["date"].asString
-                val tables = item["tables"].asInt
-                val players = item["players"].asInt
-                val hands = item["hands"].asInt
-                var name = item["name"].asString
-                if (name == "") name = Settings.getText(Settings.TextKeys.TOURNAMENT) + " #" + id.toString()
-                archiveList.add(ArchiveItem(id, name, date, tables, players, hands))
+    override fun receiveFromServer(json: JsonObject) {
+        lock.withLock {
+            if (json["type"].asString == "replays") {
+                archiveList.clear()
+                for (field in json["info"].asJsonArray) {
+                    val item = field.asJsonObject
+                    val id = item["id"].asInt
+                    val date = item["date"].asString
+                    val tables = item["tables"].asInt
+                    val players = item["players"].asInt
+                    val hands = item["hands"].asInt
+                    var name = item["name"].asString
+                    if (name == "") name = Settings.getText(Settings.TextKeys.TOURNAMENT) + " #" + id.toString()
+                    archiveList.add(ArchiveItem(id, name, date, tables, players, hands))
+                }
             }
         }
-
     }
 
     private fun updateArchive() {

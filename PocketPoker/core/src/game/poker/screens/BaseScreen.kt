@@ -13,5 +13,5 @@ enum class ScreenType{
 
 interface BaseScreen : Screen {
     fun update()
-    fun recieveFromServer(json: JsonObject)
+    fun receiveFromServer(json: JsonObject)
 }
