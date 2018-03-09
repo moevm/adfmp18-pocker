@@ -19,6 +19,7 @@ class MenuHandler(private val game: PocketPoker) {
         json.addProperty("type", "kt")
         socket.connectToServer(json.toString())
         Thread(Runnable { handle() }).start()
+        Thread.sleep(100) //TODO: wipe this shit
     }
 
     fun handle(){

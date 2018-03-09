@@ -45,7 +45,9 @@ object Settings{
         HANDS,
         CHIPS,
         BLINDS,
-        CREATE_TOURNAMENT
+        CREATE_TOURNAMENT,
+        REGISTRATION_ERROR,
+        NICK_IS_USED
     }
 
     private fun generateLanguages() : Map<Pair<Langs, TextKeys>, String>{
@@ -168,12 +170,20 @@ object Settings{
         map[Pair(Langs.RUS, TextKeys.CREATE_TOURNAMENT)] = "Создать турнир"
         map[Pair(Langs.ENG, TextKeys.CREATE_TOURNAMENT)] = "New tournament"
 
+        map[Pair(Langs.RUS, TextKeys.REGISTRATION_ERROR)] = "Ошибка регистрации"
+        map[Pair(Langs.ENG, TextKeys.REGISTRATION_ERROR)] = "Registration error"
+
+        map[Pair(Langs.RUS, TextKeys.NICK_IS_USED)] = "Такой никнейм уже занят"
+        map[Pair(Langs.ENG, TextKeys.NICK_IS_USED)] = "Nick is already used"
+
         return map
     }
 
     private val langMap = generateLanguages()
     var currLang = Langs.RUS
     var currCards = CardsType.COLOR_4
+    var nick = ""
+    var token = ""
 
     fun getText(key: TextKeys) = langMap[Pair(currLang, key)]
             ?: throw IllegalArgumentException("Bad text key")

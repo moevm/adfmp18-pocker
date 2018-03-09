@@ -15,11 +15,12 @@ class WebSocketConnection(private val queue: Queue<String>,
     fun connectToServer(openMsg: String){
         this.openMsg = openMsg
         connect()
+        send(openMsg)
+        println("WebSocket send $openMsg")
     }
 
     override fun onOpen() {
-        send(openMsg)
-        println("WebSocket send $openMsg")
+
     }
 
     override fun onTextReceived(message: String) {
