@@ -29,6 +29,9 @@ class ScrollableContainer(private val clickHandler: ClickHandler) {
     }
 
     fun clear() {
+        for (item in items) {
+            table.removeActor(item.value)
+        }
         items.clear()
     }
 
