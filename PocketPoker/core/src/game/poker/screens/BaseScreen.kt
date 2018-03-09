@@ -1,6 +1,7 @@
 package game.poker.screens
 
 import com.badlogic.gdx.Screen
+import com.google.gson.JsonObject
 
 enum class ScreenType{
     MAIN_MENU,
@@ -12,4 +13,5 @@ enum class ScreenType{
 
 interface BaseScreen : Screen {
     fun update()
+    fun recieveFromServer(json: JsonObject)
 }

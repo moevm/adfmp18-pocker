@@ -7,6 +7,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.viewport.StretchViewport
 import com.badlogic.gdx.utils.viewport.Viewport
 import com.badlogic.gdx.scenes.scene2d.InputEvent
+import com.google.gson.JsonObject
+import game.poker.core.handle.MenuHandler
 
 import game.poker.screens.*
 
@@ -17,7 +19,9 @@ class PocketPoker : Game() {
 
     lateinit var view: Viewport private set
     lateinit var screens: Map<ScreenType, BaseScreen> private set
+    lateinit var currScreen: BaseScreen private set
     lateinit var switches: Map<ScreenType, ClickListener> private set
+    lateinit var menuHandler: MenuHandler private set
 
     override fun create() {
         view = StretchViewport(gameWidth, gameHeight)
@@ -40,6 +44,7 @@ class PocketPoker : Game() {
         screens[ScreenType.TABLE] = TableScreen(this)
         this.screens = screens
 
+        menuHandler = MenuHandler(this)
         setCurrScreen(ScreenType.MAIN_MENU)
     }
 
@@ -55,7 +60,8 @@ class PocketPoker : Game() {
 
     fun setCurrScreen(type: ScreenType) {
         screen?.hide()
-        screen = screens[type]
+        currScreen = screens[type]!!
+        screen = currScreen
         screen.show()
     }
 
@@ -66,5 +72,9 @@ class PocketPoker : Game() {
 
     fun updateLang() {
         screens.forEach { it.value.update() }
+    }
+
+    fun recieveFromServer(json: JsonObject){
+        currScreen.recieveFromServer(json)
     }
 }

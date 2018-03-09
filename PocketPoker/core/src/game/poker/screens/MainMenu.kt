@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable
 import com.badlogic.gdx.utils.Align
+import com.google.gson.JsonObject
 
 import game.poker.PocketPoker
 import game.poker.Settings
@@ -122,5 +123,9 @@ class MainMenu(val game: PocketPoker) : BaseScreen {
         archiveButton.setText(Settings.getText(Settings.TextKeys.ARCHIVE))
         settingsButton.setText(Settings.getText(Settings.TextKeys.SETTINGS))
         exitButton.setText(Settings.getText(Settings.TextKeys.EXIT))
+    }
+
+    override fun recieveFromServer(json: JsonObject) {
+
     }
 }
