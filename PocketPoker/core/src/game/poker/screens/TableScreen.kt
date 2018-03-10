@@ -26,6 +26,11 @@ class TableScreen(val game: PocketPoker) : BaseScreen {
     // note: in final table all empty seats are hidden
     //     but in other tables all empty seats just shows with text "Empty seat"
     var isFinal = false
+        set(value) {
+            field = value
+            tableViewVertical.isFinal = value
+            tableViewHorizontal.isFinal = value
+        }
     private val tableViewVertical = TableViewVertical(game)
     private val tableViewHorizontal = TableViewHorizontal(game)
     var currView : TableViewBase = tableViewVertical
@@ -33,6 +38,7 @@ class TableScreen(val game: PocketPoker) : BaseScreen {
 
     init {
         //DEBUG
+        isFinal = true
         currView.setFlopCards(Card(Rank.Ten,Suit.Clubs, Visibility.Open),Card(Rank.Ace,Suit.Spades, Visibility.Open),Card(Rank.Ace,Suit.Clubs, Visibility.Open))
         currView.setTurnCard(Card(Rank.Five,Suit.Clubs, Visibility.Open))
         currView.setRiverCard(Card(Rank.Two,Suit.Clubs, Visibility.Open))

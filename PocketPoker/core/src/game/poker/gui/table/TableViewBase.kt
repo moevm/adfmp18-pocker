@@ -19,6 +19,7 @@ import game.poker.screens.ScreenType
 
 abstract class TableViewBase(val game: PocketPoker) : BaseScreen {
     val stage = Stage(game.view)
+    var isFinal = false
     protected val seats = mutableListOf<SeatBase>()
     protected val pot = Pot()
     protected val cards = Array(5){ Image(SpriteDrawable(Sprite(Textures.cardPlaceholder))) }
@@ -124,6 +125,7 @@ abstract class TableViewBase(val game: PocketPoker) : BaseScreen {
             }
             seat.playerView.isDisabled = table.seats[i].playerView.isDisabled
             seat.playerView.isActive = table.seats[i].playerView.isActive
+            seat.isVisible = table.seats[i].isVisible
         }
         pot.money = table.pot.money
         pot.count = table.pot.count
@@ -258,10 +260,12 @@ abstract class TableViewBase(val game: PocketPoker) : BaseScreen {
         seats[localSeat-1].playerView.money = stack
         seats[localSeat-1].playerView.info = ""
         seats[localSeat-1].isEmpty = false
+        seats[localSeat-1].isVisible = true
     }
 
     fun setEmptyPlayer(localSeat: Int){
         seats[localSeat-1].isEmpty = true
+        seats[localSeat-1].isVisible = !isFinal
     }
 
     fun clearInDecision(){
