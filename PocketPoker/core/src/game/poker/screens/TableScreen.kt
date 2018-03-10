@@ -40,7 +40,7 @@ class TableScreen(val game: PocketPoker) : BaseScreen {
         currView.dealCards()
         currView.setChips(1,999)
         currView.updatePlayerInfo(1,"Николай","999","")
-        currView.setPlayerCards(1, Card(Rank.Ace,Suit.Hearts, Visibility.Open), Card(Rank.Ace,Suit.Diamonds, Visibility.Open))
+        currView.setPlayerCards(4, Card(Rank.Ace,Suit.Hearts, Visibility.Open), Card(Rank.Ace,Suit.Diamonds, Visibility.Open))
         currView.setPotChips(999999)
         currView.setPotCount("999 999")
         //END DEBUG

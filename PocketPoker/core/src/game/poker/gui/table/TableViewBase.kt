@@ -52,6 +52,7 @@ abstract class TableViewBase(val game: PocketPoker) : BaseScreen {
         foldButton.isTransform = true
         callButton.isTransform = true
         raiseButton.isTransform = true
+        exitButton.isTransform = true
         stage.addActor(pokerTable)
         stage.addActor(pot)
         cards.forEach { stage.addActor(it) }

@@ -8,17 +8,25 @@ class SeatHorizontal(val positionNumber:Int) : SeatBase(){
         } else {
             card1.y = 0f
             card2.y = 0f
-            if(positionNumber == 0){
-                card1.x = -80f
-                card2.x = 80f
-                return
-            }
-            if (positionNumber == 6 || positionNumber == 7 || positionNumber == 8){
-                card1.x = -50f
-                card2.x = 50f
-            }
-            else {
-                card2.x = 110f
+            when(positionNumber){
+                0 -> {
+                    card1.x = -80f
+                    card2.x = 80f
+                }
+                3 -> {
+                    card1.x = 260f
+                    card2.x = 370f
+                    card1.y = 155f
+                    card2.y = 155f
+                }
+                in 6..8 -> {
+                    card1.x = -50f
+                    card2.x = 50f
+                }
+                else -> {
+                    card1.x = 0f
+                    card2.x = 110f
+                }
             }
         }
     }
@@ -27,19 +35,19 @@ class SeatHorizontal(val positionNumber:Int) : SeatBase(){
         when(positionNumber){
             0 -> {
                 setPosition(120f, 1000f)
-                chipstack.setPosition(50f, 300f)
+                chipstack.setPosition(250f, 100f)
             }
             1 -> {
-                setPosition(170f, 1900f)
-                chipstack.setPosition(290f, 160f)
+                setPosition(140f, 1900f)
+                chipstack.setPosition(300f, 200f)
             }
             2 -> {
-                setPosition(570f, 1900f)
-                chipstack.setPosition(210f, 90f)
+                setPosition(460f, 1900f)
+                chipstack.setPosition(250f, 60f)
             }
             3 -> {
-                setPosition(900f, 1600f)
-                chipstack.setPosition(80f, -90f)
+                setPosition(620f, 1900f)
+                chipstack.setPosition(350f, 60f)
             }
             4 -> {
                 setPosition(900f, 1200f)

@@ -11,8 +11,8 @@ class TableViewHorizontal(game: PocketPoker) : TableViewBase(game) {
         setUpCards()
         setUpButtons()
         pot.rotation = -90f
-        pot.setPosition(550f,700f)
-        pot.label.setPosition(0f,100f)
+        pot.setPosition(400f,1090f)
+        pot.label.setPosition(0f,250f)
     }
     private fun setUpCards() {
         cards.forEach {
