@@ -26,16 +26,16 @@ class TableViewHorizontal(game: PocketPoker) : TableViewBase(game) {
         cards[4].setPosition(500f, 800f)
     }
     private fun setUpButtons(){
-        exitButton.setPosition(940f, 1790f)
-        chatButton.setPosition(200f, 300f)
+        exitButton.setPosition(940f, 1890f)
+        chatButton.setPosition(20f, 300f)
         chatButton.setSize(200f, 90f)
-        infoButton.setPosition(100f, 300f)
+        infoButton.setPosition(20f, 600f)
         infoButton.setSize(200f, 90f)
         foldButton.setPosition(20f, 1700f)
         foldButton.setSize(250f, 90f)
-        callButton.setPosition(20f, 1000f)
+        callButton.setPosition(20f, 1300f)
         callButton.setSize(350f, 90f)
-        raiseButton.setPosition(20f, 580f)
+        raiseButton.setPosition(20f, 880f)
         raiseButton.setSize(250f, 90f)
         exitButton.rotation = -90f
         chatButton.rotation = -90f

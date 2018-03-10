@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable
 import game.poker.Settings
 import game.poker.core.Card
+import game.poker.core.Chip
 import game.poker.staticFiles.Textures
 
 
@@ -15,9 +16,10 @@ abstract class SeatBase : Group() {
     // but not in final table should be visible with text "Empty seat"
     var isEmpty = false
     protected val chipstack = Chipstack()
-    var playerView = PlayerView() //todo: make private
+    val playerView = PlayerView() //todo: make private
     protected var card1 = Image(SpriteDrawable(Sprite(Textures.cardBackground)))
     protected var card2 = Image(SpriteDrawable(Sprite(Textures.cardBackground)))
+    protected val dealerChip = Image(SpriteDrawable(Sprite(Textures.getChip(Chip.DEALER))))
 
     fun setCards(newCard1: Card, newCard2: Card){
         card1.drawable = SpriteDrawable(Sprite(Textures.getCard(newCard1)))
@@ -44,10 +46,13 @@ abstract class SeatBase : Group() {
 
     init {
         chipstack.setChips(99)
+        dealerChip.setSize(50f, 50f)
+        //dealerChip.isVisible = false
         addActor(card1)
         addActor(card2)
         addActor(playerView)
         addActor(chipstack)
+        addActor(dealerChip)
     }
 
     fun update() {
