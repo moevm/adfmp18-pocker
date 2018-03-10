@@ -1,7 +1,6 @@
 package game.poker.gui.table
 
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.Image
@@ -10,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable
 import game.poker.Settings
 import game.poker.core.Card
+import game.poker.core.Visibility
 import game.poker.screens.BaseScreen
 import game.poker.staticFiles.Fonts
 import game.poker.staticFiles.Textures
@@ -113,6 +113,7 @@ abstract class TableViewBase(val game: PocketPoker) : BaseScreen {
             seat.playerView.info = table.seats[i].playerView.info
             seat.setChips(table.seats[i].getChips())
             seat.isDealer = table.seats[i].isDealer
+            seat.isEmpty = table.seats[i].isEmpty
             if (table.seats[i].isCardsUp) {
                 seat.upCards()
             } else {
@@ -121,8 +122,14 @@ abstract class TableViewBase(val game: PocketPoker) : BaseScreen {
             if (table.seats[i].isCardsEmpty) {
                 seat.clearCards()
             }
+            seat.playerView.isDisabled = table.seats[i].playerView.isDisabled
+            seat.playerView.isActive = table.seats[i].playerView.isActive
         }
         pot.money = table.pot.money
+        pot.count = table.pot.count
+        for ((i,card) in cards.withIndex()) {
+            card.drawable = table.cards[i].drawable
+        }
     }
 
     // all events that received from handler
@@ -157,10 +164,13 @@ abstract class TableViewBase(val game: PocketPoker) : BaseScreen {
 
     fun setDealerPos(localSeat: Int){
         // set dealer chip
+        seats.forEach { it.isDealer = false }
+        seats[localSeat-1].isDealer = true
     }
 
     fun switchDecision(localSeat: Int){
         // set yellow background to other player
+        clearInDecision()
         seats[localSeat-1].playerView.isActive = true
     }
 
@@ -172,6 +182,15 @@ abstract class TableViewBase(val game: PocketPoker) : BaseScreen {
     fun hideCards(localSeat: Int){
         // if cards are known then just set hidden texture
         // else set to placeholder
+        if (!seats[localSeat-1].isEmpty && !seats[localSeat-1].isCardsUp && !seats[localSeat-1].isCardsEmpty) {
+            val card1 = seats[localSeat-1].cardName1
+            val card2 = seats[localSeat-1].cardName2
+            card1.visibility = Visibility.Hidden
+            card2.visibility = Visibility.Hidden
+            seats[localSeat-1].setCards(card1,card2)
+        } else {
+            seats[localSeat-1].clearCards()
+        }
     }
 
     fun deleteCards(localSeat: Int){
@@ -205,8 +224,8 @@ abstract class TableViewBase(val game: PocketPoker) : BaseScreen {
 
     }
 
-    fun setPlayerDisconnected(localSeat: Int, isDiscinnected: Boolean){
-
+    fun setPlayerDisconnected(localSeat: Int, isDisconnected: Boolean){
+        seats[localSeat-1].playerView.isDisabled = isDisconnected
     }
 
     fun setPremoves(isVisible: Boolean){
@@ -230,7 +249,7 @@ abstract class TableViewBase(val game: PocketPoker) : BaseScreen {
     }
 
     fun removeDecisions(){
-
+        seats.forEach { it.playerView.info = "" }
     }
 
     fun setPlayer(localSeat: Int, isDisconnected: Boolean,
@@ -242,12 +261,7 @@ abstract class TableViewBase(val game: PocketPoker) : BaseScreen {
     }
 
     fun setEmptyPlayer(localSeat: Int){
-        seats[localSeat-1].playerView.playerName = Settings.getText(Settings.TextKeys.EMPTY_SEAT)
-        seats[localSeat-1].playerView.money = ""
-        seats[localSeat-1].playerView.info = ""
         seats[localSeat-1].isEmpty = true
-        seats[localSeat-1].clearCards()
-        setChips(localSeat, 0)
     }
 
     fun clearInDecision(){
@@ -270,6 +284,7 @@ abstract class TableViewBase(val game: PocketPoker) : BaseScreen {
     fun clearAllCards(){
         // set all cards to placeholder
         seats.forEach { it.clearCards() }
+        cards.forEach { it.drawable = SpriteDrawable(Sprite(Textures.cardPlaceholder)) }
     }
 
     fun updatePlayerInfo(localSeat: Int, name: String,

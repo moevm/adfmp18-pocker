@@ -18,7 +18,15 @@ abstract class SeatBase : Group() {
     // if playerView is null in final table should hide
     // but not in final table should be visible with text "Empty seat"
     var isEmpty = false
-    var isDealer = true //DEBUG
+        set(value) {
+            field = value
+            if (value) {
+                playerView.setText(Settings.getText(Settings.TextKeys.EMPTY_SEAT))
+                clearCards()
+                setChips(0)
+            }
+        }
+    var isDealer = false
         set(value) {
             field = value
             dealerChip.isVisible = value
@@ -72,7 +80,7 @@ abstract class SeatBase : Group() {
     init {
         chipstack.setChips(99)
         dealerChip.setSize(50f, 50f)
-        //dealerChip.isVisible = false
+        dealerChip.isVisible = false
         addActor(card1)
         addActor(card2)
         addActor(playerView)

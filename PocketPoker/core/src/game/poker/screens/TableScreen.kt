@@ -36,14 +36,19 @@ class TableScreen(val game: PocketPoker) : BaseScreen {
         currView.setFlopCards(Card(Rank.Ten,Suit.Clubs, Visibility.Open),Card(Rank.Ace,Suit.Spades, Visibility.Open),Card(Rank.Ace,Suit.Clubs, Visibility.Open))
         currView.setTurnCard(Card(Rank.Five,Suit.Clubs, Visibility.Open))
         currView.setRiverCard(Card(Rank.Two,Suit.Clubs, Visibility.Open))
-        //currView.setEmptyPlayer(2)
-        currView.dealCards()
-        currView.setChips(1,99999)
-        currView.updatePlayerInfo(1,"Николай","0","")
-        for (i in 1..9) {
-            currView.setPlayerCards(i, Card(Rank.Ace,Suit.Hearts, Visibility.Open), Card(Rank.Ace,Suit.Diamonds, Visibility.Open))
+        for (i in 2..9) {
+            //currView.setPlayerCards(i, Card(Rank.Ace,Suit.Hearts, Visibility.Open), Card(Rank.Ace,Suit.Diamonds, Visibility.Open))
+            currView.updatePlayerInfo(i,"$i","999","call 30")
+            currView.setChips(i,30)
         }
-        //currView.setPlayerCards(4, Card(Rank.Ace,Suit.Hearts, Visibility.Open), Card(Rank.Ace,Suit.Diamonds, Visibility.Open))
+        currView.setEmptyPlayer(4)
+        currView.setDealerPos(8)
+        currView.dealCards()
+        currView.setChips(1,30)
+        currView.updatePlayerInfo(1,"Николай","999","raise 30")
+        currView.setPlayerCards(1, Card(Rank.Ace,Suit.Hearts, Visibility.Open), Card(Rank.Ace,Suit.Diamonds, Visibility.Open))
+        currView.setPlayerDisconnected(2,true)
+        currView.switchDecision(9)
         currView.setPotChips(999999)
         currView.setPotCount("999 999")
         //END DEBUG
