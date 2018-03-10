@@ -3,15 +3,15 @@ package game.poker.gui.table
 class SeatHorizontal(val positionNumber:Int) : SeatBase(){
     override fun updateCardsPosition(isCardsUp: Boolean){
         if (isCardsUp){
-            card1.setPosition(0f,0f)
-            card2.setPosition(20f, -10f)
+            card1.setPosition(70f,0f)
+            card2.setPosition(90f, -10f)
         } else {
             card1.y = 0f
             card2.y = 0f
             when(positionNumber){
                 0 -> {
-                    card1.x = -80f
-                    card2.x = 80f
+                    card1.x = 0f
+                    card2.x = 160f
                 }
                 else -> {
                     card1.x = 0f
@@ -24,10 +24,10 @@ class SeatHorizontal(val positionNumber:Int) : SeatBase(){
     init {
         when(positionNumber){
             0 -> {
-                setPosition(120f, 1000f)
-                chipstack.setPosition(250f, 150f)
-                dealerChip.setPosition(300f,30f)
-                playerView.setPosition(-350f, 0f)
+                setPosition(120f, 1100f)
+                chipstack.setPosition(350f, 150f)
+                dealerChip.setPosition(400f,30f)
+                playerView.setPosition(-270f, 0f)
             }
             1 -> {
                 setPosition(140f, 1800f)
