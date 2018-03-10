@@ -22,6 +22,10 @@ object Settings{
         CARDS,
         CARD_2_COLOR,
         CARD_4_COLOR,
+        ORIENTATION,
+        ORIENT_HOR,
+        ORIENT_VERT,
+        ORIENT_HYRO,
         MAIN_MENU,
         FINAL_TABLE,
         TABLE,
@@ -95,6 +99,18 @@ object Settings{
 
         map[Pair(Langs.RUS, TextKeys.CARD_4_COLOR)] = "4 цвета"
         map[Pair(Langs.ENG, TextKeys.CARD_4_COLOR)] = "4 colors"
+
+        map[Pair(Langs.RUS, TextKeys.ORIENTATION)] = "Ориентация стола"
+        map[Pair(Langs.ENG, TextKeys.ORIENTATION)] = "Table orientation"
+
+        map[Pair(Langs.RUS, TextKeys.ORIENT_HOR)] = "Горизонтальная"
+        map[Pair(Langs.ENG, TextKeys.ORIENT_HOR)] = "Horizontal"
+
+        map[Pair(Langs.RUS, TextKeys.ORIENT_VERT)] = "Вертикальная"
+        map[Pair(Langs.ENG, TextKeys.ORIENT_VERT)] = "Vertical"
+
+        map[Pair(Langs.RUS, TextKeys.ORIENT_HYRO)] = "По гироскопу"
+        map[Pair(Langs.ENG, TextKeys.ORIENT_HYRO)] = "Hyro"
 
         map[Pair(Langs.RUS, TextKeys.MAIN_MENU)] = "Главное меню"
         map[Pair(Langs.ENG, TextKeys.MAIN_MENU)] = "Main menu"

@@ -31,6 +31,8 @@ class SettingsMenu(val game: PocketPoker) : BaseScreen {
     private val cardsLabel: Label
     private val mainMenuButton: TextButton
     private val cardSelect: SelectBox<String>
+    private val orientLabel: Label
+    private val orientSelect: SelectBox<String>
 
     init {
 
@@ -107,9 +109,31 @@ class SettingsMenu(val game: PocketPoker) : BaseScreen {
                 Settings.getText(Settings.TextKeys.CARD_4_COLOR))
         table.add(cardSelect).pad(PADDING).width(game.gameWidth * 0.55f).row()
 
+        orientLabel = Label(Settings.getText(Settings.TextKeys.ORIENTATION),labelStyle)
+        table.add(orientLabel).pad(PADDING).colspan(2).row()
+
+        orientSelect = SelectBox<String>(selectBoxStyle)
+        orientSelect.setItems(Settings.getText(Settings.TextKeys.ORIENT_VERT),
+                Settings.getText(Settings.TextKeys.ORIENT_HOR),
+                Settings.getText(Settings.TextKeys.ORIENT_HYRO))
+        orientSelect.addListener(object : ChangeListener() {
+            override fun changed(event: ChangeEvent?, actor: Actor?) {
+                when(orientSelect.selectedIndex){
+                    0 -> {
+                        game.isTableLandscape = false
+                    }
+                    1 -> game.isTableLandscape = true
+                    2 -> game.isTableLandscape = true
+                    else -> throw IllegalArgumentException("Bad index")
+                }
+            }
+        })
+        table.add(orientSelect).pad(PADDING).width(game.gameWidth * 0.55f).colspan(2).row()
+
         mainMenuButton = TextButton(Settings.getText(Settings.TextKeys.MAIN_MENU), buttonStyle)
         mainMenuButton.addListener(game.switches[ScreenType.MAIN_MENU])
-        table.add(mainMenuButton).colspan(2).pad(PADDING).padTop(400f).padRight(game.gameWidth * 0.3f).fill().height(100f)
+        table.add(mainMenuButton).colspan(2).pad(PADDING).padTop(100f).
+                padRight(game.gameWidth * 0.3f).fill().height(100f)
         stage.addActor(table)
     }
 
@@ -119,12 +143,20 @@ class SettingsMenu(val game: PocketPoker) : BaseScreen {
         languageLabel.setText(Settings.getText(Settings.TextKeys.LANGUAGE))
         cardsLabel.setText(Settings.getText(Settings.TextKeys.CARDS))
         mainMenuButton.setText(Settings.getText(Settings.TextKeys.MAIN_MENU))
+        orientLabel.setText(Settings.getText(Settings.TextKeys.ORIENTATION))
         val currCardColor = cardSelect.selectedIndex
+        val currLang = languageSelect.selectedIndex
+        val currOrient = orientSelect.selectedIndex
         cardSelect.setItems(Settings.getText(Settings.TextKeys.CARD_2_COLOR),
                 Settings.getText(Settings.TextKeys.CARD_4_COLOR))
         cardSelect.selectedIndex = currCardColor
         languageSelect.setItems(Settings.getText(Settings.TextKeys.LANG_RUS),
                 Settings.getText(Settings.TextKeys.LANG_ENG))
+        languageSelect.selectedIndex = currLang
+        orientSelect.setItems(Settings.getText(Settings.TextKeys.ORIENT_VERT),
+                Settings.getText(Settings.TextKeys.ORIENT_HOR),
+                Settings.getText(Settings.TextKeys.ORIENT_HYRO))
+        orientSelect.selectedIndex = currOrient
     }
 
     override fun show(){

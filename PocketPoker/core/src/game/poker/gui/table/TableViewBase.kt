@@ -107,6 +107,22 @@ abstract class TableViewBase(val game: PocketPoker) : BaseScreen {
         if(Gdx.input.inputProcessor == table.stage) {
             Gdx.input.inputProcessor = stage
         }
+        for ((i,seat) in seats.withIndex()){
+            seat.playerView.money = table.seats[i].playerView.money
+            seat.playerView.playerName = table.seats[i].playerView.playerName
+            seat.playerView.info = table.seats[i].playerView.info
+            seat.setChips(table.seats[i].getChips())
+            seat.isDealer = table.seats[i].isDealer
+            if (table.seats[i].isCardsUp) {
+                seat.upCards()
+            } else {
+                seat.setCards(table.seats[i].cardName1,table.seats[i].cardName2)
+            }
+            if (table.seats[i].isCardsEmpty) {
+                seat.clearCards()
+            }
+        }
+        pot.money = table.pot.money
     }
 
     // all events that received from handler

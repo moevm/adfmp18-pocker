@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 
 class SeatVertical(val positionNumber:Int) : SeatBase(){
-    override fun updateCardsPosition(isCardsUp: Boolean){
+    override fun updateCardsPosition(){
         if (isCardsUp){
             card1.setPosition(0f,0f)
             card2.setPosition(20f, -10f)
@@ -66,19 +66,19 @@ class SeatVertical(val positionNumber:Int) : SeatBase(){
                 setPosition(850f, 1400f)
                 chipstack.setPosition(-150f, -90f)
                 dealerChip.setPosition(60f,-90f)
-                playerView.setPosition(0f, 150f)
+                playerView.setPosition(-40f, 150f)
             }
             7 -> {
                 setPosition(850f, 950f)
                 chipstack.setPosition(-150f, -90f)
                 dealerChip.setPosition(60f,-90f)
-                playerView.setPosition(0f, 150f)
+                playerView.setPosition(-40f, 150f)
             }
             8 -> {
                 setPosition(850f, 500f)
                 chipstack.setPosition(-260f, 60f)
                 dealerChip.setPosition(-50f,60f)
-                playerView.setPosition(0f, 150f)
+                playerView.setPosition(-40f, 150f)
             }
             else -> throw IllegalArgumentException("Bad index")
         }
@@ -91,7 +91,7 @@ class SeatVertical(val positionNumber:Int) : SeatBase(){
         }
         card1.setPosition(0f,0f)
         card2.setPosition(0f,0f)
-        updateCardsPosition(true)
+        updateCardsPosition()
         playerView.money = positionNumber.toString()
 
         chipstack.setChips(99999)

@@ -12,7 +12,7 @@ import game.poker.core.Visibility
 class TableScreen(val game: PocketPoker) : BaseScreen {
 
     var isLandscape = false
-        set(value) {
+        private set(value) {
             field = value
             if (value){
                 tableViewHorizontal.fit(tableViewVertical)
@@ -28,7 +28,7 @@ class TableScreen(val game: PocketPoker) : BaseScreen {
     var isFinal = false
     private val tableViewVertical = TableViewVertical(game)
     private val tableViewHorizontal = TableViewHorizontal(game)
-    var currView : TableViewBase = tableViewHorizontal
+    var currView : TableViewBase = tableViewVertical
         private set
 
     init {
@@ -55,6 +55,7 @@ class TableScreen(val game: PocketPoker) : BaseScreen {
     }
 
     override fun show(){
+        if (isLandscape != game.isTableLandscape) isLandscape = game.isTableLandscape
         currView.show()
     }
 

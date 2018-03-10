@@ -1,7 +1,7 @@
 package game.poker.gui.table
 
 class SeatHorizontal(val positionNumber:Int) : SeatBase(){
-    override fun updateCardsPosition(isCardsUp: Boolean){
+    override fun updateCardsPosition(){
         if (isCardsUp){
             card1.setPosition(70f,0f)
             card2.setPosition(90f, -10f)
@@ -88,7 +88,7 @@ class SeatHorizontal(val positionNumber:Int) : SeatBase(){
         }
         card1.setPosition(0f,0f)
         card2.setPosition(0f,0f)
-        updateCardsPosition(true)
+        updateCardsPosition()
         chipstack.setChips(99999)
         playerView.money = positionNumber.toString()
         rotation = -90f

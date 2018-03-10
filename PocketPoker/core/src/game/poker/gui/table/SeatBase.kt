@@ -8,6 +8,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable
 import game.poker.Settings
 import game.poker.core.Card
 import game.poker.core.Chip
+import game.poker.core.Rank
+import game.poker.core.Suit
+import game.poker.core.Visibility
 import game.poker.staticFiles.Textures
 
 
@@ -15,34 +18,56 @@ abstract class SeatBase : Group() {
     // if playerView is null in final table should hide
     // but not in final table should be visible with text "Empty seat"
     var isEmpty = false
+    var isDealer = true //DEBUG
+        set(value) {
+            field = value
+            dealerChip.isVisible = value
+        }
+    var isCardsUp = false
+        private set
+    var isCardsEmpty = true
+
     protected val chipstack = Chipstack()
     val playerView = PlayerView() //todo: make private
     protected var card1 = Image(SpriteDrawable(Sprite(Textures.cardBackground)))
     protected var card2 = Image(SpriteDrawable(Sprite(Textures.cardBackground)))
     protected val dealerChip = Image(SpriteDrawable(Sprite(Textures.getChip(Chip.DEALER))))
+    var cardName1 = Card(Rank.Ace, Suit.Spades, Visibility.Open)
+    var cardName2 = Card(Rank.Ace, Suit.Spades, Visibility.Open)
 
     fun setCards(newCard1: Card, newCard2: Card){
         card1.drawable = SpriteDrawable(Sprite(Textures.getCard(newCard1)))
         card2.drawable = SpriteDrawable(Sprite(Textures.getCard(newCard2)))
-        updateCardsPosition(false)
+        cardName1 = newCard1
+        cardName2 = newCard2
+        isCardsUp = false
+        isCardsEmpty = false
+        updateCardsPosition()
     }
 
     fun upCards(){
         card1.drawable = SpriteDrawable(Sprite(Textures.cardBackground))
         card2.drawable = SpriteDrawable(Sprite(Textures.cardBackground))
-        updateCardsPosition(true)
+        isCardsUp = true
+        isCardsEmpty = false
+        updateCardsPosition()
     }
 
     fun clearCards(){
         card1.drawable = SpriteDrawable(Sprite(Textures.cardPlaceholder))
         card2.drawable = SpriteDrawable(Sprite(Textures.cardPlaceholder))
+        isCardsEmpty = true
     }
 
     fun setChips(chips: Long) {
         chipstack.setChips(chips)
     }
 
-    protected abstract fun updateCardsPosition(isCardsUp: Boolean)
+    fun getChips(): Long {
+        return chipstack.money
+    }
+
+    protected abstract fun updateCardsPosition()
 
     init {
         chipstack.setChips(99)
