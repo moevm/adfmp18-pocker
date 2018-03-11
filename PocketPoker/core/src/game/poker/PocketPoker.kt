@@ -14,7 +14,6 @@ class PocketPoker : Game() {
 
     val gameWidth = 1080f
     val gameHeight = 1920f
-    var isTableLandscape = false
 
     lateinit var view: Viewport private set
     lateinit var screens: Map<ScreenType, BaseScreen> private set

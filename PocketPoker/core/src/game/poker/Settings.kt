@@ -6,6 +6,8 @@ object Settings{
 
     enum class CardsType{ COLOR_4, COLOR_2 }
 
+    enum class TableOrientation { VERTICAL, HORIZONTAL, BY_GYRO}
+
     enum class TextKeys{
         POCKET_POKER,
         NICK,
@@ -25,7 +27,7 @@ object Settings{
         ORIENTATION,
         ORIENT_HOR,
         ORIENT_VERT,
-        ORIENT_HYRO,
+        ORIENT_GYRO,
         MAIN_MENU,
         FINAL_TABLE,
         TABLE,
@@ -109,8 +111,8 @@ object Settings{
         map[Pair(Langs.RUS, TextKeys.ORIENT_VERT)] = "Вертикальная"
         map[Pair(Langs.ENG, TextKeys.ORIENT_VERT)] = "Vertical"
 
-        map[Pair(Langs.RUS, TextKeys.ORIENT_HYRO)] = "По гироскопу"
-        map[Pair(Langs.ENG, TextKeys.ORIENT_HYRO)] = "Hyro"
+        map[Pair(Langs.RUS, TextKeys.ORIENT_GYRO)] = "По гироскопу"
+        map[Pair(Langs.ENG, TextKeys.ORIENT_GYRO)] = "By gyro"
 
         map[Pair(Langs.RUS, TextKeys.MAIN_MENU)] = "Главное меню"
         map[Pair(Langs.ENG, TextKeys.MAIN_MENU)] = "Main menu"
@@ -190,6 +192,7 @@ object Settings{
     private val langMap = generateLanguages()
     var currLang = Langs.RUS
     var currCards = CardsType.COLOR_4
+    var currOrientation = TableOrientation.VERTICAL
 
     fun getText(key: TextKeys) = langMap[Pair(currLang, key)]
             ?: throw IllegalArgumentException("Bad text key")

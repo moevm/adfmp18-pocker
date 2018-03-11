@@ -91,7 +91,7 @@ class SettingsMenu(val game: PocketPoker) : BaseScreen {
                 val newLang = when(languageSelect.selectedIndex){
                     0 -> Settings.Langs.RUS
                     1 -> Settings.Langs.ENG
-                    else -> throw IllegalArgumentException("Bad index")
+                    else -> throw IllegalArgumentException("Bad index at languageSelect")
                 }
                 if(newLang != Settings.currLang){
                     Settings.currLang = newLang
@@ -107,6 +107,15 @@ class SettingsMenu(val game: PocketPoker) : BaseScreen {
         cardSelect = SelectBox<String>(selectBoxStyle)
         cardSelect.setItems(Settings.getText(Settings.TextKeys.CARD_2_COLOR),
                 Settings.getText(Settings.TextKeys.CARD_4_COLOR))
+        cardSelect.addListener(object : ChangeListener() {
+            override fun changed(event: ChangeEvent?, actor: Actor?) {
+                when(cardSelect.selectedIndex){
+                    0 -> Settings.currCards = Settings.CardsType.COLOR_2
+                    1 -> Settings.currCards = Settings.CardsType.COLOR_4
+                    else -> throw IllegalArgumentException("Bad index at orientSelect")
+                }
+            }
+        })
         table.add(cardSelect).pad(PADDING).width(game.gameWidth * 0.55f).row()
 
         orientLabel = Label(Settings.getText(Settings.TextKeys.ORIENTATION),labelStyle)
@@ -115,16 +124,14 @@ class SettingsMenu(val game: PocketPoker) : BaseScreen {
         orientSelect = SelectBox<String>(selectBoxStyle)
         orientSelect.setItems(Settings.getText(Settings.TextKeys.ORIENT_VERT),
                 Settings.getText(Settings.TextKeys.ORIENT_HOR),
-                Settings.getText(Settings.TextKeys.ORIENT_HYRO))
+                Settings.getText(Settings.TextKeys.ORIENT_GYRO))
         orientSelect.addListener(object : ChangeListener() {
             override fun changed(event: ChangeEvent?, actor: Actor?) {
                 when(orientSelect.selectedIndex){
-                    0 -> {
-                        game.isTableLandscape = false
-                    }
-                    1 -> game.isTableLandscape = true
-                    2 -> game.isTableLandscape = true
-                    else -> throw IllegalArgumentException("Bad index")
+                    0 -> Settings.currOrientation = Settings.TableOrientation.VERTICAL
+                    1 -> Settings.currOrientation = Settings.TableOrientation.HORIZONTAL
+                    2 -> Settings.currOrientation = Settings.TableOrientation.BY_GYRO
+                    else -> throw IllegalArgumentException("Bad index at orientSelect")
                 }
             }
         })
@@ -155,7 +162,7 @@ class SettingsMenu(val game: PocketPoker) : BaseScreen {
         languageSelect.selectedIndex = currLang
         orientSelect.setItems(Settings.getText(Settings.TextKeys.ORIENT_VERT),
                 Settings.getText(Settings.TextKeys.ORIENT_HOR),
-                Settings.getText(Settings.TextKeys.ORIENT_HYRO))
+                Settings.getText(Settings.TextKeys.ORIENT_GYRO))
         orientSelect.selectedIndex = currOrient
     }
 

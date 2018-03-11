@@ -1,6 +1,7 @@
 package game.poker.screens
 
 import game.poker.PocketPoker
+import game.poker.Settings
 import game.poker.gui.table.TableViewBase
 import game.poker.gui.table.TableViewVertical
 import game.poker.gui.table.TableViewHorizontal
@@ -11,15 +12,15 @@ import game.poker.core.Visibility
 
 class TableScreen(val game: PocketPoker) : BaseScreen {
 
-    var isLandscape = false
+    var orientation = Settings.currOrientation
         private set(value) {
             field = value
-            if (value){
-                tableViewHorizontal.fit(tableViewVertical)
-                currView = tableViewHorizontal
-            } else {
-                tableViewVertical.fit(tableViewHorizontal)
+            if (value == Settings.TableOrientation.VERTICAL || value == Settings.TableOrientation.BY_GYRO){
+                tableViewVertical.fit(currView)
                 currView = tableViewVertical
+            } else {
+                tableViewHorizontal.fit(currView)
+                currView = tableViewHorizontal
             }
         }
     // describes is this table is final or not
@@ -38,7 +39,7 @@ class TableScreen(val game: PocketPoker) : BaseScreen {
 
     init {
         //DEBUG
-        isFinal = true
+        //isFinal = true
         currView.setFlopCards(Card(Rank.Ten,Suit.Clubs, Visibility.Open),Card(Rank.Ace,Suit.Spades, Visibility.Open),Card(Rank.Ace,Suit.Clubs, Visibility.Open))
         currView.setTurnCard(Card(Rank.Five,Suit.Clubs, Visibility.Open))
         currView.setRiverCard(Card(Rank.Two,Suit.Clubs, Visibility.Open))
@@ -66,7 +67,7 @@ class TableScreen(val game: PocketPoker) : BaseScreen {
     }
 
     override fun show(){
-        if (isLandscape != game.isTableLandscape) isLandscape = game.isTableLandscape
+        if (orientation != Settings.currOrientation) orientation = Settings.currOrientation
         currView.show()
     }
 
