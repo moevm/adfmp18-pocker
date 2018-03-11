@@ -9,47 +9,47 @@ import game.poker.core.Card
 import game.poker.core.Chip
 
 object Textures{
-    val menuBg = Texture("pics/MenuBackground.png")
-    val menuButton = Texture("pics/button.png")
-    val menuButtonDown = Texture("pics/buttonDown.png")
-    val edit = Texture("pics/edit.png")
-    val editCursor = Texture("pics/editCursor.png")
-    val scroll = Texture("pics/scroll.png")
-    val list_selection = scroll //TODO: добавить текстуры для List и Scroll
-    val scrollBg = scroll
-    val hScroll = scroll
-    val hScrollKnob = scroll
-    val vScroll = scroll
-    val vScrollKnob = scroll
-    val sliderBg = Texture("pics/sliderBg.png")
-    val sliderKnob = Texture("pics/slider.png")
-    val next = Texture("pics/menu/next.png")
-    val watch = Texture("pics/menu/watch.png")
-    val blinds = Texture("pics/menu/blinds.png")
-    val players = Texture("pics/menu/players.png")
-    val tables = Texture("pics/menu/tables.png")
-    val hands = Texture("pics/menu/hands.png")
-    val locked = Texture("pics/menu/locked.png")
-    val unlocked = Texture("pics/menu/unlocked.png")
-    val exitButton = Texture("pics/exit.png")
-    val exitButtonDown = Texture("pics/exitDown.png")
-    val labelBg = Texture("pics/labelBg.png")
+    val menuBg: Texture by lazy { Texture("pics/MenuBackground.png") }
+    val menuButton: Texture by lazy { Texture("pics/button.png") }
+    val menuButtonDown: Texture by lazy { Texture("pics/buttonDown.png") }
+    val edit: Texture by lazy { Texture("pics/edit.png") }
+    val editCursor: Texture by lazy { Texture("pics/editCursor.png") }
+    val scroll: Texture by lazy { Texture("pics/scroll.png") }
+    val list_selection: Texture by lazy { scroll } //TODO: добавить текстуры для List и Scroll
+    val scrollBg: Texture by lazy { scroll }
+    val hScroll: Texture by lazy { scroll }
+    val hScrollKnob: Texture by lazy { scroll }
+    val vScroll: Texture by lazy { scroll }
+    val vScrollKnob: Texture by lazy { scroll }
+    val sliderBg: Texture by lazy { Texture("pics/sliderBg.png") }
+    val sliderKnob: Texture by lazy { Texture("pics/slider.png") }
+    val next: Texture by lazy { Texture("pics/menu/next.png") }
+    val watch: Texture by lazy { Texture("pics/menu/watch.png") }
+    val blinds: Texture by lazy { Texture("pics/menu/blinds.png") }
+    val players: Texture by lazy { Texture("pics/menu/players.png") }
+    val tables: Texture by lazy { Texture("pics/menu/tables.png") }
+    val hands: Texture by lazy { Texture("pics/menu/hands.png") }
+    val locked: Texture by lazy { Texture("pics/menu/locked.png") }
+    val unlocked: Texture by lazy { Texture("pics/menu/unlocked.png") }
+    val exitButton: Texture by lazy { Texture("pics/exit.png") }
+    val exitButtonDown: Texture by lazy { Texture("pics/exitDown.png") }
+    val labelBg: Texture by lazy { Texture("pics/labelBg.png") }
 
-    private fun createCards() : Map<Pair<Settings.CardsType, Card>, Texture>{
-        val map = mutableMapOf<Pair<Settings.CardsType, Card>, Texture>()
+    private fun createCards() : Map<Pair<Settings.CardsType, Card>, Lazy<Texture>>{
+        val map = mutableMapOf<Pair<Settings.CardsType, Card>, Lazy<Texture>>()
         for (packPath in arrayOf("4color")){ // todo: add 2color
             for(rank in Rank.values()){
                 for (suit in Suit.values()){
 
                     map[Pair(Settings.CardsType.COLOR_4, Card(rank, suit, Visibility.Open))] =
-                        Texture("pics/cards/$packPath/open/${rank.r}${suit.s}.png")
+                        lazy { Texture("pics/cards/$packPath/open/${rank.r}${suit.s}.png") }
                     map[Pair(Settings.CardsType.COLOR_4, Card(rank, suit, Visibility.Hidden))] =
-                        Texture("pics/cards/$packPath/hidden/${rank.r}${suit.s}.png")
+                        lazy { Texture("pics/cards/$packPath/hidden/${rank.r}${suit.s}.png") }
 
                     map[Pair(Settings.CardsType.COLOR_2, Card(rank, suit, Visibility.Open))] =
-                        map[Pair(Settings.CardsType.COLOR_4, Card(rank, suit, Visibility.Open))]!!
+                        lazy { map[Pair(Settings.CardsType.COLOR_4, Card(rank, suit, Visibility.Open))]!!.value }
                     map[Pair(Settings.CardsType.COLOR_2, Card(rank, suit, Visibility.Hidden))] =
-                        map[Pair(Settings.CardsType.COLOR_4, Card(rank, suit, Visibility.Hidden))]!!
+                        lazy { map[Pair(Settings.CardsType.COLOR_4, Card(rank, suit, Visibility.Hidden))]!!.value }
 
                 }
             }
@@ -57,23 +57,23 @@ object Textures{
         return map
     }
 
-    private val cardsMap: Map<Pair<Settings.CardsType, Card>, Texture> = createCards()
-    fun getCard(card: Card) = cardsMap[Pair(Settings.currCards, card)]
+    private val cardsMap: Map<Pair<Settings.CardsType, Card>, Lazy<Texture>> by lazy { createCards() }
+    fun getCard(card: Card): Texture = cardsMap[Pair(Settings.currCards, card)]?.value
             ?: throw IllegalArgumentException("Card texture does not exists: $card")
 
-    val pokerTable = Texture("pics/poker_table.png")
-    val cardBackground = Texture("pics/cards/4color/open/UP.png")
-    val cardPlaceholder = Texture("pics/cards/4color/open/ZZ.png")
+    val pokerTable: Texture by lazy { Texture("pics/poker_table.png") }
+    val cardBackground: Texture by lazy { Texture("pics/cards/4color/open/UP.png") }
+    val cardPlaceholder: Texture by lazy { Texture("pics/cards/4color/open/ZZ.png") }
 
-    private fun createChips() : Map<Chip, Texture>{
-        val map = mutableMapOf<Chip, Texture>()
+    private fun createChips() : Map<Chip, Lazy<Texture>>{
+        val map = mutableMapOf<Chip, Lazy<Texture>>()
         for (chip in Chip.values()){
-            map[chip] = Texture("pics/chips/${chip.path}.png")
+            map[chip] = lazy { Texture("pics/chips/${chip.path}.png") }
         }
         return map
     }
 
-    private val chipsMap: Map<Chip, Texture> = createChips()
-    fun getChip(chip: Chip) = chipsMap[chip]
+    private val chipsMap: Map<Chip, Lazy<Texture>> by lazy { createChips() }
+    fun getChip(chip: Chip): Texture = chipsMap[chip]?.value
             ?: throw IllegalArgumentException("Chip texture does not exists: $chip")
 }

@@ -39,11 +39,11 @@ object Fonts {
         return generator.generateFont(parameter)
     }
     private val FONT_CHARS = "абвгдежзийклмнопрстуфхцчшщъыьэюяabcdefghijklmnopqrstuvwxyzАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789][_!$%#@|\\/?-+=()*&.;:,{}\"´`'<>\u2009"
-    val mainMenuButtonFont = generateMenuButtonFont()
-    val mainMenuLogoFont = generateMenuLogoFont()
-    val mainMenuLabelFont = mainMenuButtonFont
-    val gameLabelFont = generateGameLabelFont()
-    val containerItemFont = generateContainerItemFont()
+    val mainMenuButtonFont: BitmapFont by lazy { generateMenuButtonFont() }
+    val mainMenuLogoFont: BitmapFont by lazy { generateMenuLogoFont() }
+    val mainMenuLabelFont: BitmapFont by lazy { mainMenuButtonFont }
+    val gameLabelFont: BitmapFont by lazy { generateGameLabelFont() }
+    val containerItemFont: BitmapFont by lazy { generateContainerItemFont() }
 }
 
 
