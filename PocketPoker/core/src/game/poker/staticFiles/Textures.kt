@@ -15,8 +15,8 @@ object Textures{
     val edit = Texture("pics/edit.png")
     val editCursor = Texture("pics/editCursor.png")
     val scroll = Texture("pics/scroll.png")
-    val list_selection = scroll //TODO: добавить текстуры для List и Scroll
-    val scrollBg = scroll
+    val list_selection = Texture("pics/list.png") //TODO: добавить текстуры для List и Scroll
+    val scrollBg = Texture("pics/white.png")
     val hScroll = scroll
     val hScrollKnob = scroll
     val vScroll = scroll

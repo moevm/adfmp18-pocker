@@ -42,7 +42,7 @@ class SettingsMenu(val game: PocketPoker) : BaseScreen {
         val buttonDownSprite = SpriteDrawable(Sprite(Textures.menuButtonDown))
         val selectBoxSprite = SpriteDrawable(Sprite(Textures.scroll))
         val sliderSprite = Sprite(Textures.sliderKnob)
-        sliderSprite.setSize(100f,100f)
+        sliderSprite.setSize(50f,100f)
 
         val labelStyle = LabelStyle(Fonts.mainMenuLabelFont, Color.BLACK)
         val buttonStyle = TextButtonStyle(buttonSprite, buttonDownSprite, buttonSprite,
@@ -99,6 +99,7 @@ class SettingsMenu(val game: PocketPoker) : BaseScreen {
                 }
             }
         })
+        languageSelect.setAlignment(Align.center)
         table.add(languageSelect).pad(PADDING).width(game.gameWidth * 0.55f).row()
 
         cardsLabel = Label(Settings.getText(Settings.TextKeys.CARDS), labelStyle)
@@ -116,6 +117,7 @@ class SettingsMenu(val game: PocketPoker) : BaseScreen {
                 }
             }
         })
+        cardSelect.setAlignment(Align.center)
         table.add(cardSelect).pad(PADDING).width(game.gameWidth * 0.55f).row()
 
         orientLabel = Label(Settings.getText(Settings.TextKeys.ORIENTATION),labelStyle)
@@ -135,6 +137,7 @@ class SettingsMenu(val game: PocketPoker) : BaseScreen {
                 }
             }
         })
+        orientSelect.setAlignment(Align.center)
         table.add(orientSelect).pad(PADDING).width(game.gameWidth * 0.55f).colspan(2).row()
 
         mainMenuButton = TextButton(Settings.getText(Settings.TextKeys.MAIN_MENU), buttonStyle)
