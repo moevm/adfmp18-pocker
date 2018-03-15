@@ -6,6 +6,8 @@ object Settings{
 
     enum class CardsType{ COLOR_4, COLOR_2 }
 
+    enum class TableOrientation { VERTICAL, HORIZONTAL, BY_GYRO}
+
     enum class TextKeys{
         POCKET_POKER,
         NICK,
@@ -22,6 +24,10 @@ object Settings{
         CARDS,
         CARD_2_COLOR,
         CARD_4_COLOR,
+        ORIENTATION,
+        ORIENT_HOR,
+        ORIENT_VERT,
+        ORIENT_GYRO,
         MAIN_MENU,
         FINAL_TABLE,
         TABLE,
@@ -95,6 +101,18 @@ object Settings{
 
         map[Pair(Langs.RUS, TextKeys.CARD_4_COLOR)] = "4 цвета"
         map[Pair(Langs.ENG, TextKeys.CARD_4_COLOR)] = "4 colors"
+
+        map[Pair(Langs.RUS, TextKeys.ORIENTATION)] = "Ориентация стола"
+        map[Pair(Langs.ENG, TextKeys.ORIENTATION)] = "Table orientation"
+
+        map[Pair(Langs.RUS, TextKeys.ORIENT_HOR)] = "Горизонтальная"
+        map[Pair(Langs.ENG, TextKeys.ORIENT_HOR)] = "Horizontal"
+
+        map[Pair(Langs.RUS, TextKeys.ORIENT_VERT)] = "Вертикальная"
+        map[Pair(Langs.ENG, TextKeys.ORIENT_VERT)] = "Vertical"
+
+        map[Pair(Langs.RUS, TextKeys.ORIENT_GYRO)] = "По гироскопу"
+        map[Pair(Langs.ENG, TextKeys.ORIENT_GYRO)] = "By gyro"
 
         map[Pair(Langs.RUS, TextKeys.MAIN_MENU)] = "Главное меню"
         map[Pair(Langs.ENG, TextKeys.MAIN_MENU)] = "Main menu"
@@ -174,6 +192,7 @@ object Settings{
     private val langMap = generateLanguages()
     var currLang = Langs.RUS
     var currCards = CardsType.COLOR_4
+    var currOrientation = TableOrientation.VERTICAL
 
     fun getText(key: TextKeys) = langMap[Pair(currLang, key)]
             ?: throw IllegalArgumentException("Bad text key")

@@ -14,7 +14,7 @@ enum class Visibility{
     Open, Hidden
 }
 
-data class Card(val rank: Rank, val suit: Suit, val visibility: Visibility){
+data class Card(var rank: Rank, var suit: Suit, var visibility: Visibility){
     companion object {
         fun fromString(str: String) : Card{
             val rank = Rank.values().find { it.r == str[0] }

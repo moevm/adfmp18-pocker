@@ -17,7 +17,7 @@ class SpectatorHandler(val tableToSpactate: String,
         if(waitForInit){
             info.watchingTable()
         }
-        table.setPlayersLeft(data["players_left"].asLong.insertSpaces())
+        table.currView.setPlayersLeft(data["players_left"].asLong.insertSpaces())
         super.initHand(data)
     }
 
