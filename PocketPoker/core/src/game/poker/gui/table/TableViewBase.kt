@@ -15,21 +15,37 @@ import game.poker.staticFiles.Fonts
 import game.poker.staticFiles.Textures
 import game.poker.PocketPoker
 import game.poker.screens.ScreenType
+import game.poker.core.handle.Handler
 
 
 abstract class TableViewBase(val game: PocketPoker) : BaseScreen {
     val stage = Stage(game.view)
+    var mode = Handler.Mode.Replay
+        set(value) {
+            field = value
+            updateButtons()
+        }
     var isFinal = false
     protected val seats = mutableListOf<SeatBase>()
     protected val pot = Pot()
     protected val cards = Array(5){ Image(SpriteDrawable(Sprite(Textures.cardPlaceholder))) }
-    protected val chatButton: TextButton
-    protected val infoButton: TextButton
+    protected val chatButton= ImageButton(SpriteDrawable(Sprite(Textures.chatButton)),
+            SpriteDrawable(Sprite(Textures.chatButtonDown)))
+    protected val infoButton= ImageButton(SpriteDrawable(Sprite(Textures.infoButton)),
+            SpriteDrawable(Sprite(Textures.infoButtonDown)))
     protected val foldButton: TextButton
     protected val callButton: TextButton
     protected val raiseButton: TextButton
     protected val exitButton = ImageButton(SpriteDrawable(Sprite(Textures.exitButton)),
             SpriteDrawable(Sprite(Textures.exitButtonDown)))
+    protected val nextHandButton = ImageButton(SpriteDrawable(Sprite(Textures.nextHand)),
+            SpriteDrawable(Sprite(Textures.nextHandDown)))
+    protected val nextStepButton = ImageButton(SpriteDrawable(Sprite(Textures.nextStep)),
+            SpriteDrawable(Sprite(Textures.nextStepDown)))
+    protected val prevHandButton = ImageButton(SpriteDrawable(Sprite(Textures.prevHand)),
+            SpriteDrawable(Sprite(Textures.prevHandDown)))
+    protected val pausePlayButton = ImageButton(SpriteDrawable(Sprite(Textures.playButton)),
+            SpriteDrawable(Sprite(Textures.playButtonDown)))
 
     init {
         val tableSprite = Sprite(Textures.pokerTable)
@@ -43,8 +59,6 @@ abstract class TableViewBase(val game: PocketPoker) : BaseScreen {
         val buttonDownSprite = SpriteDrawable(Sprite(Textures.menuButtonDown))
         val buttonStyle = TextButton.TextButtonStyle(buttonSprite, buttonDownSprite, buttonSprite,
                 Fonts.mainMenuButtonFont)
-        chatButton = TextButton(Settings.getText(Settings.TextKeys.CHAT), buttonStyle)
-        infoButton = TextButton(Settings.getText(Settings.TextKeys.INFO), buttonStyle)
         foldButton = TextButton(Settings.getText(Settings.TextKeys.FOLD), buttonStyle)
         callButton = TextButton(Settings.getText(Settings.TextKeys.CALL), buttonStyle)
         raiseButton = TextButton(Settings.getText(Settings.TextKeys.RAISE), buttonStyle)
@@ -54,6 +68,10 @@ abstract class TableViewBase(val game: PocketPoker) : BaseScreen {
         callButton.isTransform = true
         raiseButton.isTransform = true
         exitButton.isTransform = true
+        nextHandButton.isTransform = true
+        nextStepButton.isTransform = true
+        prevHandButton.isTransform = true
+        pausePlayButton.isTransform = true
         stage.addActor(pokerTable)
         stage.addActor(pot)
         cards.forEach { stage.addActor(it) }
@@ -62,12 +80,15 @@ abstract class TableViewBase(val game: PocketPoker) : BaseScreen {
         stage.addActor(foldButton)
         stage.addActor(callButton)
         stage.addActor(raiseButton)
+        stage.addActor(nextHandButton)
+        stage.addActor(nextStepButton)
+        stage.addActor(prevHandButton)
+        stage.addActor(pausePlayButton)
         stage.addActor(exitButton)
+        updateButtons()
     }
 
     override fun update() {
-        chatButton.setText(Settings.getText(Settings.TextKeys.CHAT))
-        infoButton.setText(Settings.getText(Settings.TextKeys.INFO))
         foldButton.setText(Settings.getText(Settings.TextKeys.FOLD))
         callButton.setText(Settings.getText(Settings.TextKeys.CALL))
         raiseButton.setText(Settings.getText(Settings.TextKeys.RAISE))
@@ -131,6 +152,32 @@ abstract class TableViewBase(val game: PocketPoker) : BaseScreen {
         pot.count = table.pot.count
         for ((i,card) in cards.withIndex()) {
             card.drawable = table.cards[i].drawable
+        }
+    }
+
+    private fun updateButtons(){
+        foldButton.isVisible = false
+        callButton.isVisible = false
+        raiseButton.isVisible = false
+        nextHandButton.isVisible = false
+        nextStepButton.isVisible = false
+        prevHandButton.isVisible = false
+        pausePlayButton.isVisible = false
+        when (mode){
+            Handler.Mode.Game -> {
+                foldButton.isVisible = true
+                callButton.isVisible = true
+                raiseButton.isVisible = true
+            }
+            Handler.Mode.Replay -> {
+                nextHandButton.isVisible = true
+                nextStepButton.isVisible = true
+                prevHandButton.isVisible = true
+                pausePlayButton.isVisible = true
+            }
+            Handler.Mode.Spectate -> {
+
+            }
         }
     }
 

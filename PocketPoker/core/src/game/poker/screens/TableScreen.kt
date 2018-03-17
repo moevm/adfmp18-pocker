@@ -9,6 +9,7 @@ import game.poker.core.Rank
 import game.poker.core.Suit
 import game.poker.core.Card
 import game.poker.core.Visibility
+import game.poker.core.handle.Handler
 
 class TableScreen(val game: PocketPoker) : BaseScreen {
 
@@ -22,6 +23,12 @@ class TableScreen(val game: PocketPoker) : BaseScreen {
                 tableViewHorizontal.fit(currView)
                 currView = tableViewHorizontal
             }
+        }
+    var mode = Handler.Mode.Game
+        set(value) {
+            field = value
+            tableViewHorizontal.mode = value
+            tableViewVertical.mode = value
         }
     // describes is this table is final or not
     // note: in final table all empty seats are hidden
