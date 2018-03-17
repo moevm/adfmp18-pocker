@@ -87,6 +87,11 @@ fun Long.shortcut(): String{
 
 abstract class Handler(val socket: WebSocketConnection,
                        val table: TableScreen) {
+
+    enum class Mode {
+        Game, Spectate, Replay
+    }
+
     val queue: Queue<String> = LinkedList<String>()
 
     var inLoop = false
@@ -203,16 +208,16 @@ abstract class Handler(val socket: WebSocketConnection,
     open protected fun initHand(data: JsonObject){
         if(waitForInit){
             waitForInit = false
-            table.initTable()
+            table.currView.initTable()
         }
 
         val tableNumber = data["table_number"].asLong.insertSpaces()
 
         if(data["is_final"].asBoolean){
-            table.setTableNum(Settings.getText(Settings.TextKeys.FINAL_TABLE))
+            table.currView.setTableNum(Settings.getText(Settings.TextKeys.FINAL_TABLE))
         }
         else{
-            table.setTableNum("${Settings.getText(Settings.TextKeys.TABLE)} #$tableNumber")
+            table.currView.setTableNum("${Settings.getText(Settings.TextKeys.TABLE)} #$tableNumber")
         }
 
         val handNumber = data["hand_number"].asLong.insertSpaces()
@@ -222,10 +227,10 @@ abstract class Handler(val socket: WebSocketConnection,
         val avgStack = data["avg_stack"].asLong.insertSpaces()
         val playersLeft = data["players_left"].asLong.insertSpaces()
 
-        table.setHandNum(handNumber)
-        table.setBlinds(sb, bb, ante)
-        table.setAverageStack(avgStack)
-        table.setPlayersLeft(playersLeft)
+        table.currView.setHandNum(handNumber)
+        table.currView.setBlinds(sb, bb, ante)
+        table.currView.setAverageStack(avgStack)
+        table.currView.setPlayersLeft(playersLeft)
 
         seats = Seats(table, data, gameMode)
 
@@ -238,7 +243,7 @@ abstract class Handler(val socket: WebSocketConnection,
             top9.add(Pair(name, stack))
         }
 
-        table.setTopPlayers(top9)
+        table.currView.setTopPlayers(top9)
     }
 
     open protected fun ante(data: JsonObject){
@@ -256,7 +261,7 @@ abstract class Handler(val socket: WebSocketConnection,
 
     open protected fun blinds(data: JsonObject){
         val buttonId = data["button"].asInt
-        table.setDealerPos(seats.getById(buttonId).localSeat)
+        table.currView.setDealerPos(seats.getById(buttonId).localSeat)
         val info = data["info"].asJsonArray
         if(info.size() == 1){
             seats.setBet(info[0].asJsonObject["id"].asInt,
@@ -278,7 +283,7 @@ abstract class Handler(val socket: WebSocketConnection,
         val sb = data["sb"].asLong.shortcut()
         val ante = data["ante"].asLong.shortcut()
         info.blindsIncreasing()
-        table.setBlinds(sb, bb, ante)
+        table.currView.setBlinds(sb, bb, ante)
     }
 
     open protected fun giveCards(data: JsonObject){
@@ -286,7 +291,7 @@ abstract class Handler(val socket: WebSocketConnection,
     }
 
     open protected fun dealCards(data: JsonObject){
-        table.dealCards()
+        table.currView.dealCards()
     }
 
     open protected fun deletePlayer(data: JsonObject){
@@ -303,14 +308,14 @@ abstract class Handler(val socket: WebSocketConnection,
 
     open protected fun switchDecision(data: JsonObject){
         seats.idInDecision = data["id"].asInt
-        table.switchDecision(seats.idToLocalSeat[data["id"].asInt]!!)
+        table.currView.switchDecision(seats.idToLocalSeat[data["id"].asInt]!!)
     }
 
     open protected fun madeDecision(data: JsonObject){
         val seat = seats.getById(seats.idInDecision)
         when(data["result"].asString){
             "fold" -> {
-                table.hideCards(seat.localSeat)
+                table.currView.hideCards(seat.localSeat)
                 seats.updateInfo(seat.id, Settings.getText(Settings.TextKeys.FOLD))
             }
             "check" -> {
@@ -346,19 +351,19 @@ abstract class Handler(val socket: WebSocketConnection,
         val flop1 = Card.fromString(data["card1"].asString)
         val flop2 = Card.fromString(data["card2"].asString)
         val flop3 = Card.fromString(data["card3"].asString)
-        table.setFlopCards(flop1, flop2, flop3)
+        table.currView.setFlopCards(flop1, flop2, flop3)
     }
 
     open protected fun turn(data: JsonObject){
         seats.clearDecisionStates()
         seats.clearDecisions()
-        table.setTurnCard(Card.fromString(data["card"].asString))
+        table.currView.setTurnCard(Card.fromString(data["card"].asString))
     }
 
     open protected fun river(data: JsonObject){
         seats.clearDecisionStates()
         seats.clearDecisions()
-        table.setRiverCard(Card.fromString(data["card"].asString))
+        table.currView.setRiverCard(Card.fromString(data["card"].asString))
     }
 
     open protected fun openCards(data: JsonObject){
@@ -370,7 +375,7 @@ abstract class Handler(val socket: WebSocketConnection,
             val seat = seats.getById(json["id"].asInt)
             val card1 = Card.fromString(json["card1"].asString)
             val card2 = Card.fromString(json["card2"].asString)
-            table.setPlayerCards(seat.localSeat, card1, card2)
+            table.currView.setPlayerCards(seat.localSeat, card1, card2)
         }
     }
 
@@ -399,23 +404,23 @@ abstract class Handler(val socket: WebSocketConnection,
     }
 
     open protected fun place(data: JsonObject){
-        table.setCurrPlace(data["place"].asLong.insertSpaces())
+        table.currView.setCurrPlace(data["place"].asLong.insertSpaces())
     }
 
     open protected fun chat(data: JsonObject){
-        table.addToChat(data["text"].asString)
+        table.currView.addToChat(data["text"].asString)
     }
 
     open protected fun disconnected(data: JsonObject){
         val seat = seats.getById(data["id"].asInt)
         seat.disconnected = true
-        table.setPlayerDisconnected(seat.localSeat, true)
+        table.currView.setPlayerDisconnected(seat.localSeat, true)
     }
 
     open protected fun connected(data: JsonObject){
         val seat = seats.getById(data["id"].asInt)
         seat.disconnected = false
-        table.setPlayerDisconnected(seat.localSeat, false)
+        table.currView.setPlayerDisconnected(seat.localSeat, false)
     }
 
     open protected fun kick(data: JsonObject){

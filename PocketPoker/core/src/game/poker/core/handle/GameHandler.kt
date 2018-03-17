@@ -84,12 +84,12 @@ class GameHandler(val name: String,
     }
 
     override fun giveCards(data: JsonObject) {
-        table.dealCards()
+        table.currView.dealCards()
 
         val card1 = Card.fromString(data["first"].asString)
         val card2 = Card.fromString(data["second"].asString)
 
-        table.setPlayerCards(seats.me.localSeat, card1, card2)
+        table.currView.setPlayerCards(seats.me.localSeat, card1, card2)
     }
 
     override fun resit(data: JsonObject) {
@@ -99,11 +99,11 @@ class GameHandler(val name: String,
         val tableNumber = data["table_number"].asLong.insertSpaces()
 
         if(data["is_final"].asBoolean){
-            table.setTableNum(Settings.getText(Settings.TextKeys.FINAL_TABLE))
+            table.currView.setTableNum(Settings.getText(Settings.TextKeys.FINAL_TABLE))
             table.isFinal = true
         }
         else{
-            table.setTableNum("${Settings.getText(Settings.TextKeys.TABLE)} #$tableNumber")
+            table.currView.setTableNum("${Settings.getText(Settings.TextKeys.TABLE)} #$tableNumber")
         }
 
         seats = Seats(table, data, gameMode)
@@ -200,7 +200,7 @@ class GameHandler(val name: String,
 
     override fun place(data: JsonObject) {
         if(!reconnectMode){
-            table.setPlaceInfo(data["place"].asString,
+            table.currView.setPlaceInfo(data["place"].asString,
                     seats.playersLeft.toLong().insertSpaces())
         }
     }
@@ -208,7 +208,7 @@ class GameHandler(val name: String,
     override fun kick(data: JsonObject) {
         socket.clean = true
         info.kick();
-        table.removeDecisions()
+        table.currView.removeDecisions()
         inLoop = false
     }
 

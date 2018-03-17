@@ -9,14 +9,15 @@ import game.poker.core.Card
 import game.poker.core.Chip
 
 object Textures{
+
     val menuBg: Texture by lazy { Texture("pics/MenuBackground.png") }
     val menuButton: Texture by lazy { Texture("pics/button.png") }
     val menuButtonDown: Texture by lazy { Texture("pics/buttonDown.png") }
     val edit: Texture by lazy { Texture("pics/edit.png") }
     val editCursor: Texture by lazy { Texture("pics/editCursor.png") }
     val scroll: Texture by lazy { Texture("pics/scroll.png") }
-    val list_selection: Texture by lazy { scroll } //TODO: добавить текстуры для List и Scroll
-    val scrollBg: Texture by lazy { scroll }
+    val list_selection: Texture by lazy { Texture("pics/list.png") } //TODO: добавить текстуры для List и Scroll
+    val scrollBg: Texture by lazy { Texture("pics/white.png") }
     val hScroll: Texture by lazy { scroll }
     val hScrollKnob: Texture by lazy { scroll }
     val vScroll: Texture by lazy { scroll }
@@ -34,6 +35,8 @@ object Textures{
     val exitButton: Texture by lazy { Texture("pics/exit.png") }
     val exitButtonDown: Texture by lazy { Texture("pics/exitDown.png") }
     val labelBg: Texture by lazy { Texture("pics/labelBg.png") }
+    val labelBgActive: Texture by lazy { Texture("pics/labelBgActive.png") }
+    val labelBgDisabled: Texture by lazy { Texture("pics/labelBgDisabled.png") }
 
     private fun createCards() : Map<Pair<Settings.CardsType, Card>, Lazy<Texture>>{
         val map = mutableMapOf<Pair<Settings.CardsType, Card>, Lazy<Texture>>()
