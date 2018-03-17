@@ -31,7 +31,8 @@ class ArchiveMenu(val game: PocketPoker) : BaseScreen {
 
         archiveList = ScrollableContainer(object: ClickHandler() {
             override fun click(itemId: Int) {
-                println(itemId.toString() + " id clicked")
+                Settings.currArchiveTournamentId = itemId
+                game.setCurrScreen(ScreenType.ARCHIVE_TABLE_LIST)
             }
         })
 
@@ -52,10 +53,10 @@ class ArchiveMenu(val game: PocketPoker) : BaseScreen {
         table.top()
 
         table.add(TextField("", editStyle)).pad(PADDING).expand().fill().row()
-        table.add(archiveList.actor).row()
+        table.add(archiveList.actor).expandX().fillX().row()
         val mainMenuButton = TextButton(Settings.getText(Settings.TextKeys.MAIN_MENU), buttonStyle)
         mainMenuButton.addListener(game.switches[ScreenType.MAIN_MENU])
-        table.add(mainMenuButton).pad(PADDING).padRight(game.gameWidth * 0.3f).fill().height(100f)
+        table.add(mainMenuButton).expand().left().bottom()
         stage.addActor(table)
 
     }
@@ -105,7 +106,7 @@ class ArchiveMenu(val game: PocketPoker) : BaseScreen {
                 for (field in json["info"].asJsonArray) {
                     val item = field.asJsonObject
                     val id = item["id"].asInt
-                    val date = item["date"].asString
+                    val date = item["date"].asString.split("_")[0]
                     val tables = item["tables"].asInt
                     val players = item["players"].asInt
                     val hands = item["hands"].asInt

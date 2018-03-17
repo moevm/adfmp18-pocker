@@ -19,7 +19,7 @@ class ScrollableContainer(private val clickHandler: ClickHandler) {
 
     fun add(item: ContainerItem) {
         items[item.id] = item
-        table.add(item).pad(10f).fillX().expandX().row()
+        table.add(item).pad(10f).expandX().fillX().row()
         item.clickHandler = clickHandler
     }
 

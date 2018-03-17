@@ -42,6 +42,7 @@ class PocketPoker : Game() {
         screens[ScreenType.TOURNAMENT] = TournamentMenu(this)
         screens[ScreenType.ARCHIVE] = ArchiveMenu(this)
         screens[ScreenType.TABLE] = TableScreen(this)
+        screens[ScreenType.ARCHIVE_TABLE_LIST] = ArchiveTableListScreen(this)
         this.screens = screens
         menuHandler = MenuHandler(this)
         setCurrScreen(ScreenType.MAIN_MENU)

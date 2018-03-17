@@ -188,6 +188,8 @@ object Settings{
     var currCards = CardsType.COLOR_4
     var nick = ""
     var token = ""
+    var currTableId = 0
+    var currArchiveTournamentId = 0
 
     fun getText(key: TextKeys) = langMap[Pair(currLang, key)]
             ?: throw IllegalArgumentException("Bad text key")
