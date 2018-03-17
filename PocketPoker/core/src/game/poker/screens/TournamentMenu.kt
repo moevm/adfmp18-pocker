@@ -47,7 +47,7 @@ class TournamentMenu(val game: PocketPoker) : BaseScreen {
         table.setFillParent(true)
         table.top()
         val createButton = TextButton(Settings.getText(Settings.TextKeys.CREATE_TOURNAMENT), buttonStyle)
-        //createButton.addListener(game.switches[ScreenType.CREATE_TOURNAMENT]) TODO: go to creating menu
+        createButton.addListener(game.switches[ScreenType.CREATE_TOURNAMENT])
         table.add(createButton).pad(PADDING).fill().height(100f).row()
         table.add(TextField("", editStyle)).pad(PADDING).expand().fill().row()
         table.add(tournamentsList.actor).row()

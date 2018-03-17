@@ -1,5 +1,6 @@
 package game.poker.gui.table
 
+import com.google.gson.JsonObject
 import game.poker.PocketPoker
 
 class TableViewHorizontal(game: PocketPoker) : TableViewBase(game) {
@@ -43,5 +44,9 @@ class TableViewHorizontal(game: PocketPoker) : TableViewBase(game) {
         foldButton.rotation = -90f
         callButton.rotation = -90f
         raiseButton.rotation = -90f
+    }
+
+    override fun receiveFromServer(json: JsonObject) {
+
     }
 }
