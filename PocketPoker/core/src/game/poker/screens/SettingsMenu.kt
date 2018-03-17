@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.List
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable
 import com.badlogic.gdx.utils.Align
 import com.badlogic.gdx.scenes.scene2d.ui.Slider
+import com.google.gson.JsonObject
 
 import game.poker.PocketPoker
 import game.poker.Settings
@@ -195,6 +196,10 @@ class SettingsMenu(val game: PocketPoker) : BaseScreen {
     }
 
     override fun dispose(){
+
+    }
+
+    override fun receiveFromServer(json: JsonObject) {
 
     }
 }

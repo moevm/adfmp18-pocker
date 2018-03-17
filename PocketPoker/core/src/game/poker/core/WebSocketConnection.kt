@@ -1,8 +1,7 @@
 package game.poker.core
 
 import java.net.URI
-import org.java_websocket.client.WebSocketClient
-import org.java_websocket.handshake.ServerHandshake
+import tech.gusavila92.websocketclient.WebSocketClient
 import java.util.*
 
 
@@ -14,34 +13,39 @@ class WebSocketConnection(private val queue: Queue<String>,
     var clean = false
 
     fun connectToServer(openMsg: String){
-        if(isOpen){
-            close()
-        }
         this.openMsg = openMsg
         connect()
-    }
-
-    fun closeConnection(){
-        if(isOpen){
-            close()
-        }
-    }
-
-    override fun onOpen(handshakedata: ServerHandshake) {
         send(openMsg)
         println("WebSocket send $openMsg")
     }
 
-    override fun onClose(code: Int, reason: String, remote: Boolean) {
-        println("WebSocket closed with exit code $code additional info: $reason")
+    override fun onOpen() {
+
     }
 
-    override fun onMessage(message: String) {
-        println("WebSocket receive: $message")
+    override fun onTextReceived(message: String) {
+        println("WebSocket recieve $message")
+        queue.add(message)
     }
 
-    override fun onError(ex: Exception) {
-        println("WebSocket error occurred: $ex")
+    override fun onBinaryReceived(data: ByteArray) {
+        println("onBinaryReceived")
+    }
+
+    override fun onPingReceived(data: ByteArray) {
+        println("onPingReceived")
+    }
+
+    override fun onPongReceived(data: ByteArray) {
+        println("onPongReceived")
+    }
+
+    override fun onException(e: Exception) {
+        println(e.message)
+    }
+
+    override fun onCloseReceived() {
+        println("onCloseReceived")
     }
 
 }

@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.*
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable
+import com.google.gson.JsonObject
 
 import game.poker.PocketPoker
 import game.poker.Settings
@@ -15,18 +16,23 @@ import game.poker.staticFiles.Fonts
 import game.poker.gui.ScrollableContainer
 import game.poker.gui.ScrollableContainer.ClickHandler
 import game.poker.gui.ArchiveItem
+import java.util.concurrent.locks.Lock
+import java.util.concurrent.locks.ReentrantLock
+import kotlin.concurrent.withLock
 
 class ArchiveMenu(val game: PocketPoker) : BaseScreen {
 
     private val stage = Stage(game.view)
     private val PADDING = 50f
     private val archiveList: ScrollableContainer
+    private val lock: Lock = ReentrantLock()
 
     init {
 
         archiveList = ScrollableContainer(object: ClickHandler() {
             override fun click(itemId: Int) {
-                println(itemId.toString() + " id clicked")
+                Settings.currArchiveTournamentId = itemId
+                game.setCurrScreen(ScreenType.ARCHIVE_TABLE_LIST)
             }
         })
 
@@ -46,23 +52,12 @@ class ArchiveMenu(val game: PocketPoker) : BaseScreen {
         table.setFillParent(true)
         table.top()
 
-        table.add(TextField("", editStyle)).pad(PADDING).expand().fill().row()
-        table.add(archiveList.actor).row()
+        table.add(TextField("", editStyle)).pad(PADDING).expandX().fillX().row()
+        table.add(archiveList.actor).expandX().fillX().row()
         val mainMenuButton = TextButton(Settings.getText(Settings.TextKeys.MAIN_MENU), buttonStyle)
         mainMenuButton.addListener(game.switches[ScreenType.MAIN_MENU])
-        table.add(mainMenuButton).pad(PADDING).padRight(game.gameWidth * 0.3f).fill().height(100f)
+        table.add(mainMenuButton).pad(PADDING).expand().left().bottom()
         stage.addActor(table)
-
-        //test data
-        archiveList.add(ArchiveItem(0, "Tournament #55", 10, 100, 20))
-        archiveList.add(ArchiveItem(1, "Tournament #1253", 2, 10000, 43))
-        archiveList.add(ArchiveItem(2, "Tournament #5622", 10, 500, 232))
-        archiveList.add(ArchiveItem(3, "Tournament #55", 10, 100, 20))
-        archiveList.add(ArchiveItem(4, "Tournament #1253", 2, 10000, 43))
-        archiveList.add(ArchiveItem(5, "Tournament #5622", 10, 500, 232))
-        archiveList.add(ArchiveItem(6, "Tournament #55", 10, 100, 20))
-        archiveList.add(ArchiveItem(7, "Tournament #1253", 2, 10000, 43))
-        archiveList.add(ArchiveItem(8, "Tournament #5622", 10, 500, 232))
 
     }
 
@@ -71,12 +66,17 @@ class ArchiveMenu(val game: PocketPoker) : BaseScreen {
     }
 
     override fun show(){
-        Gdx.input.inputProcessor = stage
+        lock.withLock {
+            Gdx.input.inputProcessor = stage
+            updateArchive()
+        }
     }
 
     override fun render(delta: Float) {
-        stage.act()
-        stage.draw()
+        lock.withLock {
+            stage.act()
+            stage.draw()
+        }
     }
 
     override fun resize(width: Int, height: Int){
@@ -97,5 +97,30 @@ class ArchiveMenu(val game: PocketPoker) : BaseScreen {
 
     override fun dispose(){
 
+    }
+
+    override fun receiveFromServer(json: JsonObject) {
+        lock.withLock {
+            if (json["type"].asString == "replays") {
+                archiveList.clear()
+                for (field in json["info"].asJsonArray) {
+                    val item = field.asJsonObject
+                    val id = item["id"].asInt
+                    val date = item["date"].asString.split("_")[0]
+                    val tables = item["tables"].asInt
+                    val players = item["players"].asInt
+                    val hands = item["hands"].asInt
+                    var name = item["name"].asString
+                    if (name == "") name = Settings.getText(Settings.TextKeys.TOURNAMENT) + " #" + id.toString()
+                    archiveList.add(ArchiveItem(id, name, date, tables, players, hands))
+                }
+            }
+        }
+    }
+
+    private fun updateArchive() {
+        val data = JsonObject()
+        data.addProperty("type", "get replays")
+        game.menuHandler.sendToServer(data)
     }
 }

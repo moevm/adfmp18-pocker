@@ -19,13 +19,18 @@ class ScrollableContainer(private val clickHandler: ClickHandler) {
 
     fun add(item: ContainerItem) {
         items[item.id] = item
-        table.add(item).pad(10f).fillX().expandX().row()
+        table.add(item).pad(10f).expandX().fillX().row()
         item.clickHandler = clickHandler
     }
 
     fun remove(id: Int) {
         table.removeActor(items[id])
         items.remove(id)
+    }
+
+    fun clear() {
+        table.clearChildren()
+        items.clear()
     }
 
     open class ClickHandler {
