@@ -11,7 +11,6 @@ class TableItem(id: Int, val title: String, val hands: Int) : ContainerItem(id) 
 
     init {
 
-        width = 1000f
         val leftTable = Table()
         leftTable.pad(0f)
         leftTable.add(Label(title, labelStyle)).colspan(2).pad(PADDING).expandX().left().row()

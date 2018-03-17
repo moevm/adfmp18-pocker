@@ -6,7 +6,7 @@ import game.poker.Settings
 import kotlin.concurrent.withLock
 import game.poker.gui.TableItem
 
-class ArchiveTableListScreen(game: PocketPoker): TableListScreen(game) {
+class ArchiveTableListScreen(game: PocketPoker): BaseTableListScreen(game) {
 
     override fun updateList() {
         val data = JsonObject()
@@ -34,6 +34,10 @@ class ArchiveTableListScreen(game: PocketPoker): TableListScreen(game) {
                 }
             }
         }
+    }
+
+    override fun update() {
+
     }
 
     override fun handleItemClick(id: Int) {

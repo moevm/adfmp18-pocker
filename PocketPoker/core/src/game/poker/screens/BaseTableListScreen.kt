@@ -20,7 +20,7 @@ import java.util.concurrent.locks.Lock
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
 
-open class TableListScreen(val game: PocketPoker) : BaseScreen {
+abstract class BaseTableListScreen(val game: PocketPoker) : BaseScreen {
 
     private val stage = Stage(game.view)
     private val PADDING = 50f
@@ -52,10 +52,6 @@ open class TableListScreen(val game: PocketPoker) : BaseScreen {
         mainMenuButton.addListener(game.switches[ScreenType.ARCHIVE])
         table.add(mainMenuButton).pad(PADDING).expand().left().bottom()
         stage.addActor(table)
-
-    }
-
-    override fun update(){
 
     }
 
@@ -93,15 +89,7 @@ open class TableListScreen(val game: PocketPoker) : BaseScreen {
 
     }
 
-    override fun receiveFromServer(json: JsonObject) {
+    abstract fun updateList()
 
-    }
-
-    open fun updateList() {
-
-    }
-
-    open fun handleItemClick(id: Int) {
-
-    }
+    abstract fun handleItemClick(id: Int)
 }
