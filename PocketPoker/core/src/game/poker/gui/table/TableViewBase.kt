@@ -2,10 +2,12 @@ package game.poker.gui.table
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.g2d.Sprite
+import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable
 import game.poker.Settings
 import game.poker.core.Card
@@ -72,6 +74,19 @@ abstract class TableViewBase(val game: PocketPoker) : BaseScreen {
         nextStepButton.isTransform = true
         prevHandButton.isTransform = true
         pausePlayButton.isTransform = true
+        pausePlayButton.addListener(object : ClickListener() {
+            override fun clicked(event: InputEvent, x: Float, y: Float) {
+                if (pausePlayButton.isChecked) {
+                    pausePlayButton.style.imageUp = SpriteDrawable(Sprite(Textures.pauseButton))
+                    pausePlayButton.style.imageDown = SpriteDrawable(Sprite(Textures.pauseButtonDown))
+                    nextStepButton.isVisible = false
+                } else {
+                    pausePlayButton.style.imageUp = SpriteDrawable(Sprite(Textures.playButton))
+                    pausePlayButton.style.imageDown = SpriteDrawable(Sprite(Textures.playButtonDown))
+                    nextStepButton.isVisible = true
+                }
+            }
+        })
         stage.addActor(pokerTable)
         stage.addActor(pot)
         cards.forEach { stage.addActor(it) }
