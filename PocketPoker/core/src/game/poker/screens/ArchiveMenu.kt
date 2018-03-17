@@ -52,7 +52,7 @@ class ArchiveMenu(val game: PocketPoker) : BaseScreen {
         table.setFillParent(true)
         table.top()
 
-        table.add(TextField("", editStyle)).pad(PADDING).expand().fill().row()
+        table.add(TextField("", editStyle)).pad(PADDING).expandX().fillX().row()
         table.add(archiveList.actor).expandX().fillX().row()
         val mainMenuButton = TextButton(Settings.getText(Settings.TextKeys.MAIN_MENU), buttonStyle)
         mainMenuButton.addListener(game.switches[ScreenType.MAIN_MENU])
