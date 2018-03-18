@@ -53,12 +53,12 @@ class TableScreen(val game: PocketPoker) : BaseScreen {
         for (i in 2..9) {
             //currView.setPlayerCards(i, Card(Rank.Ace,Suit.Hearts, Visibility.Open), Card(Rank.Ace,Suit.Diamonds, Visibility.Open))
             currView.updatePlayerInfo(i,"$i","999","call 30")
-            currView.setChips(i,30)
+            currView.setChips(i,309999)
         }
         currView.setEmptyPlayer(4)
         currView.setDealerPos(8)
         currView.dealCards()
-        currView.setChips(1,30)
+        currView.setChips(1,309999)
         currView.updatePlayerInfo(1,"Николай","999","raise 30")
         currView.setPlayerCards(1, Card(Rank.Ace,Suit.Hearts, Visibility.Open), Card(Rank.Ace,Suit.Diamonds, Visibility.Open))
         currView.setPlayerDisconnected(2,true)
