@@ -101,8 +101,7 @@ abstract class TableViewBase(val game: PocketPoker) : BaseScreen {
         prevHandButton.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent, x: Float, y: Float) {
                 //DEBUG
-                moveChipsFromPot(1,pot.money - 599)
-                moveChipsFromPot(2,599)
+                moveChipsFromPot(0,pot.money)
                 //END DEBUG
             }
         })
@@ -142,8 +141,8 @@ abstract class TableViewBase(val game: PocketPoker) : BaseScreen {
     override fun render(delta: Float) {
         if (chipsIsMovingToPot) {
             seats.forEach { it.moveChipsToPot(gauss[moveStep]) }
-            moveStep += 1
-            if (moveStep > 49) {
+            moveStep += 2
+            if (moveStep >= gauss.size) {
                 chipsIsMovingToPot = false
                 seats.forEach {
                     it.moveChipsToPot(gauss[0])
@@ -154,9 +153,10 @@ abstract class TableViewBase(val game: PocketPoker) : BaseScreen {
         }
         if (chipsIsMovingFromPot) {
             seats.forEach { it.moveChipsToPot(gauss[moveStep]) }
-            moveStep -= 1
+            moveStep -= 2
             if (moveStep < 0) {
                 chipsIsMovingFromPot = false
+                seats.forEach { it.moveChipsToPot(gauss[0]) }
             }
         }
         stage.act()
@@ -259,7 +259,7 @@ abstract class TableViewBase(val game: PocketPoker) : BaseScreen {
         chipsIsMovingToPot = false
         pot.money -= amount
         seats[localSeat].setChips(amount)
-        moveStep = 49
+        moveStep = gauss.size - 1
         chipsIsMovingFromPot = true
     }
 
