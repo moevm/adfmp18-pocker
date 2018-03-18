@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable
+import com.google.gson.JsonObject
 import game.poker.Settings
 import game.poker.core.Card
 import game.poker.core.Visibility
@@ -420,5 +421,9 @@ abstract class TableViewBase(val game: PocketPoker) : BaseScreen {
         seats[localSeat-1].playerView.money = stack
         seats[localSeat-1].playerView.info = info
         seats[localSeat-1].isEmpty = false
+    }
+
+    override fun receiveFromServer(json: JsonObject) {
+
     }
 }
