@@ -1,5 +1,6 @@
 package game.poker.screens
 
+import com.google.gson.JsonObject
 import game.poker.PocketPoker
 import game.poker.Settings
 import game.poker.gui.table.TableViewBase
@@ -101,5 +102,9 @@ class TableScreen(val game: PocketPoker) : BaseScreen {
     override fun dispose(){
         tableViewVertical.dispose()
         tableViewHorizontal.dispose()
+    }
+
+    override fun receiveFromServer(json: JsonObject) {
+
     }
 }

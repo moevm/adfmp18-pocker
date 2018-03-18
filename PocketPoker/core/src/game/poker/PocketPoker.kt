@@ -7,6 +7,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.viewport.StretchViewport
 import com.badlogic.gdx.utils.viewport.Viewport
 import com.badlogic.gdx.scenes.scene2d.InputEvent
+import com.google.gson.JsonObject
+import game.poker.core.handle.MenuHandler
 
 import game.poker.screens.*
 
@@ -17,7 +19,9 @@ class PocketPoker : Game() {
 
     lateinit var view: Viewport private set
     lateinit var screens: Map<ScreenType, BaseScreen> private set
+    private var currScreen: BaseScreen? = null
     lateinit var switches: Map<ScreenType, ClickListener> private set
+    lateinit var menuHandler: MenuHandler private set
 
     override fun create() {
         view = StretchViewport(gameWidth, gameHeight)
@@ -38,8 +42,9 @@ class PocketPoker : Game() {
         screens[ScreenType.TOURNAMENT] = TournamentMenu(this)
         screens[ScreenType.ARCHIVE] = ArchiveMenu(this)
         screens[ScreenType.TABLE] = TableScreen(this)
+        screens[ScreenType.ARCHIVE_TABLE_LIST] = ArchiveTableListScreen(this)
         this.screens = screens
-
+        menuHandler = MenuHandler(this)
         setCurrScreen(ScreenType.MAIN_MENU)
     }
 
@@ -55,16 +60,26 @@ class PocketPoker : Game() {
 
     fun setCurrScreen(type: ScreenType) {
         screen?.hide()
-        screen = screens[type]
+        currScreen = screens[type]
+        screen = currScreen
         screen.show()
     }
 
     override fun dispose() {
         screens.forEach { it.value.dispose() }
+        menuHandler.inLoop = false
+        val json = JsonObject()
+        json.addProperty("type", "close")
+        menuHandler.sendToServer(json)
+        menuHandler.socket.close()
         Gdx.app.exit()
     }
 
     fun updateLang() {
         screens.forEach { it.value.update() }
+    }
+
+    fun receiveFromServer(json: JsonObject){
+        currScreen?.receiveFromServer(json)
     }
 }

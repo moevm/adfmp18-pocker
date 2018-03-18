@@ -15,14 +15,21 @@ import game.poker.gui.ScrollableContainer.ClickHandler
 open class ContainerItem(val id: Int): Table() {
 
     protected val PADDING = 10f
+    protected val ICON_WIDTH = 90f
+    protected val ICON_HEIGHT = 70f
     protected val labelStyle = Label.LabelStyle(Fonts.containerItemFont, Color.BLACK)
     protected val nextSprite = SpriteDrawable(Sprite(Textures.next))
     protected val watchSprite = SpriteDrawable(Sprite(Textures.watch))
+    protected val playersSprite = SpriteDrawable(Sprite(Textures.players))
+    protected val tablesSprite = SpriteDrawable(Sprite(Textures.tables))
+    protected val handsSprite = SpriteDrawable(Sprite(Textures.hands))
+    protected val lockedSprite = SpriteDrawable(Sprite(Textures.locked))
+    protected val unlockedSprite = SpriteDrawable(Sprite(Textures.unlocked))
     var clickHandler = ClickHandler()
     var clickListener: ClickListener
 
     init {
-        pad(PADDING)
+        pad(PADDING * 2f)
         align(Align.center)
         background = SpriteDrawable(Sprite(Textures.menuButton))
 
