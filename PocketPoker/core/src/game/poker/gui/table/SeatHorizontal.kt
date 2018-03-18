@@ -1,6 +1,6 @@
 package game.poker.gui.table
 
-class SeatHorizontal(val positionNumber:Int) : SeatBase(){
+class SeatHorizontal(private val positionNumber:Int) : SeatBase(){
     override fun updateCardsPosition(){
         if (isCardsUp){
             card1.setPosition(70f,0f)
@@ -19,6 +19,10 @@ class SeatHorizontal(val positionNumber:Int) : SeatBase(){
                 }
             }
         }
+    }
+
+    override fun moveChips(step: Float) {
+
     }
 
     init {

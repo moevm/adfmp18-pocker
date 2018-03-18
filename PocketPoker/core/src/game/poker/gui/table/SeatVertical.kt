@@ -1,9 +1,7 @@
 package game.poker.gui.table
 
-import com.badlogic.gdx.graphics.g2d.Batch
-import com.badlogic.gdx.scenes.scene2d.actions.Actions
 
-class SeatVertical(val positionNumber:Int) : SeatBase(){
+class SeatVertical(private val positionNumber:Int) : SeatBase(){
     override fun updateCardsPosition(){
         if (isCardsUp){
             card1.setPosition(0f,0f)
@@ -21,6 +19,41 @@ class SeatVertical(val positionNumber:Int) : SeatBase(){
                     card2.x = 105f
                 }
             }
+        }
+    }
+
+    override fun moveChips(step: Float) {
+        //if (step == 1) (x + chipstack.x) = 550
+        //if (step == 1) (y + chipstack.y) = 850
+        when(positionNumber){
+            0 -> {
+                chipstack.setPosition(50f + 50f * step, 270f + 430f * step)
+            }
+            1 -> {
+                chipstack.setPosition(270f + 260f * step, 60f + 290f * step)
+            }
+            2 -> {
+                chipstack.setPosition(110f + 420f * step, -90f - 10f * step)
+            }
+            3 -> {
+                chipstack.setPosition(110f + 420f * step, -90f - 460f * step)
+            }
+            4 -> {
+                chipstack.setPosition(0f + 220f * step, -130f - 620f * step)
+            }
+            5 -> {
+                chipstack.setPosition(0f + -50f * step, -130f - 620f * step)
+            }
+            6 -> {
+                chipstack.setPosition(-150f + -150f * step, -90f - 460f * step)
+            }
+            7 -> {
+                chipstack.setPosition(-150f + -150f * step, -90f - 10f * step)
+            }
+            8 -> {
+                chipstack.setPosition(-260f + -40f * step, 60f + 290f * step)
+            }
+            else -> throw IllegalArgumentException("Bad index")
         }
     }
 

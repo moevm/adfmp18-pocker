@@ -48,6 +48,13 @@ abstract class TableViewBase(val game: PocketPoker) : BaseScreen {
             SpriteDrawable(Sprite(Textures.prevHandDown)))
     protected val pausePlayButton = ImageButton(SpriteDrawable(Sprite(Textures.playButton)),
             SpriteDrawable(Sprite(Textures.playButtonDown)))
+    val gauss = arrayListOf<Float>( 0.0F, 0.001F, 0.002F, 0.003F, 0.004F, 0.006F, 0.009F, 0.013F, 0.018F, 0.024F,
+            0.032F, 0.042F, 0.054F, 0.068F, 0.085F, 0.105F, 0.128F, 0.155F, 0.185F, 0.219F,
+            0.256F, 0.296F, 0.339F, 0.384F, 0.43F, 0.477F, 0.524F, 0.571F, 0.617F, 0.662F,
+            0.705F, 0.745F, 0.782F, 0.816F, 0.846F, 0.873F, 0.896F, 0.916F, 0.933F, 0.947F,
+            0.959F, 0.969F, 0.977F, 0.983F, 0.988F, 0.992F, 0.995F, 0.997F, 0.999F, 1.0F)
+    private var chipsIsMoving = false
+    private var moveStep = 0
 
     init {
         val tableSprite = Sprite(Textures.pokerTable)
@@ -77,6 +84,9 @@ abstract class TableViewBase(val game: PocketPoker) : BaseScreen {
         pausePlayButton.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent, x: Float, y: Float) {
                 if (pausePlayButton.isChecked) {
+                    //DEBUG
+                    moveChipsToPot()
+                    //END DEBUG
                     pausePlayButton.style.imageUp = SpriteDrawable(Sprite(Textures.pauseButton))
                     pausePlayButton.style.imageDown = SpriteDrawable(Sprite(Textures.pauseButtonDown))
                     nextStepButton.isVisible = false
@@ -112,6 +122,15 @@ abstract class TableViewBase(val game: PocketPoker) : BaseScreen {
     }
 
     override fun render(delta: Float) {
+        if (chipsIsMoving) {
+            seats.forEach { it.moveChipsToPot(gauss[moveStep]) }
+            moveStep += 1
+            if (moveStep > 49) {
+                chipsIsMoving = false
+                moveStep = 0
+                seats.forEach { it.moveChipsToPot(gauss[moveStep]) }
+            }
+        }
         stage.act()
         stage.draw()
     }
@@ -199,6 +218,14 @@ abstract class TableViewBase(val game: PocketPoker) : BaseScreen {
     // all events that received from handler
 
     fun initTable(){
+
+    }
+
+    fun moveChipsToPot(){
+        chipsIsMoving = true
+    }
+
+    fun moveChipsFromPot( localSeat: Int, amount: Long){
 
     }
 

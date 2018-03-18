@@ -14,7 +14,7 @@ import game.poker.core.Visibility
 import game.poker.staticFiles.Textures
 
 
-abstract class SeatBase : Group() {
+abstract class SeatBase() : Group() {
     // if playerView is null in final table should hide
     // but not in final table should be visible with text "Empty seat"
     var isEmpty = false
@@ -34,6 +34,7 @@ abstract class SeatBase : Group() {
     var isCardsUp = false
         private set
     var isCardsEmpty = true
+    private var moveCount = 0
 
     protected val chipstack = Chipstack()
     val playerView = PlayerView() //todo: make private
@@ -92,5 +93,11 @@ abstract class SeatBase : Group() {
         if (isEmpty) {
             playerView.playerName = Settings.getText(Settings.TextKeys.EMPTY_SEAT)
         }
+    }
+
+    protected abstract fun moveChips(step: Float)
+
+    fun moveChipsToPot(step: Float){
+        moveChips(step)
     }
 }
