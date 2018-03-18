@@ -25,7 +25,7 @@ class TableScreen(val game: PocketPoker) : BaseScreen {
                 currView = tableViewHorizontal
             }
         }
-    var mode = Handler.Mode.Game
+    var mode = Settings.currTableMode
         set(value) {
             field = value
             tableViewHorizontal.mode = value
@@ -76,6 +76,11 @@ class TableScreen(val game: PocketPoker) : BaseScreen {
 
     override fun show(){
         if (orientation != Settings.currOrientation) orientation = Settings.currOrientation
+        if(Settings.currTableMode != mode){
+            mode = Settings.currTableMode
+            tableViewHorizontal.mode = mode
+            tableViewVertical.mode = mode
+        }
         currView.show()
     }
 

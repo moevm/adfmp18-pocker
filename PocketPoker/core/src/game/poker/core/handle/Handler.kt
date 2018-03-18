@@ -88,10 +88,6 @@ fun Long.shortcut(): String{
 abstract class Handler(val socket: WebSocketConnection,
                        val table: TableScreen) {
 
-    enum class Mode {
-        Game, Spectate, Replay
-    }
-
     val queue: Queue<String> = LinkedList<String>()
 
     var inLoop = false

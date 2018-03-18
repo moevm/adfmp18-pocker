@@ -23,7 +23,7 @@ import game.poker.core.handle.Handler
 
 abstract class TableViewBase(val game: PocketPoker) : BaseScreen {
     val stage = Stage(game.view)
-    var mode = Handler.Mode.Replay
+    var mode = Settings.currTableMode
         set(value) {
             field = value
             updateButtons()
@@ -227,18 +227,18 @@ abstract class TableViewBase(val game: PocketPoker) : BaseScreen {
         prevHandButton.isVisible = false
         pausePlayButton.isVisible = false
         when (mode){
-            Handler.Mode.Game -> {
+            Settings.TableMode.Game -> {
                 foldButton.isVisible = true
                 callButton.isVisible = true
                 raiseButton.isVisible = true
             }
-            Handler.Mode.Replay -> {
+            Settings.TableMode.Replay -> {
                 nextHandButton.isVisible = true
                 nextStepButton.isVisible = true
                 prevHandButton.isVisible = true
                 pausePlayButton.isVisible = true
             }
-            Handler.Mode.Spectate -> {
+            Settings.TableMode.Spectate -> {
 
             }
         }
