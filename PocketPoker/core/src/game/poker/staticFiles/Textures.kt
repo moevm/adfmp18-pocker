@@ -37,6 +37,20 @@ object Textures{
     val labelBg: Texture by lazy { Texture("pics/labelBg.png") }
     val labelBgActive: Texture by lazy { Texture("pics/labelBgActive.png") }
     val labelBgDisabled: Texture by lazy { Texture("pics/labelBgDisabled.png") }
+    val chatButton: Texture by lazy { Texture("pics/icon buttons/chat.png") }
+    val chatButtonDown: Texture by lazy { Texture("pics/icon buttons/chat clicked.png") }
+    val infoButton: Texture by lazy { Texture("pics/icon buttons/info.png") }
+    val infoButtonDown: Texture by lazy { Texture("pics/icon buttons/info clicked.png") }
+    val nextHand: Texture by lazy { Texture("pics/icon buttons/next hand.png") }
+    val nextHandDown: Texture by lazy { Texture("pics/icon buttons/next hand clicked.png") }
+    val prevHand: Texture by lazy { Texture("pics/icon buttons/prev hand.png") }
+    val prevHandDown: Texture by lazy { Texture("pics/icon buttons/prev hand clicked.png") }
+    val nextStep: Texture by lazy { Texture("pics/icon buttons/next step.png") }
+    val nextStepDown: Texture by lazy { Texture("pics/icon buttons/next step clicked.png") }
+    val playButton: Texture by lazy { Texture("pics/icon buttons/play.png") }
+    val playButtonDown: Texture by lazy { Texture("pics/icon buttons/play clicked.png") }
+    val pauseButton: Texture by lazy { Texture("pics/icon buttons/pause.png") }
+    val pauseButtonDown: Texture by lazy { Texture("pics/icon buttons/pause clicked.png") }
 
     private fun createCards() : Map<Pair<Settings.CardsType, Card>, Lazy<Texture>>{
         val map = mutableMapOf<Pair<Settings.CardsType, Card>, Lazy<Texture>>()

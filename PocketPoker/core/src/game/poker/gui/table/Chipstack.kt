@@ -1,15 +1,14 @@
 package game.poker.gui.table
 
-import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.scenes.scene2d.ui.Image
-import com.badlogic.gdx.scenes.scene2d.ui.Widget
 import com.badlogic.gdx.graphics.g2d.Sprite
+import com.badlogic.gdx.scenes.scene2d.Group
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable
 import game.poker.core.Chip
 import game.poker.staticFiles.Textures
 
 
-class Chipstack() : Widget() {
+class Chipstack() : Group() {
     var money: Long = 0
         private set
 
@@ -22,7 +21,6 @@ class Chipstack() : Widget() {
         money = newMoney
         var count = newMoney
 
-        // below is copy paste from javascript code
         val amounts = mutableListOf<MutableList<Pair<Chip, Long>>>()
 
         for(chip in Chip.values().reversed()){
@@ -78,24 +76,18 @@ class Chipstack() : Widget() {
                 }
             }
         }
-        var col = 0
         stacks.reverse()
-        stacks.forEach {
-            var row = 0
-            it.forEach {
-                it.setSize(50f, 50f)
+        clearChildren()
+        for ((col, stack) in stacks.withIndex()) {
+            for ((row, chip) in stack.withIndex()) {
+                chip.setSize(50f, 50f)
                 if(col < stacksCount/2){
-                    it.setPosition(x + stacksCount*25f - (col + 1)*50f, y + row * 5f)
+                    chip.setPosition(stacksCount*25f - (col + 1)*50f, row * 5f)
                 } else {
-                    it.setPosition(x + stacksCount*25f - (col + 1 - stacksCount/2)*50f, y + row * 5f - 50f)
+                    chip.setPosition(stacksCount*25f - (col + 1 - stacksCount/2)*50f, row * 5f - 50f)
                 }
-                row += 1
+                addActor(chip)
             }
-            col += 1
         }
-    }
-    override fun draw(batch: Batch?, parentAlpha: Float) {
-        super.draw(batch, parentAlpha)
-        stacks.forEach { it.forEach {it.draw(batch, parentAlpha)} }
     }
 }

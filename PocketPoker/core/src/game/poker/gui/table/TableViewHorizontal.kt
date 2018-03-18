@@ -27,9 +27,9 @@ class TableViewHorizontal(game: PocketPoker) : TableViewBase(game) {
     }
     private fun setUpButtons(){
         exitButton.setPosition(940f, 1890f)
-        chatButton.setPosition(20f, 300f)
+        chatButton.setPosition(20f, 160f)
         chatButton.setSize(200f, 90f)
-        infoButton.setPosition(20f, 600f)
+        infoButton.setPosition(20f, 280f)
         infoButton.setSize(200f, 90f)
         foldButton.setPosition(20f, 1700f)
         foldButton.setSize(250f, 90f)
@@ -37,11 +37,23 @@ class TableViewHorizontal(game: PocketPoker) : TableViewBase(game) {
         callButton.setSize(350f, 90f)
         raiseButton.setPosition(20f, 880f)
         raiseButton.setSize(250f, 90f)
+        nextHandButton.setPosition(20f, 820f)
+        nextStepButton.setPosition(20f, 940f)
+        prevHandButton.setPosition(20f, 1180f)
+        pausePlayButton.setPosition(20f, 1060f)
+        nextHandButton.setSize(100f, 100f)
+        nextStepButton.setSize(100f, 100f)
+        prevHandButton.setSize(100f, 100f)
+        pausePlayButton.setSize(100f, 100f)
         exitButton.rotation = -90f
         chatButton.rotation = -90f
         infoButton.rotation = -90f
         foldButton.rotation = -90f
         callButton.rotation = -90f
         raiseButton.rotation = -90f
+        nextHandButton.rotation = -90f
+        nextStepButton.rotation = -90f
+        prevHandButton.rotation = -90f
+        pausePlayButton.rotation = -90f
     }
 }
