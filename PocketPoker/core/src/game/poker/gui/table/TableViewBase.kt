@@ -53,7 +53,8 @@ abstract class TableViewBase(val game: PocketPoker) : BaseScreen {
             0.256F, 0.296F, 0.339F, 0.384F, 0.43F, 0.477F, 0.524F, 0.571F, 0.617F, 0.662F,
             0.705F, 0.745F, 0.782F, 0.816F, 0.846F, 0.873F, 0.896F, 0.916F, 0.933F, 0.947F,
             0.959F, 0.969F, 0.977F, 0.983F, 0.988F, 0.992F, 0.995F, 0.997F, 0.999F, 1.0F)
-    private var chipsIsMoving = false
+    private var chipsIsMovingToPot = false
+    private var chipsIsMovingFromPot = false
     private var moveStep = 0
 
     init {
@@ -83,10 +84,10 @@ abstract class TableViewBase(val game: PocketPoker) : BaseScreen {
         pausePlayButton.isTransform = true
         pausePlayButton.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent, x: Float, y: Float) {
+                //DEBUG
+                moveChipsToPot()
+                //END DEBUG
                 if (pausePlayButton.isChecked) {
-                    //DEBUG
-                    moveChipsToPot()
-                    //END DEBUG
                     pausePlayButton.style.imageUp = SpriteDrawable(Sprite(Textures.pauseButton))
                     pausePlayButton.style.imageDown = SpriteDrawable(Sprite(Textures.pauseButtonDown))
                     nextStepButton.isVisible = false
@@ -95,6 +96,23 @@ abstract class TableViewBase(val game: PocketPoker) : BaseScreen {
                     pausePlayButton.style.imageDown = SpriteDrawable(Sprite(Textures.playButtonDown))
                     nextStepButton.isVisible = true
                 }
+            }
+        })
+        prevHandButton.addListener(object : ClickListener() {
+            override fun clicked(event: InputEvent, x: Float, y: Float) {
+                //DEBUG
+                moveChipsFromPot(1,pot.money - 599)
+                moveChipsFromPot(2,599)
+                //END DEBUG
+            }
+        })
+        nextHandButton.addListener(object : ClickListener() {
+            override fun clicked(event: InputEvent, x: Float, y: Float) {
+                //DEBUG
+                for (i in 1..9) {
+                    setChips(i,9999)
+                }
+                //END DEBUG
             }
         })
         stage.addActor(pokerTable)
@@ -122,13 +140,23 @@ abstract class TableViewBase(val game: PocketPoker) : BaseScreen {
     }
 
     override fun render(delta: Float) {
-        if (chipsIsMoving) {
+        if (chipsIsMovingToPot) {
             seats.forEach { it.moveChipsToPot(gauss[moveStep]) }
             moveStep += 1
             if (moveStep > 49) {
-                chipsIsMoving = false
-                moveStep = 0
-                seats.forEach { it.moveChipsToPot(gauss[moveStep]) }
+                chipsIsMovingToPot = false
+                seats.forEach {
+                    it.moveChipsToPot(gauss[0])
+                    pot.money += it.getChips()
+                    it.setChips(0)
+                }
+            }
+        }
+        if (chipsIsMovingFromPot) {
+            seats.forEach { it.moveChipsToPot(gauss[moveStep]) }
+            moveStep -= 1
+            if (moveStep < 0) {
+                chipsIsMovingFromPot = false
             }
         }
         stage.act()
@@ -222,11 +250,17 @@ abstract class TableViewBase(val game: PocketPoker) : BaseScreen {
     }
 
     fun moveChipsToPot(){
-        chipsIsMoving = true
+        chipsIsMovingFromPot = false
+        moveStep = 0
+        chipsIsMovingToPot = true
     }
 
     fun moveChipsFromPot( localSeat: Int, amount: Long){
-
+        chipsIsMovingToPot = false
+        pot.money -= amount
+        seats[localSeat].setChips(amount)
+        moveStep = 49
+        chipsIsMovingFromPot = true
     }
 
     fun setTableNum(tableNum: String){
