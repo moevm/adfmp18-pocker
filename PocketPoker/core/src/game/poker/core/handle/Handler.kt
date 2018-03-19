@@ -269,6 +269,13 @@ abstract class Handler(val socket: WebSocketConnection,
                 table.currView.moveChipsToPot()
             }
         }
+        seats.movingBets = true
+        for(seat in seats.all()){
+            if(seat.gived > 0){
+                seats.setBet(seat.id, 0)
+            }
+        }
+        seats.setBet(-1, seats.mainChips)
     }
 
     open protected fun blinds(data: JsonObject){
