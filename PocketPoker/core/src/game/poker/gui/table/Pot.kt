@@ -13,12 +13,12 @@ import game.poker.staticFiles.Fonts
 import game.poker.staticFiles.Textures
 
 class Pot() : Group(){
-    var money = 9999L
+    var money = 0L
         set(value) {
             field = value
             chipstack.setChips(money)
         }
-    var count = "9 999"
+    var count = "0"
         set(value) {
             field = value
             label.setText(Settings.getText(Settings.TextKeys.POT) + ":\n" + count)

@@ -126,7 +126,5 @@ class SeatVertical(private val positionNumber:Int) : SeatBase(){
         card2.setPosition(0f,0f)
         updateCardsPosition()
         playerView.money = positionNumber.toString()
-
-        chipstack.setChips(99999)
     }
 }

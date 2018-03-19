@@ -8,6 +8,8 @@ object Settings{
 
     enum class TableOrientation { VERTICAL, HORIZONTAL, BY_GYRO}
 
+    enum class TableMode { Game, Spectate, Replay }
+
     enum class TextKeys{
         POCKET_POKER,
         NICK,
@@ -210,6 +212,7 @@ object Settings{
     var currTableId = 0
     var currArchiveTournamentId = 0
     var currOrientation = TableOrientation.VERTICAL
+    var currTableMode = TableMode.Game
 
     fun getText(key: TextKeys) = langMap[Pair(currLang, key)]
             ?: throw IllegalArgumentException("Bad text key")
