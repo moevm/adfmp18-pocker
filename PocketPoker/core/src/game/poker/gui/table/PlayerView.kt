@@ -39,9 +39,13 @@ class PlayerView : Label("",Label.LabelStyle(Fonts.gameLabelFont, Color.BLACK)) 
             setText(playerName + "\n" + money + "\n"  + info)
         }
 
+    var needUpdateBackground = false
+        private set
+
     var isDisabled = false // gray background - playerView in game but disconnected
         set(value) {
             field = value
+            needUpdateBackground = true
             style.background = if (value){
                 SpriteDrawable(Sprite(Textures.labelBgDisabled))
             } else {
@@ -53,11 +57,24 @@ class PlayerView : Label("",Label.LabelStyle(Fonts.gameLabelFont, Color.BLACK)) 
     var isActive = false // yellow background - playerView is thinking
         set(value) {
             field = value
-            if (!isDisabled) {
-                style.background = if (value) SpriteDrawable(Sprite(Textures.labelBgActive))
-                else SpriteDrawable(Sprite(Textures.labelBg))
+            needUpdateBackground = true
+
+        }
+
+    fun updateBackground(){
+        if (!isDisabled) {
+            if (isActive){
+                style.background = SpriteDrawable(Sprite(Textures.labelBgActive))
+            }
+            else {
+                style.background = SpriteDrawable(Sprite(Textures.labelBg))
             }
         }
+        else {
+            style.background = SpriteDrawable(Sprite(Textures.labelBgDisabled))
+        }
+        needUpdateBackground = false
+    }
 
     init {
         style.background = SpriteDrawable(Sprite(Textures.labelBg))

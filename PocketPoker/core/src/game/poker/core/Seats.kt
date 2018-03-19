@@ -24,6 +24,7 @@ class Seats(val table: TableScreen, data: JsonObject, gameMode: Boolean) {
 
     var idInDecision = -1
     var mainChips: Long = 0
+    var movingBets = false
 
     init {
         var seatsShift = 0
@@ -36,10 +37,10 @@ class Seats(val table: TableScreen, data: JsonObject, gameMode: Boolean) {
 
         val players = data["players"].asJsonArray
         tableNumber = data["table_number"].asInt
-        isFinal = data["is_final"].asBoolean
+        isFinal = data.has("is_final") && data["is_final"].asBoolean || tableNumber == 0
 
         if(gameMode){
-            while (players[0].asJsonObject["id"] == null ||
+            while (players[0].asJsonObject["id"].isJsonNull ||
                     !players[0].asJsonObject["controlled"].asBoolean){
                 players.add(players.remove(0))
                 seatsShift++
@@ -64,7 +65,7 @@ class Seats(val table: TableScreen, data: JsonObject, gameMode: Boolean) {
 
             val curr = players[i].asJsonObject
 
-            if(curr["id"] != null){
+            if(!curr["id"].isJsonNull){
 
                 val player = Player(curr, localSeat)
                 seats[localSeat] = player
@@ -87,8 +88,6 @@ class Seats(val table: TableScreen, data: JsonObject, gameMode: Boolean) {
         }
 
         table.isFinal = isFinal
-
-        //TODO("add strange chipstack timeout")
     }
 
     private fun getPlaces(seats: Int) = when(seats){
@@ -150,12 +149,20 @@ class Seats(val table: TableScreen, data: JsonObject, gameMode: Boolean) {
     }
 
     fun clearDecisionStates(){
+        movingBets = false
         table.currView.clearInDecision()
     }
 
     fun setBet(id: Int, count: Long, reason: String = ""){
         if(id != -1){
-            val seat = getById(id)
+            val seat: Player
+            try {
+                seat = getById(id)
+            }
+            catch (ex: IllegalArgumentException){
+                return
+            }
+
             var moneySpent: Long = 0
 
             if(reason == "Win"){
@@ -186,14 +193,14 @@ class Seats(val table: TableScreen, data: JsonObject, gameMode: Boolean) {
             potCount -= count
         }
 
-        if(reason != "Clear"){
+        if(reason != "Clear" && !movingBets){
             table.currView.setPotCount(potCount.insertSpaces())
         }
 
-        if(id != -1){
+        if(id != -1 && !movingBets){
             table.currView.setChips(idToLocalSeat[id]!!, count)
         }
-        else{
+        else if(!movingBets){
             table.currView.setPotChips(count)
         }
 

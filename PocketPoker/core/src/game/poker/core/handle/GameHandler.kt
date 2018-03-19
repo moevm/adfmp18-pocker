@@ -4,11 +4,13 @@ import com.google.gson.JsonObject
 import game.poker.Settings
 import game.poker.core.*
 import game.poker.screens.TableScreen
+import java.util.*
 
 
 class GameHandler(val name: String,
                   conn: WebSocketConnection,
-                  table: TableScreen) : Handler(conn, table) {
+                  queue: Queue<String>,
+                  table: TableScreen) : Handler(conn, table, queue) {
 
     var resitMode = false
     var inGame = false
