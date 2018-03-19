@@ -20,9 +20,10 @@ import game.poker.PocketPoker
 import game.poker.screens.ScreenType
 import game.poker.core.Rank
 import game.poker.core.Suit
+import game.poker.screens.TableScreen
 
 
-abstract class TableViewBase(val game: PocketPoker) : BaseScreen {
+abstract class TableViewBase(val game: PocketPoker, val table: TableScreen) : BaseScreen {
     val stage = Stage(game.view)
     var mode = Settings.currTableMode
         set(value) {
@@ -98,21 +99,28 @@ abstract class TableViewBase(val game: PocketPoker) : BaseScreen {
                     pausePlayButton.style.imageUp = SpriteDrawable(Sprite(Textures.pauseButton))
                     pausePlayButton.style.imageDown = SpriteDrawable(Sprite(Textures.pauseButtonDown))
                     nextStepButton.isVisible = false
+                    table.handler?.socket?.send("play")
                 } else {
                     pausePlayButton.style.imageUp = SpriteDrawable(Sprite(Textures.playButton))
                     pausePlayButton.style.imageDown = SpriteDrawable(Sprite(Textures.playButtonDown))
                     nextStepButton.isVisible = true
+                    table.handler?.socket?.send("pause")
                 }
             }
         })
         prevHandButton.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent, x: Float, y: Float) {
-
+                table.handler?.socket?.send("prev hand")
             }
         })
         nextHandButton.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent, x: Float, y: Float) {
-
+                table.handler?.socket?.send("next hand")
+            }
+        })
+        nextStepButton.addListener(object : ClickListener() {
+            override fun clicked(event: InputEvent?, x: Float, y: Float) {
+                table.handler?.socket?.send("next step")
             }
         })
         stage.addActor(pokerTable)

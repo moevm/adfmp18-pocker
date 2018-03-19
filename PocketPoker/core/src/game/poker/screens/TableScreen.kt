@@ -41,8 +41,8 @@ class TableScreen(val game: PocketPoker) : BaseScreen {
             tableViewVertical.isFinal = value
             tableViewHorizontal.isFinal = value
         }
-    private val tableViewVertical = TableViewVertical(game)
-    private val tableViewHorizontal = TableViewHorizontal(game)
+    private val tableViewVertical = TableViewVertical(game, this)
+    private val tableViewHorizontal = TableViewHorizontal(game, this)
     var currView : TableViewBase = tableViewVertical
         private set
 

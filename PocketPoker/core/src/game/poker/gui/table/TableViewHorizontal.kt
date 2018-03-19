@@ -1,8 +1,9 @@
 package game.poker.gui.table
 
 import game.poker.PocketPoker
+import game.poker.screens.TableScreen
 
-class TableViewHorizontal(game: PocketPoker) : TableViewBase(game) {
+class TableViewHorizontal(game: PocketPoker, table: TableScreen) : TableViewBase(game, table) {
     init {
         for (i in 0..8){
             seats.add(SeatHorizontal(i))
