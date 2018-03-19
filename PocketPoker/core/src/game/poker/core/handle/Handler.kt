@@ -18,17 +18,17 @@ fun Long.insertSpaces(): String{
     return when(num.length){
         in 0..3 -> num
 
-        in 4..6 -> num.substring(0..num.length - 3) + space +
-                   num.substring(num.length - 3..num.length - 1)
+        in 4..6 -> num.substring(0 until num.length - 3) + space +
+                   num.substring(num.length - 3 until num.length)
 
-        in 7..9 -> num.substring(0..num.length - 6) + space +
-                   num.substring(num.length - 6..num.length - 3) + space +
-                   num.substring(num.length - 3..num.length - 1)
+        in 7..9 -> num.substring(0 until num.length - 6) + space +
+                   num.substring(num.length - 6 until num.length - 3) + space +
+                   num.substring(num.length - 3 until num.length)
 
-        else -> num.substring(0..num.length - 9) + space +
-                num.substring(num.length - 9..num.length - 6) + space +
-                num.substring(num.length - 6..num.length - 3) + space +
-                num.substring(num.length - 3..num.length - 1)
+        else -> num.substring(0 until num.length - 9) + space +
+                num.substring(num.length - 9 until num.length - 6) + space +
+                num.substring(num.length - 6 until num.length - 3) + space +
+                num.substring(num.length - 3 until num.length)
     }
 }
 
@@ -38,8 +38,8 @@ fun Long.shortcut(): String{
 
         in 1_000 until 10_000 -> {
             val num = this.toString()
-            num.substring(0..num.length-3) + ' ' +
-                    num.substring(num.length-3..(num.length - 1))
+            num.substring(0 until num.length-3) + ' ' +
+                    num.substring(num.length-3 until num.length)
         }
 
         in 10_000 until 100_000 -> {
@@ -392,9 +392,11 @@ abstract class Handler(val socket: WebSocketConnection,
         for(player in players){
             val json = player.asJsonObject
             val seat = seats.getById(json["id"].asInt)
-            val card1 = Card.fromString(json["card1"].asString)
-            val card2 = Card.fromString(json["card2"].asString)
-            table.currView.setPlayerCards(seat.localSeat, card1, card2)
+            if(json["card1"].asString != "UP" && json["card2"].asString != "UP"){
+                val card1 = Card.fromString(json["card1"].asString)
+                val card2 = Card.fromString(json["card2"].asString)
+                table.currView.setPlayerCards(seat.localSeat, card1, card2)
+            }
         }
     }
 
