@@ -17,17 +17,22 @@ class Chipstack() : Group() {
     private val stacks: Array<MutableList<Image>> =
             Array(stacksCount) { mutableListOf<Image>() }
 
+    private var amounts = mutableListOf<MutableList<Pair<Chip, Long>>>()
+
+    var needUpdateChips = false
+        private set
+
     fun setChips(newMoney: Long){
         money = newMoney
         var count = newMoney
 
-        val amounts = mutableListOf<MutableList<Pair<Chip, Long>>>()
+        amounts = mutableListOf()
 
         for(chip in Chip.values().reversed()){
             if(chip != Chip.DEALER){
                 if(count >= chip.price()){
                     val intAmount = Math.floor(count.toDouble() / chip.price()).toLong()
-                    amounts += mutableListOf(Pair(chip, intAmount))
+                    amounts.plusAssign(mutableListOf(Pair(chip, intAmount)))
                     count -= intAmount * chip.price()
                 }
             }
@@ -63,6 +68,10 @@ class Chipstack() : Group() {
             amounts.removeAt(indexBetweens + 1)
         }
 
+        needUpdateChips = true
+    }
+
+    fun updateChips(){
         for(stack in stacks){
             stack.clear()
         }
@@ -89,5 +98,6 @@ class Chipstack() : Group() {
                 addActor(chip)
             }
         }
+        needUpdateChips = false
     }
 }

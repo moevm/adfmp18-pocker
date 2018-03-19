@@ -36,10 +36,10 @@ class Seats(val table: TableScreen, data: JsonObject, gameMode: Boolean) {
 
         val players = data["players"].asJsonArray
         tableNumber = data["table_number"].asInt
-        isFinal = data["is_final"].asBoolean
+        isFinal = data.has("is_final") && data["is_final"].asBoolean || tableNumber == 0
 
         if(gameMode){
-            while (players[0].asJsonObject["id"] == null ||
+            while (players[0].asJsonObject["id"].isJsonNull ||
                     !players[0].asJsonObject["controlled"].asBoolean){
                 players.add(players.remove(0))
                 seatsShift++
@@ -64,7 +64,7 @@ class Seats(val table: TableScreen, data: JsonObject, gameMode: Boolean) {
 
             val curr = players[i].asJsonObject
 
-            if(curr["id"] != null){
+            if(!curr["id"].isJsonNull){
 
                 val player = Player(curr, localSeat)
                 seats[localSeat] = player
@@ -155,7 +155,14 @@ class Seats(val table: TableScreen, data: JsonObject, gameMode: Boolean) {
 
     fun setBet(id: Int, count: Long, reason: String = ""){
         if(id != -1){
-            val seat = getById(id)
+            val seat: Player
+            try {
+                seat = getById(id)
+            }
+            catch (ex: IllegalArgumentException){
+                return
+            }
+
             var moneySpent: Long = 0
 
             if(reason == "Win"){

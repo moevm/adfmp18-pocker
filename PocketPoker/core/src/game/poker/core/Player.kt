@@ -14,7 +14,7 @@ class Player(val localSeat: Int) {
     constructor(data: JsonObject, localSeat: Int): this(localSeat) {
         id = data["id"].asInt
         name = data["name"].asString
-        disconnected = data["disconnected"].asBoolean
+        disconnected = data.has("disconnected") && data["disconnected"].asBoolean
         stack = data["stack"].asLong
     }
 

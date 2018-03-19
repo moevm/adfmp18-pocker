@@ -19,16 +19,16 @@ fun Long.insertSpaces(): String{
         in 0..3 -> num
 
         in 4..6 -> num.substring(0..num.length - 3) + space +
-                   num.substring(num.length - 3..num.length)
+                   num.substring(num.length - 3..num.length - 1)
 
         in 7..9 -> num.substring(0..num.length - 6) + space +
                    num.substring(num.length - 6..num.length - 3) + space +
-                   num.substring(num.length - 3..num.length)
+                   num.substring(num.length - 3..num.length - 1)
 
         else -> num.substring(0..num.length - 9) + space +
                 num.substring(num.length - 9..num.length - 6) + space +
                 num.substring(num.length - 6..num.length - 3) + space +
-                num.substring(num.length - 3..num.length)
+                num.substring(num.length - 3..num.length - 1)
     }
 }
 
@@ -39,7 +39,7 @@ fun Long.shortcut(): String{
         in 1_000 until 10_000 -> {
             val num = this.toString()
             num.substring(0..num.length-3) + ' ' +
-                    num.substring(num.length-3..num.length)
+                    num.substring(num.length-3..(num.length - 1))
         }
 
         in 10_000 until 100_000 -> {
@@ -86,9 +86,8 @@ fun Long.shortcut(): String{
 
 
 abstract class Handler(val socket: WebSocketConnection,
-                       val table: TableScreen) {
-
-    val queue: Queue<String> = LinkedList<String>()
+                       val table: TableScreen,
+                       val queue: Queue<String>) {
 
     var inLoop = false
     var reconnectMode = false
@@ -164,8 +163,6 @@ abstract class Handler(val socket: WebSocketConnection,
                 continue
             }
 
-            println("DATA: ${data.asString}")
-
             gameHandle[type]?.invoke(data)
         }
     }
@@ -209,7 +206,8 @@ abstract class Handler(val socket: WebSocketConnection,
 
         val tableNumber = data["table_number"].asLong.insertSpaces()
 
-        if(data["is_final"].asBoolean){
+        if(data.has("is_final") && data["is_final"].asBoolean ||
+                data["table_number"].asInt == 0){
             table.currView.setTableNum(Settings.getText(Settings.TextKeys.FINAL_TABLE))
         }
         else{
@@ -252,7 +250,25 @@ abstract class Handler(val socket: WebSocketConnection,
     }
 
     open protected fun collectMoney(data: JsonObject){
-        TODO()
+        var needMove = false
+        for(seat in seats.all()){
+            if(seat.gived > 0){
+                needMove = true
+                seats.mainChips += seat.gived
+                seat.stack -= seat.gived
+                if(!canMoveChips()){
+                    seats.setBet(seat.id, 0)
+                }
+            }
+        }
+        if(needMove){
+            if(!canMoveChips()){
+                seats.setBet(-1, seats.mainChips)
+            }
+            else{
+                table.currView.moveChipsToPot()
+            }
+        }
     }
 
     open protected fun blinds(data: JsonObject){
@@ -376,7 +392,21 @@ abstract class Handler(val socket: WebSocketConnection,
     }
 
     open protected fun giveMoney(data: JsonObject){
-        TODO()
+        seats.clearDecisionStates()
+        val id = data["id"].asInt
+        val money = data["money"].asLong
+
+        val seat = seats.getById(id)
+
+        seat.gived += money
+        seats.setBet(id, money, "Win")
+
+        seats.mainChips -= money
+        seats.setBet(-1, seats.mainChips, "Win")
+
+        if(canMoveChips()){
+            table.currView.moveChipsFromPot(seat.localSeat, money)
+        }
     }
 
     open protected fun moneyResults(data: JsonObject){
@@ -384,7 +414,7 @@ abstract class Handler(val socket: WebSocketConnection,
     }
 
     open protected fun handResults(data: JsonObject){
-        TODO()
+        // TODO
     }
 
     open protected fun busted(data: JsonObject){

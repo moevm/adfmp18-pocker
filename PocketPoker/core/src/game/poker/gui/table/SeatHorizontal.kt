@@ -124,7 +124,6 @@ class SeatHorizontal(private val positionNumber:Int) : SeatBase(){
         card1.setPosition(0f,0f)
         card2.setPosition(0f,0f)
         updateCardsPosition()
-        chipstack.setChips(99999)
         playerView.money = positionNumber.toString()
         rotation = -90f
     }

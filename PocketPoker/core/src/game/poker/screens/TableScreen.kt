@@ -3,16 +3,17 @@ package game.poker.screens
 import com.google.gson.JsonObject
 import game.poker.PocketPoker
 import game.poker.Settings
+import game.poker.core.*
 import game.poker.gui.table.TableViewBase
 import game.poker.gui.table.TableViewVertical
 import game.poker.gui.table.TableViewHorizontal
-import game.poker.core.Rank
-import game.poker.core.Suit
-import game.poker.core.Card
-import game.poker.core.Visibility
 import game.poker.core.handle.Handler
+import game.poker.core.handle.ReplayHandler
+import java.util.*
 
 class TableScreen(val game: PocketPoker) : BaseScreen {
+
+    var handler: Handler? = null
 
     var orientation = Settings.currOrientation
         private set(value) {
@@ -46,6 +47,7 @@ class TableScreen(val game: PocketPoker) : BaseScreen {
         private set
 
     init {
+        /*
         //DEBUG
         //isFinal = true
         currView.setFlopCards(Card(Rank.Ten,Suit.Clubs, Visibility.Open),Card(Rank.Ace,Suit.Spades, Visibility.Open),Card(Rank.Ace,Suit.Clubs, Visibility.Open))
@@ -67,6 +69,13 @@ class TableScreen(val game: PocketPoker) : BaseScreen {
         currView.setPotChips(999999)
         currView.setPotCount("999 999")
         //END DEBUG
+        */
+    }
+
+    fun deleteHandler(){
+        handler?.inLoop = false
+        handler?.socket?.close()
+        handler = null
     }
 
     override fun update(){
@@ -80,6 +89,23 @@ class TableScreen(val game: PocketPoker) : BaseScreen {
             mode = Settings.currTableMode
             tableViewHorizontal.mode = mode
             tableViewVertical.mode = mode
+        }
+        when(mode){
+            Settings.TableMode.Game -> {
+                TODO()
+            }
+            Settings.TableMode.Spectate -> {
+                TODO()
+            }
+            Settings.TableMode.Replay -> {
+                val queue: Queue<String> = LinkedList<String>()
+                val socket = WebSocketConnection(queue)
+                val replayId = (Settings.currArchiveTournamentId.toString()
+                                + ":" + Settings.currTableId)
+                handler = ReplayHandler(replayId, socket, queue, this)
+                handler?.open()
+                Thread(Runnable { handler?.handle() }).start()
+            }
         }
         currView.show()
     }
@@ -102,11 +128,13 @@ class TableScreen(val game: PocketPoker) : BaseScreen {
 
     override fun hide(){
         currView.hide()
+        deleteHandler()
     }
 
     override fun dispose(){
         tableViewVertical.dispose()
         tableViewHorizontal.dispose()
+        deleteHandler()
     }
 
     override fun receiveFromServer(json: JsonObject) {

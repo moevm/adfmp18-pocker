@@ -3,16 +3,21 @@ package game.poker.core.handle
 import com.google.gson.JsonObject
 import game.poker.core.WebSocketConnection
 import game.poker.screens.TableScreen
+import java.util.*
 
 
 class ReplayHandler(val replayId: String,
                     conn: WebSocketConnection,
-                    table: TableScreen) : Handler(conn, table) {
+                    queue: Queue<String>,
+                    table: TableScreen) : Handler(conn, table, queue) {
 
     var inPause = false
 
     override fun open() {
-        TODO("not implemented")
+        val json = JsonObject()
+        json.addProperty("type", "rp")
+        json.addProperty("name", replayId)
+        socket.connectToServer(json.toString())
     }
 
     override fun chatMessage(message: String) {

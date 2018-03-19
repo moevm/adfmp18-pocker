@@ -33,14 +33,12 @@ class MenuHandler(private val game: PocketPoker) {
 
             val data =  parser.parse(queue.remove()).asJsonObject
 
-            println("MENU DATA: $data")
             game.receiveFromServer(data)
         }
     }
 
     fun sendToServer(json: JsonObject){
         val message = json.toString()
-        println("Send to server: $message")
         socket.send(message)
     }
 
