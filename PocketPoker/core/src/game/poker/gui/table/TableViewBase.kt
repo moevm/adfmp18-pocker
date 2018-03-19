@@ -167,6 +167,9 @@ abstract class TableViewBase(val game: PocketPoker) : BaseScreen {
         if(needUpdateRiver){
             updateRiverCard()
         }
+        if(pot.chipstack.needUpdateChips){
+            pot.chipstack.updateChips()
+        }
         if (chipsIsMovingToPot) {
             seats.forEach { it.moveChipsToPot(gauss[moveStep]) }
             moveStep += 2
