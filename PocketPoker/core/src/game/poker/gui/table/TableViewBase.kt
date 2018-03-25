@@ -52,6 +52,7 @@ abstract class TableViewBase(val game: PocketPoker, val table: TableScreen) : Ba
             SpriteDrawable(Sprite(Textures.prevHandDown)))
     protected val pausePlayButton = ImageButton(SpriteDrawable(Sprite(Textures.pauseButton)),
             SpriteDrawable(Sprite(Textures.pauseButtonDown)))
+    private val bg =  Image(Textures.menuBg)
     val gauss = arrayListOf<Float>( 0.0F, 0.001F, 0.002F, 0.003F, 0.004F, 0.006F, 0.009F, 0.013F, 0.018F, 0.024F,
             0.032F, 0.042F, 0.054F, 0.068F, 0.085F, 0.105F, 0.128F, 0.155F, 0.185F, 0.219F,
             0.256F, 0.296F, 0.339F, 0.384F, 0.43F, 0.477F, 0.524F, 0.571F, 0.617F, 0.662F,
@@ -123,6 +124,7 @@ abstract class TableViewBase(val game: PocketPoker, val table: TableScreen) : Ba
                 table.handler?.socket?.send("next step")
             }
         })
+        stage.addActor(bg)
         stage.addActor(pokerTable)
         stage.addActor(pot)
         cards.forEach { stage.addActor(it) }

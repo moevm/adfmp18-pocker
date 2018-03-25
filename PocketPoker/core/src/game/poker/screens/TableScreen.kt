@@ -1,5 +1,6 @@
 package game.poker.screens
 
+import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.google.gson.JsonObject
 import game.poker.PocketPoker
 import game.poker.Settings
@@ -9,6 +10,7 @@ import game.poker.gui.table.TableViewVertical
 import game.poker.gui.table.TableViewHorizontal
 import game.poker.core.handle.Handler
 import game.poker.core.handle.ReplayHandler
+import game.poker.staticFiles.Textures
 import java.util.*
 
 class TableScreen(val game: PocketPoker) : BaseScreen {
