@@ -148,9 +148,6 @@ abstract class TableViewBase(val game: PocketPoker, val table: TableScreen) : Ba
     }
 
     override fun render(delta: Float) {
-        seats.forEach {
-            it.checkUpdates()
-        }
         if(needUpdateFlop){
             updateFlopCards()
         }
@@ -159,9 +156,6 @@ abstract class TableViewBase(val game: PocketPoker, val table: TableScreen) : Ba
         }
         if(needUpdateRiver){
             updateRiverCard()
-        }
-        if(pot.chipstack.needUpdateChips){
-            pot.chipstack.updateChips()
         }
         if (chipsIsMovingToPot) {
             seats.forEach { it.moveChipsToPot(gauss[moveStep]) }
@@ -182,6 +176,12 @@ abstract class TableViewBase(val game: PocketPoker, val table: TableScreen) : Ba
                 chipsIsMovingFromPot = false
                 seats.forEach { it.moveChipsToPot(gauss[0]) }
             }
+        }
+        if(pot.chipstack.needUpdateChips){
+            pot.chipstack.updateChips()
+        }
+        seats.forEach {
+            it.checkUpdates()
         }
         stage.act()
         stage.draw()
