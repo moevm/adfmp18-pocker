@@ -10,9 +10,9 @@ import game.poker.core.Chip
 
 object Textures{
 
-    val menuBg: Texture by lazy { Texture("pics/MenuBackground.png") }
-    val menuButton: Texture by lazy { Texture("pics/button.png") }
-    val menuButtonDown: Texture by lazy { Texture("pics/buttonDown.png") }
+    val menuBg: Texture by lazy { Texture("pics/bgFullHd2.png") }
+    val menuButton: Texture by lazy { Texture("pics/buttonGray.png") }
+    val menuButtonDown: Texture by lazy { Texture("pics/buttonGrayDown.png") }
     val edit: Texture by lazy { Texture("pics/edit.png") }
     val editCursor: Texture by lazy { Texture("pics/editCursor.png") }
     val scroll: Texture by lazy { Texture("pics/scroll.png") }
