@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.*
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable
+import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 
 import game.poker.PocketPoker
@@ -26,6 +27,8 @@ class ArchiveMenu(val game: PocketPoker) : BaseScreen {
     private val PADDING = 50f
     private val archiveList: ScrollableContainer
     private val lock: Lock = ReentrantLock()
+    private val mainMenuButton: TextButton
+    private var archiveData = JsonArray()
 
     init {
 
@@ -54,7 +57,7 @@ class ArchiveMenu(val game: PocketPoker) : BaseScreen {
 
         table.add(TextField("", editStyle)).pad(PADDING).expandX().fillX().row()
         table.add(archiveList.actor).expandX().fillX().row()
-        val mainMenuButton = TextButton(Settings.getText(Settings.TextKeys.MAIN_MENU), buttonStyle)
+        mainMenuButton = TextButton(Settings.getText(Settings.TextKeys.MAIN_MENU), buttonStyle)
         mainMenuButton.addListener(game.switches[ScreenType.MAIN_MENU])
         table.add(mainMenuButton).pad(PADDING).expand().left().bottom()
         stage.addActor(table)
@@ -62,13 +65,13 @@ class ArchiveMenu(val game: PocketPoker) : BaseScreen {
     }
 
     override fun update(){
-
+        mainMenuButton.setText(Settings.getText(Settings.TextKeys.MAIN_MENU))
     }
 
     override fun show(){
         lock.withLock {
             Gdx.input.inputProcessor = stage
-            updateArchive()
+            sendRequestForUpdateArchive()
         }
     }
 
@@ -76,6 +79,7 @@ class ArchiveMenu(val game: PocketPoker) : BaseScreen {
         lock.withLock {
             stage.act()
             stage.draw()
+            if (archiveData.size() != 0) updateArchive()
         }
     }
 
@@ -102,23 +106,28 @@ class ArchiveMenu(val game: PocketPoker) : BaseScreen {
     override fun receiveFromServer(json: JsonObject) {
         lock.withLock {
             if (json["type"].asString == "replays") {
-                archiveList.clear()
-                for (field in json["info"].asJsonArray) {
-                    val item = field.asJsonObject
-                    val id = item["id"].asInt
-                    val date = item["date"].asString.split("_")[0]
-                    val tables = item["tables"].asInt
-                    val players = item["players"].asInt
-                    val hands = item["hands"].asInt
-                    var name = item["name"].asString
-                    if (name == "") name = Settings.getText(Settings.TextKeys.TOURNAMENT) + " #" + id.toString()
-                    archiveList.add(ArchiveItem(id, name, date, tables, players, hands))
-                }
+                archiveData = json["info"].asJsonArray
             }
         }
     }
 
     private fun updateArchive() {
+        archiveList.clear()
+        for (field in archiveData) {
+            val item = field.asJsonObject
+            val id = item["id"].asInt
+            val date = item["date"].asString.split("_")[0]
+            val tables = item["tables"].asInt
+            val players = item["players"].asInt
+            val hands = item["hands"].asInt
+            var name = item["name"].asString
+            if (name == "") name = Settings.getText(Settings.TextKeys.TOURNAMENT) + " #" + id.toString()
+            archiveList.add(ArchiveItem(id, name, date, tables, players, hands))
+        }
+        archiveData = JsonArray()
+    }
+
+    private fun sendRequestForUpdateArchive() {
         val data = JsonObject()
         data.addProperty("type", "get replays")
         game.menuHandler.sendToServer(data)
