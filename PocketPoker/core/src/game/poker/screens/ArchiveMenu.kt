@@ -17,16 +17,13 @@ import game.poker.staticFiles.Fonts
 import game.poker.gui.ScrollableContainer
 import game.poker.gui.ScrollableContainer.ClickHandler
 import game.poker.gui.ArchiveItem
-import java.util.concurrent.locks.Lock
-import java.util.concurrent.locks.ReentrantLock
-import kotlin.concurrent.withLock
+
 
 class ArchiveMenu(val game: PocketPoker) : BaseScreen {
 
     private val stage = Stage(game.view)
     private val PADDING = 50f
     private val archiveList: ScrollableContainer
-    private val lock: Lock = ReentrantLock()
     private val mainMenuButton: TextButton
     private var archiveData = JsonArray()
 
@@ -69,18 +66,14 @@ class ArchiveMenu(val game: PocketPoker) : BaseScreen {
     }
 
     override fun show(){
-        lock.withLock {
-            Gdx.input.inputProcessor = stage
-            sendRequestForUpdateArchive()
-        }
+        Gdx.input.inputProcessor = stage
+        sendRequestForUpdateArchive()
     }
 
     override fun render(delta: Float) {
-        lock.withLock {
-            stage.act()
-            stage.draw()
-            if (archiveData.size() != 0) updateArchive()
-        }
+        stage.act()
+        stage.draw()
+        if (archiveData.size() != 0) updateArchive()
     }
 
     override fun resize(width: Int, height: Int){
@@ -104,10 +97,8 @@ class ArchiveMenu(val game: PocketPoker) : BaseScreen {
     }
 
     override fun receiveFromServer(json: JsonObject) {
-        lock.withLock {
-            if (json["type"].asString == "replays") {
-                archiveData = json["info"].asJsonArray
-            }
+        if (json["type"].asString == "replays") {
+            archiveData = json["info"].asJsonArray
         }
     }
 
