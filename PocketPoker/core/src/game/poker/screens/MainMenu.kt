@@ -178,6 +178,7 @@ class MainMenu(val game: PocketPoker) : BaseScreen {
                 nickEdit.text = generateNick()
                 registerUser()
             } else {
+                isUserSet = true
                 nickEdit.isDisabled = false
                 nickEditButton.isDisabled = false
             }
@@ -188,6 +189,7 @@ class MainMenu(val game: PocketPoker) : BaseScreen {
             nickEditButton.isDisabled = false
 
             if (json["answer"].asString == "success") {
+                isUserSet = true
                 Settings.nick = nickEdit.text
                 Settings.token = json["token"].asString
                 val prefs = Gdx.app.getPreferences("main")
