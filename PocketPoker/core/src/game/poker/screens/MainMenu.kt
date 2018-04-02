@@ -26,6 +26,7 @@ class MainMenu(val game: PocketPoker) : BaseScreen {
     private val stage = Stage(game.view)
     private val PADDING = 50f
     private var isRandomRegister = false
+    private var isUserSet = false
 
     private val nickLabel: Label
     private val nickEdit: TextField
@@ -107,7 +108,7 @@ class MainMenu(val game: PocketPoker) : BaseScreen {
 
     override fun show(){
         Gdx.input.inputProcessor = stage
-        setUser()
+        if (!isUserSet) setUser()
     }
 
     override fun render(delta: Float) {
@@ -149,6 +150,7 @@ class MainMenu(val game: PocketPoker) : BaseScreen {
         if (json["type"].asString == "register") {
             if (json["answer"].asString == "success") {
                 isRandomRegister = false
+                isUserSet = true
                 nickEditButton.isDisabled = false
                 nickEdit.isDisabled = false
                 Settings.nick = nickEdit.text
@@ -237,8 +239,8 @@ class MainMenu(val game: PocketPoker) : BaseScreen {
         var token = prefs.getString("token", "")
 
         //dummy data
-        nick = "User #383385"
-        token = "Flygvkzby9VdLERSOXnvilngqxnhtFvjmZu4DplPJ1pMNb4jKkg0JBFWiMrnnp7z"
+        nick = "User #735067"
+        token = "Pid2gYVEZPNnw6vAX5HptFKC50Dph1S8PkQRs9KGgfwPo3xE05tTdQJfmEuB7Ntp"
 
         Settings.nick = nick
         Settings.token = token
