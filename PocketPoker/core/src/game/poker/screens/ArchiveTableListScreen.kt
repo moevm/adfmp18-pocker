@@ -48,6 +48,7 @@ class ArchiveTableListScreen(game: PocketPoker): BaseTableListScreen(game) {
 
     override fun handleItemClick(id: Int) {
         Settings.currTableId = id
+        Settings.currTableMode = Settings.TableMode.Replay
         game.setCurrScreen(ScreenType.TABLE)
     }
 

@@ -2,11 +2,14 @@ package game.poker.gui.table
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.g2d.Sprite
+import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable
+import com.google.gson.JsonObject
 import game.poker.Settings
 import game.poker.core.Card
 import game.poker.core.Visibility
@@ -15,21 +18,56 @@ import game.poker.staticFiles.Fonts
 import game.poker.staticFiles.Textures
 import game.poker.PocketPoker
 import game.poker.screens.ScreenType
+import game.poker.core.Rank
+import game.poker.core.Suit
+import game.poker.screens.TableScreen
 
 
-abstract class TableViewBase(val game: PocketPoker) : BaseScreen {
+abstract class TableViewBase(val game: PocketPoker, val table: TableScreen) : BaseScreen {
     val stage = Stage(game.view)
+    var mode = Settings.currTableMode
+        set(value) {
+            field = value
+            updateButtons()
+        }
     var isFinal = false
     protected val seats = mutableListOf<SeatBase>()
     protected val pot = Pot()
     protected val cards = Array(5){ Image(SpriteDrawable(Sprite(Textures.cardPlaceholder))) }
-    protected val chatButton: TextButton
-    protected val infoButton: TextButton
+    protected val cardsObjects = Array(5) { Card(Rank.Ace, Suit.Hearts, Visibility.Open) }
+    protected val chatButton= ImageButton(SpriteDrawable(Sprite(Textures.chatButton)),
+            SpriteDrawable(Sprite(Textures.chatButtonDown)))
+    protected val infoButton= ImageButton(SpriteDrawable(Sprite(Textures.infoButton)),
+            SpriteDrawable(Sprite(Textures.infoButtonDown)))
     protected val foldButton: TextButton
     protected val callButton: TextButton
     protected val raiseButton: TextButton
     protected val exitButton = ImageButton(SpriteDrawable(Sprite(Textures.exitButton)),
             SpriteDrawable(Sprite(Textures.exitButtonDown)))
+    protected val nextHandButton = ImageButton(SpriteDrawable(Sprite(Textures.nextHand)),
+            SpriteDrawable(Sprite(Textures.nextHandDown)))
+    protected val nextStepButton = ImageButton(SpriteDrawable(Sprite(Textures.nextStep)),
+            SpriteDrawable(Sprite(Textures.nextStepDown)))
+    protected val prevHandButton = ImageButton(SpriteDrawable(Sprite(Textures.prevHand)),
+            SpriteDrawable(Sprite(Textures.prevHandDown)))
+    protected val pausePlayButton = ImageButton(SpriteDrawable(Sprite(Textures.pauseButton)),
+            SpriteDrawable(Sprite(Textures.pauseButtonDown)))
+    private val bg =  Image(Textures.menuBg)
+    val gauss = arrayListOf<Float>( 0.0F, 0.001F, 0.002F, 0.003F, 0.004F, 0.006F, 0.009F, 0.013F, 0.018F, 0.024F,
+            0.032F, 0.042F, 0.054F, 0.068F, 0.085F, 0.105F, 0.128F, 0.155F, 0.185F, 0.219F,
+            0.256F, 0.296F, 0.339F, 0.384F, 0.43F, 0.477F, 0.524F, 0.571F, 0.617F, 0.662F,
+            0.705F, 0.745F, 0.782F, 0.816F, 0.846F, 0.873F, 0.896F, 0.916F, 0.933F, 0.947F,
+            0.959F, 0.969F, 0.977F, 0.983F, 0.988F, 0.992F, 0.995F, 0.997F, 0.999F, 1.0F)
+    private var chipsIsMovingToPot = false
+    private var chipsIsMovingFromPot = false
+    private var moveStep = 0
+
+    var needUpdateFlop = false
+        private set
+    var needUpdateTurn = false
+        private set
+    var needUpdateRiver = false
+        private set
 
     init {
         val tableSprite = Sprite(Textures.pokerTable)
@@ -43,8 +81,6 @@ abstract class TableViewBase(val game: PocketPoker) : BaseScreen {
         val buttonDownSprite = SpriteDrawable(Sprite(Textures.menuButtonDown))
         val buttonStyle = TextButton.TextButtonStyle(buttonSprite, buttonDownSprite, buttonSprite,
                 Fonts.mainMenuButtonFont)
-        chatButton = TextButton(Settings.getText(Settings.TextKeys.CHAT), buttonStyle)
-        infoButton = TextButton(Settings.getText(Settings.TextKeys.INFO), buttonStyle)
         foldButton = TextButton(Settings.getText(Settings.TextKeys.FOLD), buttonStyle)
         callButton = TextButton(Settings.getText(Settings.TextKeys.CALL), buttonStyle)
         raiseButton = TextButton(Settings.getText(Settings.TextKeys.RAISE), buttonStyle)
@@ -54,6 +90,41 @@ abstract class TableViewBase(val game: PocketPoker) : BaseScreen {
         callButton.isTransform = true
         raiseButton.isTransform = true
         exitButton.isTransform = true
+        nextHandButton.isTransform = true
+        nextStepButton.isTransform = true
+        prevHandButton.isTransform = true
+        pausePlayButton.isTransform = true
+        pausePlayButton.addListener(object : ClickListener() {
+            override fun clicked(event: InputEvent, x: Float, y: Float) {
+                if (pausePlayButton.isChecked) {
+                    pausePlayButton.style.imageUp = SpriteDrawable(Sprite(Textures.pauseButton))
+                    pausePlayButton.style.imageDown = SpriteDrawable(Sprite(Textures.pauseButtonDown))
+                    nextStepButton.isVisible = false
+                    table.handler?.socket?.send("play")
+                } else {
+                    pausePlayButton.style.imageUp = SpriteDrawable(Sprite(Textures.playButton))
+                    pausePlayButton.style.imageDown = SpriteDrawable(Sprite(Textures.playButtonDown))
+                    nextStepButton.isVisible = true
+                    table.handler?.socket?.send("pause")
+                }
+            }
+        })
+        prevHandButton.addListener(object : ClickListener() {
+            override fun clicked(event: InputEvent, x: Float, y: Float) {
+                table.handler?.socket?.send("prev hand")
+            }
+        })
+        nextHandButton.addListener(object : ClickListener() {
+            override fun clicked(event: InputEvent, x: Float, y: Float) {
+                table.handler?.socket?.send("next hand")
+            }
+        })
+        nextStepButton.addListener(object : ClickListener() {
+            override fun clicked(event: InputEvent?, x: Float, y: Float) {
+                table.handler?.socket?.send("next step")
+            }
+        })
+        stage.addActor(bg)
         stage.addActor(pokerTable)
         stage.addActor(pot)
         cards.forEach { stage.addActor(it) }
@@ -62,12 +133,15 @@ abstract class TableViewBase(val game: PocketPoker) : BaseScreen {
         stage.addActor(foldButton)
         stage.addActor(callButton)
         stage.addActor(raiseButton)
+        stage.addActor(nextHandButton)
+        stage.addActor(nextStepButton)
+        stage.addActor(prevHandButton)
+        stage.addActor(pausePlayButton)
         stage.addActor(exitButton)
+        updateButtons()
     }
 
     override fun update() {
-        chatButton.setText(Settings.getText(Settings.TextKeys.CHAT))
-        infoButton.setText(Settings.getText(Settings.TextKeys.INFO))
         foldButton.setText(Settings.getText(Settings.TextKeys.FOLD))
         callButton.setText(Settings.getText(Settings.TextKeys.CALL))
         raiseButton.setText(Settings.getText(Settings.TextKeys.RAISE))
@@ -76,6 +150,41 @@ abstract class TableViewBase(val game: PocketPoker) : BaseScreen {
     }
 
     override fun render(delta: Float) {
+        if(needUpdateFlop){
+            updateFlopCards()
+        }
+        if(needUpdateTurn){
+            updateTurnCard()
+        }
+        if(needUpdateRiver){
+            updateRiverCard()
+        }
+        if (chipsIsMovingToPot) {
+            seats.forEach { it.moveChipsToPot(gauss[moveStep]) }
+            moveStep += 2
+            if (moveStep >= gauss.size) {
+                chipsIsMovingToPot = false
+                seats.forEach {
+                    it.moveChipsToPot(gauss[0])
+                    pot.money += it.getChips()
+                    it.setChips(0)
+                }
+            }
+        }
+        if (chipsIsMovingFromPot) {
+            seats.forEach { it.moveChipsToPot(gauss[moveStep]) }
+            moveStep -= 2
+            if (moveStep < 0) {
+                chipsIsMovingFromPot = false
+                seats.forEach { it.moveChipsToPot(gauss[0]) }
+            }
+        }
+        if(pot.chipstack.needUpdateChips){
+            pot.chipstack.updateChips()
+        }
+        seats.forEach {
+            it.checkUpdates()
+        }
         stage.act()
         stage.draw()
     }
@@ -108,24 +217,8 @@ abstract class TableViewBase(val game: PocketPoker) : BaseScreen {
         if(Gdx.input.inputProcessor == table.stage) {
             Gdx.input.inputProcessor = stage
         }
-        for ((i,seat) in seats.withIndex()){
-            seat.playerView.money = table.seats[i].playerView.money
-            seat.playerView.playerName = table.seats[i].playerView.playerName
-            seat.playerView.info = table.seats[i].playerView.info
-            seat.setChips(table.seats[i].getChips())
-            seat.isDealer = table.seats[i].isDealer
-            seat.isEmpty = table.seats[i].isEmpty
-            if (table.seats[i].isCardsUp) {
-                seat.upCards()
-            } else {
-                seat.setCards(table.seats[i].cardName1,table.seats[i].cardName2)
-            }
-            if (table.seats[i].isCardsEmpty) {
-                seat.clearCards()
-            }
-            seat.playerView.isDisabled = table.seats[i].playerView.isDisabled
-            seat.playerView.isActive = table.seats[i].playerView.isActive
-            seat.isVisible = table.seats[i].isVisible
+        for ((i, seat) in seats.withIndex()){
+            seat.fit(table.seats[i])
         }
         pot.money = table.pot.money
         pot.count = table.pot.count
@@ -134,10 +227,52 @@ abstract class TableViewBase(val game: PocketPoker) : BaseScreen {
         }
     }
 
+    private fun updateButtons(){
+        foldButton.isVisible = false
+        callButton.isVisible = false
+        raiseButton.isVisible = false
+        nextHandButton.isVisible = false
+        nextStepButton.isVisible = false
+        prevHandButton.isVisible = false
+        pausePlayButton.isVisible = false
+        when (mode){
+            Settings.TableMode.Game -> {
+                foldButton.isVisible = true
+                callButton.isVisible = true
+                raiseButton.isVisible = true
+            }
+            Settings.TableMode.Replay -> {
+                nextHandButton.isVisible = true
+                prevHandButton.isVisible = true
+                pausePlayButton.isVisible = true
+
+                nextStepButton.isVisible = false
+                pausePlayButton.isChecked = true
+            }
+            Settings.TableMode.Spectate -> {
+
+            }
+        }
+    }
+
     // all events that received from handler
 
     fun initTable(){
 
+    }
+
+    fun moveChipsToPot(){
+        chipsIsMovingFromPot = false
+        moveStep = 0
+        chipsIsMovingToPot = true
+    }
+
+    fun moveChipsFromPot( localSeat: Int, amount: Long){
+        chipsIsMovingToPot = false
+        pot.money -= amount
+        seats[localSeat - 1].setChips(amount)
+        moveStep = gauss.size - 1
+        chipsIsMovingFromPot = true
     }
 
     fun setTableNum(tableNum: String){
@@ -201,17 +336,37 @@ abstract class TableViewBase(val game: PocketPoker) : BaseScreen {
     }
 
     fun setFlopCards(card1: Card, card2: Card, card3: Card){
-        cards[0].drawable = SpriteDrawable(Sprite(Textures.getCard(card1)))
-        cards[1].drawable = SpriteDrawable(Sprite(Textures.getCard(card2)))
-        cards[2].drawable = SpriteDrawable(Sprite(Textures.getCard(card3)))
+        cardsObjects[0] = card1
+        cardsObjects[1] = card2
+        cardsObjects[2] = card3
+        needUpdateFlop = true
+    }
+
+    fun updateFlopCards(){
+        cards[0].drawable = SpriteDrawable(Sprite(Textures.getCard(cardsObjects[0])))
+        cards[1].drawable = SpriteDrawable(Sprite(Textures.getCard(cardsObjects[1])))
+        cards[2].drawable = SpriteDrawable(Sprite(Textures.getCard(cardsObjects[2])))
+        needUpdateFlop = false
     }
 
     fun setTurnCard(card: Card){
-        cards[3].drawable = SpriteDrawable(Sprite(Textures.getCard(card)))
+        cardsObjects[3] = card
+        needUpdateTurn = true
+    }
+
+    fun updateTurnCard(){
+        cards[3].drawable = SpriteDrawable(Sprite(Textures.getCard(cardsObjects[3])))
+        needUpdateTurn = false
     }
 
     fun setRiverCard(card: Card){
-        cards[4].drawable = SpriteDrawable(Sprite(Textures.getCard(card)))
+        cardsObjects[4] = card
+        needUpdateRiver = true
+    }
+
+    fun updateRiverCard(){
+        cards[4].drawable = SpriteDrawable(Sprite(Textures.getCard(cardsObjects[4])))
+        needUpdateRiver = false
     }
 
     fun setPlayerCards(localSeat: Int, card1: Card, card2: Card){
@@ -297,5 +452,9 @@ abstract class TableViewBase(val game: PocketPoker) : BaseScreen {
         seats[localSeat-1].playerView.money = stack
         seats[localSeat-1].playerView.info = info
         seats[localSeat-1].isEmpty = false
+    }
+
+    override fun receiveFromServer(json: JsonObject) {
+
     }
 }
