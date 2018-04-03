@@ -454,6 +454,15 @@ abstract class TableViewBase(val game: PocketPoker, val table: TableScreen) : Ba
         seats[localSeat-1].isEmpty = false
     }
 
+    fun removePlayingChoices(){
+        // Убирает 2 или три кнопки выбора текущео решения
+    }
+
+    fun setPlayingChoices(choices: List<String>){
+        // Наступил ход игрока. Показать варианты выбора
+        // может быть длины 2 или 3
+    }
+
     override fun receiveFromServer(json: JsonObject) {
 
     }

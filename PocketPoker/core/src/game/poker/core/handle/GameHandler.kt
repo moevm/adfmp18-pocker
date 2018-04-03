@@ -22,7 +22,11 @@ class GameHandler(val name: String,
     }
 
     override fun open(){
-        socket.send("js " + name)
+        val json = JsonObject()
+        json.addProperty("type", "js")
+        json.addProperty("name", name)
+        TODO("Добавить поле ID из настроек")
+        socket.connectToServer(json.toString())
         info.waitWhileAllPlayersRegister()
     }
 
@@ -31,6 +35,7 @@ class GameHandler(val name: String,
     }
 
     fun sendDecision(toSend: String){
+        table.currView.removePlayingChoices()
         val json = JsonObject()
         json.addProperty("type", "decision")
         json.addProperty("text", toSend)
@@ -48,7 +53,6 @@ class GameHandler(val name: String,
     override fun initHand(data: JsonObject) {
         if(waitForInit){
             info.startedGame()
-            TODO("not implemented fully from js")
         }
         super.initHand(data)
     }
@@ -215,7 +219,70 @@ class GameHandler(val name: String,
     }
 
     override fun setDecision(data: JsonObject) {
-        TODO()
+        // if it in reconnect mode then player was autofolded
+        if(reconnectMode){
+            return
+        }
+
+        val decisions = data["decisions"].asJsonArray
+
+        // all premoves checking flags stays in 'this.made_decision' method
+        if(premoves.first){
+            if(decisions[1].asJsonObject["type"].asString == "check"){
+                sendDecision("2") // if 'check/fold' then autoclick 'check'
+                // but 'check/fold' flag stays so if someone raises then autoclick 'fold'
+                return
+            }
+            else{
+                // autoclick 'fold'
+                sendDecision("1")
+                return
+            }
+        }
+        else if(premoves.second){
+            // autoclick 'call'
+            sendDecision("2")
+            return
+        }
+        else if(this.premoves.third){
+            // because third is 'call any' so autoclick 'call'
+            sendDecision("2")
+            return
+        }
+
+        premoves.hide()
+
+        val choicesToShow = mutableListOf<String>()
+
+        for(decision in decisions) {
+            val curr = decision.asJsonObject
+            val type = curr["type"].asString
+
+            when (type) {
+                "fold" -> {
+                    choicesToShow.add(Settings.getText(Settings.TextKeys.FOLD))
+                }
+                "check" -> {
+                    choicesToShow.add(Settings.getText(Settings.TextKeys.CHECK))
+                }
+                "call" -> {
+                    val money = curr["money"].asLong
+                    val needToAdd = money - seats.me.gived
+                    choicesToShow.add("${Settings.getText(Settings.TextKeys.CALL)} $needToAdd")
+                    seats.toCall = money
+                }
+                "raise" -> {
+                    TODO()
+                }
+                "all in" -> {
+                    val money = curr["money"].asLong
+                    val needToAdd = money - seats.me.gived
+                    choicesToShow.add("${Settings.getText(Settings.TextKeys.ALL_IN)} $needToAdd")
+                }
+            }
+
+            table.currView.setPlayingChoices(choicesToShow)
+        }
     }
 
 }
