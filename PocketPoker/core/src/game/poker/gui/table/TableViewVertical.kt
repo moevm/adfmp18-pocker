@@ -1,5 +1,6 @@
 package game.poker.gui.table
 
+import com.google.gson.JsonObject
 import game.poker.PocketPoker
 import game.poker.screens.TableScreen
 
@@ -43,4 +44,9 @@ class TableViewVertical(game: PocketPoker, table: TableScreen) : TableViewBase(g
         prevHandButton.setSize(100f, 100f)
         pausePlayButton.setSize(100f, 100f)
     }
+
+    override fun receiveFromServer(json: JsonObject) {
+
+    }
+
 }

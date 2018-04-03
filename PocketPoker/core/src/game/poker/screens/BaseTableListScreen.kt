@@ -1,13 +1,12 @@
 package game.poker.screens
 
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.*
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable
-import com.google.gson.JsonObject
+import com.google.gson.JsonArray
 
 import game.poker.PocketPoker
 import game.poker.Settings
@@ -15,25 +14,25 @@ import game.poker.staticFiles.Textures
 import game.poker.staticFiles.Fonts
 import game.poker.gui.ScrollableContainer
 import game.poker.gui.ScrollableContainer.ClickHandler
-import game.poker.gui.ArchiveItem
-import java.util.concurrent.locks.Lock
-import java.util.concurrent.locks.ReentrantLock
-import kotlin.concurrent.withLock
+
 
 abstract class BaseTableListScreen(val game: PocketPoker) : BaseScreen {
 
     private val stage = Stage(game.view)
     private val PADDING = 50f
     protected val tableList: ScrollableContainer
-    protected val lock: Lock = ReentrantLock()
+    protected var tablesData = JsonArray()
+    protected val backButton: TextButton
 
     init {
 
-        tableList = ScrollableContainer(object: ClickHandler() {
+        val clickHandler = object: ClickHandler() {
             override fun click(itemId: Int) {
                 handleItemClick(itemId)
             }
-        })
+        }
+        tableList = ScrollableContainer()
+        tableList.clickHandler = clickHandler
 
         val buttonSprite = SpriteDrawable(Sprite(Textures.menuButton))
         val buttonDownSprite = SpriteDrawable(Sprite(Textures.menuButtonDown))
@@ -48,25 +47,21 @@ abstract class BaseTableListScreen(val game: PocketPoker) : BaseScreen {
         table.top()
 
         table.add(tableList.actor).expandX().fillX().row()
-        val mainMenuButton = TextButton(Settings.getText(Settings.TextKeys.ARCHIVE), buttonStyle)
-        mainMenuButton.addListener(game.switches[ScreenType.ARCHIVE])
-        table.add(mainMenuButton).pad(PADDING).expand().left().bottom()
+        backButton = TextButton("", buttonStyle)
+        table.add(backButton).pad(PADDING).expand().left().bottom()
         stage.addActor(table)
 
     }
 
     override fun show(){
-        lock.withLock {
-            Gdx.input.inputProcessor = stage
-            updateList()
-        }
+        Gdx.input.inputProcessor = stage
+        sendRequestForUpdateList()
     }
 
     override fun render(delta: Float) {
-        lock.withLock {
-            stage.act()
-            stage.draw()
-        }
+        stage.act()
+        stage.draw()
+        if (tablesData.size() != 0) updateList()
     }
 
     override fun resize(width: Int, height: Int){
@@ -92,4 +87,7 @@ abstract class BaseTableListScreen(val game: PocketPoker) : BaseScreen {
     abstract fun updateList()
 
     abstract fun handleItemClick(id: Int)
+
+    abstract fun sendRequestForUpdateList()
+
 }

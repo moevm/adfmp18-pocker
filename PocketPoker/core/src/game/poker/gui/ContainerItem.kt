@@ -25,6 +25,7 @@ open class ContainerItem(val id: Int): Table() {
     protected val handsSprite = SpriteDrawable(Sprite(Textures.hands))
     protected val lockedSprite = SpriteDrawable(Sprite(Textures.locked))
     protected val unlockedSprite = SpriteDrawable(Sprite(Textures.unlocked))
+    protected val blindsSprite = SpriteDrawable(Sprite(Textures.blinds))
     var clickHandler = ClickHandler()
     var clickListener: ClickListener
 

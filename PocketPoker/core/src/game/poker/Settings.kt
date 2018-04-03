@@ -56,7 +56,18 @@ object Settings{
         CREATE_TOURNAMENT,
         REGISTRATION_ERROR,
         NICK_IS_USED,
-        TABLES
+        TABLES,
+        TITLE,
+        BOTS,
+        CREATE,
+        TABLE_PLAYERS,
+        START_BLINDS,
+        BLIND_SPEED,
+        PASSWORD,
+        STANDARD,
+        FAST,
+        RAPID,
+        BULLET
     }
 
     private fun generateLanguages() : Map<Pair<Langs, TextKeys>, String>{
@@ -200,6 +211,39 @@ object Settings{
         map[Pair(Langs.RUS, TextKeys.TABLES)] = "Столов"
         map[Pair(Langs.ENG, TextKeys.TABLES)] = "Tables"
 
+        map[Pair(Langs.RUS, TextKeys.TITLE)] = "Название"
+        map[Pair(Langs.ENG, TextKeys.TITLE)] = "Title"
+
+        map[Pair(Langs.RUS, TextKeys.BOTS)] = "Ботов"
+        map[Pair(Langs.ENG, TextKeys.BOTS)] = "Bots"
+
+        map[Pair(Langs.RUS, TextKeys.CREATE)] = "Создать"
+        map[Pair(Langs.ENG, TextKeys.CREATE)] = "Create"
+
+        map[Pair(Langs.RUS, TextKeys.TABLE_PLAYERS)] = "Игроков за столом"
+        map[Pair(Langs.ENG, TextKeys.TABLE_PLAYERS)] = "Players at a table"
+
+        map[Pair(Langs.RUS, TextKeys.START_BLINDS)] = "Стартовые блайнды"
+        map[Pair(Langs.ENG, TextKeys.START_BLINDS)] = "Start blinds"
+
+        map[Pair(Langs.RUS, TextKeys.BLIND_SPEED)] = "Скорость роста блайндов"
+        map[Pair(Langs.ENG, TextKeys.BLIND_SPEED)] = "Blind speed"
+
+        map[Pair(Langs.RUS, TextKeys.PASSWORD)] = "Пароль"
+        map[Pair(Langs.ENG, TextKeys.PASSWORD)] = "Password"
+
+        map[Pair(Langs.RUS, TextKeys.STANDARD)] = "Стандартная"
+        map[Pair(Langs.ENG, TextKeys.STANDARD)] = "Standard"
+
+        map[Pair(Langs.RUS, TextKeys.FAST)] = "Ускоренная"
+        map[Pair(Langs.ENG, TextKeys.FAST)] = "Fast"
+
+        map[Pair(Langs.RUS, TextKeys.RAPID)] = "Быстрая"
+        map[Pair(Langs.ENG, TextKeys.RAPID)] = "Rapid"
+
+        map[Pair(Langs.RUS, TextKeys.BULLET)] = "Молниеносная"
+        map[Pair(Langs.ENG, TextKeys.BULLET)] = "Bullet"
+
         return map
     }
 
@@ -211,6 +255,7 @@ object Settings{
     var token = ""
     var currTableId = 0
     var currArchiveTournamentId = 0
+    var currTournamentId = 0
     var currOrientation = TableOrientation.VERTICAL
     var currTableMode = TableMode.Game
 

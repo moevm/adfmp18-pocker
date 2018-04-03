@@ -1,5 +1,6 @@
 package game.poker.gui.table
 
+import com.google.gson.JsonObject
 import game.poker.PocketPoker
 import game.poker.screens.TableScreen
 
@@ -56,5 +57,9 @@ class TableViewHorizontal(game: PocketPoker, table: TableScreen) : TableViewBase
         nextStepButton.rotation = -90f
         prevHandButton.rotation = -90f
         pausePlayButton.rotation = -90f
+    }
+
+    override fun receiveFromServer(json: JsonObject) {
+
     }
 }
