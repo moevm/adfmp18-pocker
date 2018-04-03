@@ -1,4 +1,4 @@
-package game.poker.gui
+package game.poker.gui.menu
 
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.Sprite
@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable
 import com.badlogic.gdx.utils.Align
 import game.poker.staticFiles.Fonts
 import game.poker.staticFiles.Textures
-import game.poker.gui.ScrollableContainer.ClickHandler
+import game.poker.gui.menu.ScrollableContainer.ClickHandler
 
 open class ContainerItem(val id: Int): Table() {
 

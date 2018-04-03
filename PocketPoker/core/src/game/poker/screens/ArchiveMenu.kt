@@ -14,22 +14,19 @@ import game.poker.PocketPoker
 import game.poker.Settings
 import game.poker.staticFiles.Textures
 import game.poker.staticFiles.Fonts
-import game.poker.gui.ScrollableContainer
-import game.poker.gui.ScrollableContainer.ClickHandler
-import game.poker.gui.ArchiveItem
-
+import game.poker.gui.menu.*
+import game.poker.gui.menu.ScrollableContainer.ClickHandler
 
 class ArchiveMenu(val game: PocketPoker) : BaseScreen {
 
     private val stage = Stage(game.view)
     private val PADDING = 50f
-    private val archiveList: ScrollableContainer
+    private val archiveList = ScrollableContainer()
     private val mainMenuButton: TextButton
     private var archiveData = JsonArray()
 
     init {
 
-        archiveList = ScrollableContainer()
         val clickHandler = object: ClickHandler() {
             override fun click(itemId: Int) {
                 Settings.currArchiveTournamentId = itemId

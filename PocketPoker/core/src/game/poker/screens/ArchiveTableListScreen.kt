@@ -4,7 +4,7 @@ import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import game.poker.PocketPoker
 import game.poker.Settings
-import game.poker.gui.ArchiveTableItem
+import game.poker.gui.menu.*
 
 class ArchiveTableListScreen(game: PocketPoker): BaseTableListScreen(game) {
 

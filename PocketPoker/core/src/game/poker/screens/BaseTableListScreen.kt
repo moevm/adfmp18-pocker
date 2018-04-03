@@ -9,11 +9,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable
 import com.google.gson.JsonArray
 
 import game.poker.PocketPoker
-import game.poker.Settings
 import game.poker.staticFiles.Textures
 import game.poker.staticFiles.Fonts
-import game.poker.gui.ScrollableContainer
-import game.poker.gui.ScrollableContainer.ClickHandler
+import game.poker.gui.menu.ScrollableContainer
+import game.poker.gui.menu.ScrollableContainer.ClickHandler
 
 
 abstract class BaseTableListScreen(val game: PocketPoker) : BaseScreen {

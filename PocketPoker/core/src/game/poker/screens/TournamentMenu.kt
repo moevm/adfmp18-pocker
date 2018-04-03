@@ -14,23 +14,22 @@ import game.poker.PocketPoker
 import game.poker.Settings
 import game.poker.staticFiles.Textures
 import game.poker.staticFiles.Fonts
-import game.poker.gui.ScrollableContainer
-import game.poker.gui.ScrollableContainer.ClickHandler
-import game.poker.gui.TournamentItem
+import game.poker.gui.menu.ScrollableContainer
+import game.poker.gui.menu.ScrollableContainer.ClickHandler
+import game.poker.gui.menu.TournamentItem
 
 
 class TournamentMenu(val game: PocketPoker) : BaseScreen {
 
     private val stage = Stage(game.view)
     private val PADDING = 50f
-    private val tournamentsList: ScrollableContainer
+    private val tournamentsList = ScrollableContainer()
     private val createButton: TextButton
     private val mainMenuButton: TextButton
     private var tournamentsData = JsonArray()
 
     init {
 
-        tournamentsList = ScrollableContainer()
         val clickHandler = object : ClickHandler() {
             override fun click(itemId: Int) {
                 val item = tournamentsList.get(itemId) as TournamentItem
