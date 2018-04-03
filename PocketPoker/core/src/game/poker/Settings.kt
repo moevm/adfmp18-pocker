@@ -230,16 +230,16 @@ object Settings{
         map[Pair(Langs.RUS, TextKeys.PASSWORD)] = "Пароль"
         map[Pair(Langs.ENG, TextKeys.PASSWORD)] = "Password"
 
-        map[Pair(Langs.RUS, TextKeys.STANDARD)] = "Стандартный"
+        map[Pair(Langs.RUS, TextKeys.STANDARD)] = "Стандартная"
         map[Pair(Langs.ENG, TextKeys.STANDARD)] = "Standard"
 
-        map[Pair(Langs.RUS, TextKeys.FAST)] = "Ускоренный"
+        map[Pair(Langs.RUS, TextKeys.FAST)] = "Ускоренная"
         map[Pair(Langs.ENG, TextKeys.FAST)] = "Fast"
 
-        map[Pair(Langs.RUS, TextKeys.RAPID)] = "Быстрый"
+        map[Pair(Langs.RUS, TextKeys.RAPID)] = "Быстрая"
         map[Pair(Langs.ENG, TextKeys.RAPID)] = "Rapid"
 
-        map[Pair(Langs.RUS, TextKeys.BULLET)] = "Молниеносный"
+        map[Pair(Langs.RUS, TextKeys.BULLET)] = "Молниеносная"
         map[Pair(Langs.ENG, TextKeys.BULLET)] = "Bullet"
 
         return map
@@ -253,6 +253,7 @@ object Settings{
     var token = ""
     var currTableId = 0
     var currArchiveTournamentId = 0
+    var currTournamentId = 0
     var currOrientation = TableOrientation.VERTICAL
 
     fun getText(key: TextKeys) = langMap[Pair(currLang, key)]

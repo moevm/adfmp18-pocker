@@ -17,9 +17,7 @@ import game.poker.staticFiles.Fonts
 import game.poker.gui.ScrollableContainer
 import game.poker.gui.ScrollableContainer.ClickHandler
 import game.poker.gui.TournamentItem
-import java.util.concurrent.locks.Lock
-import java.util.concurrent.locks.ReentrantLock
-import kotlin.concurrent.withLock
+
 
 class TournamentMenu(val game: PocketPoker) : BaseScreen {
 
@@ -28,16 +26,23 @@ class TournamentMenu(val game: PocketPoker) : BaseScreen {
     private val tournamentsList: ScrollableContainer
     private val createButton: TextButton
     private val mainMenuButton: TextButton
-    private val lock: Lock = ReentrantLock()
     private var tournamentsData = JsonArray()
 
     init {
 
-        tournamentsList = ScrollableContainer(object : ClickHandler() {
+        tournamentsList = ScrollableContainer()
+        val clickHandler = object : ClickHandler() {
             override fun click(itemId: Int) {
-                println(itemId.toString() + " id clicked")
+                val item = tournamentsList.get(itemId) as TournamentItem
+                Settings.currTournamentId = itemId
+                if (item.isStarted) {
+                    game.setCurrScreen(ScreenType.TOURNAMENT_TABLE_LIST)
+                } else {
+                    game.setCurrScreen(ScreenType.TABLE)
+                }
             }
-        })
+        }
+        tournamentsList.clickHandler = clickHandler
 
         val buttonSprite = SpriteDrawable(Sprite(Textures.menuButton))
         val buttonDownSprite = SpriteDrawable(Sprite(Textures.menuButtonDown))
@@ -73,18 +78,14 @@ class TournamentMenu(val game: PocketPoker) : BaseScreen {
     }
 
     override fun show(){
-        lock.withLock {
-            Gdx.input.inputProcessor = stage
-            sendRequestForTournamentsUpdate()
-        }
+        Gdx.input.inputProcessor = stage
+        sendRequestForTournamentsUpdate()
     }
 
     override fun render(delta: Float) {
-        lock.withLock {
-            if (tournamentsData.size() != 0) updateTournaments()
-            stage.act()
-            stage.draw()
-        }
+        if (tournamentsData.size() != 0) updateTournaments()
+        stage.act()
+        stage.draw()
     }
 
     override fun resize(width: Int, height: Int){
@@ -108,10 +109,8 @@ class TournamentMenu(val game: PocketPoker) : BaseScreen {
     }
 
     override fun receiveFromServer(json: JsonObject) {
-        lock.withLock {
-            if (json["type"].asString == "get tournaments") {
-                tournamentsData = json["info"].asJsonArray
-            }
+        if (json["type"].asString == "get tournaments") {
+            tournamentsData = json["info"].asJsonArray
         }
     }
 

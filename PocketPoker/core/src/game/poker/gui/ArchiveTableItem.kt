@@ -5,7 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 
 
-class TableItem(id: Int, val title: String, val hands: Int) : ContainerItem(id) {
+class ArchiveTableItem(id: Int, val title: String, val hands: Int) : ContainerItem(id) {
 
     private val ACTION_IMAGE_SIZE = 150f
 

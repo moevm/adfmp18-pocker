@@ -29,12 +29,14 @@ class ArchiveMenu(val game: PocketPoker) : BaseScreen {
 
     init {
 
-        archiveList = ScrollableContainer(object: ClickHandler() {
+        archiveList = ScrollableContainer()
+        val clickHandler = object: ClickHandler() {
             override fun click(itemId: Int) {
                 Settings.currArchiveTournamentId = itemId
                 game.setCurrScreen(ScreenType.ARCHIVE_TABLE_LIST)
             }
-        })
+        }
+        archiveList.clickHandler = clickHandler
 
         val buttonSprite = SpriteDrawable(Sprite(Textures.menuButton))
         val buttonDownSprite = SpriteDrawable(Sprite(Textures.menuButtonDown))

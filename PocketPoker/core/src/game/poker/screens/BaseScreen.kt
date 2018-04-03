@@ -10,7 +10,8 @@ enum class ScreenType{
     SETTINGS,
     TABLE,
     ARCHIVE_TABLE_LIST,
-    CREATE_TOURNAMENT
+    CREATE_TOURNAMENT,
+    TOURNAMENT_TABLE_LIST
 }
 
 interface BaseScreen : Screen {

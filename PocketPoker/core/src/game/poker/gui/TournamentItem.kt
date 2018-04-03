@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.utils.Align
 import game.poker.Settings
 
-class TournamentItem(id: Int, title: String, players: Int, totalPlayers: Int, initialStack: Int,
+class TournamentItem(id: Int, val title: String, players: Int, totalPlayers: Int, initialStack: Int,
                      val isOpened: Boolean = true, val isStarted: Boolean = false) : ContainerItem(id) {
 
     private val ACTION_IMAGE_SIZE = 150f

@@ -22,14 +22,17 @@ abstract class BaseTableListScreen(val game: PocketPoker) : BaseScreen {
     private val PADDING = 50f
     protected val tableList: ScrollableContainer
     protected var tablesData = JsonArray()
+    protected val backButton: TextButton
 
     init {
 
-        tableList = ScrollableContainer(object: ClickHandler() {
+        val clickHandler = object: ClickHandler() {
             override fun click(itemId: Int) {
                 handleItemClick(itemId)
             }
-        })
+        }
+        tableList = ScrollableContainer()
+        tableList.clickHandler = clickHandler
 
         val buttonSprite = SpriteDrawable(Sprite(Textures.menuButton))
         val buttonDownSprite = SpriteDrawable(Sprite(Textures.menuButtonDown))
@@ -44,9 +47,8 @@ abstract class BaseTableListScreen(val game: PocketPoker) : BaseScreen {
         table.top()
 
         table.add(tableList.actor).expandX().fillX().row()
-        val mainMenuButton = TextButton(Settings.getText(Settings.TextKeys.ARCHIVE), buttonStyle)
-        mainMenuButton.addListener(game.switches[ScreenType.ARCHIVE])
-        table.add(mainMenuButton).pad(PADDING).expand().left().bottom()
+        backButton = TextButton("", buttonStyle)
+        table.add(backButton).pad(PADDING).expand().left().bottom()
         stage.addActor(table)
 
     }

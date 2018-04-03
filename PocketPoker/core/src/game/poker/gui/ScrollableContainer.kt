@@ -4,8 +4,9 @@ import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 
-class ScrollableContainer(private val clickHandler: ClickHandler) {
+class ScrollableContainer() {
 
+    var clickHandler: ClickHandler
     private val items = mutableMapOf<Int, ContainerItem>()
     private val table = Table()
     val actor: Actor
@@ -15,10 +16,14 @@ class ScrollableContainer(private val clickHandler: ClickHandler) {
         table.setFillParent(true)
         table.bottom()
         actor = ScrollPane(table)
+        clickHandler = object : ClickHandler() {
+            override fun click(itemId: Int) {
+            }
+        }
     }
 
     fun add(item: ContainerItem) {
-        items[item.id] = item
+        items.put(item.id, item)
         table.add(item).pad(10f).expandX().fillX().row()
         item.clickHandler = clickHandler
     }
@@ -31,6 +36,10 @@ class ScrollableContainer(private val clickHandler: ClickHandler) {
     fun clear() {
         table.clearChildren()
         items.clear()
+    }
+
+    fun get(id: Int): ContainerItem? {
+        return items[id]
     }
 
     open class ClickHandler {
