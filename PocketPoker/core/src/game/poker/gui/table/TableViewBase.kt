@@ -187,9 +187,10 @@ abstract class TableViewBase(val game: PocketPoker, val table: TableScreen) : Ba
         setPotChips(0L)
         clearAllCards()
         for (i in 1..9) {
-            updatePlayerInfo(i,"","","")
+            setEmptyPlayer(i)
             setChips(i,0)
         }
+        seats.forEach { it.isVisible = false }
     }
 
     fun fit(table:TableViewBase) {

@@ -128,6 +128,7 @@ abstract class SeatBase : Group() {
         addActor(playerView)
         addActor(chipstack)
         addActor(dealerChip)
+        isVisible = false
     }
 
     fun update() {
