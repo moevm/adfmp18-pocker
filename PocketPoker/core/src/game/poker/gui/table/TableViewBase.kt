@@ -21,6 +21,7 @@ import game.poker.screens.ScreenType
 import game.poker.core.Rank
 import game.poker.core.Suit
 import game.poker.screens.TableScreen
+import java.awt.Point
 
 
 abstract class TableViewBase(val game: PocketPoker, val table: TableScreen) : BaseScreen {
@@ -233,6 +234,12 @@ abstract class TableViewBase(val game: PocketPoker, val table: TableScreen) : Ba
 
             }
         }
+    }
+
+    fun getPotPosition(): Point {
+        val point = Point()
+        point.setLocation(pot.x.toInt(), pot.y.toInt())
+        return point
     }
 
     // all events that received from handler

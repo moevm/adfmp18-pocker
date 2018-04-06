@@ -36,7 +36,6 @@ abstract class SeatBase : Group() {
     var isCardsEmpty = true
     protected val myPotPosition = Point()
     protected val chipstackPosition = Point()
-    private var moveCount = 0
 
     protected val chipstack = Chipstack()
     val playerView = PlayerView()

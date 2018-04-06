@@ -6,15 +6,15 @@ import game.poker.screens.TableScreen
 
 class TableViewHorizontal(game: PocketPoker, table: TableScreen) : TableViewBase(game, table) {
     init {
-        for (i in 0..8){
-            seats.add(SeatHorizontal(i))
-        }
-        seats.forEach { stage.addActor(it) }
         setUpCards()
         setUpButtons()
         pot.rotation = -90f
         pot.setPosition(400f,1090f)
         pot.label.setPosition(0f,250f)
+        for (i in 0..8){
+            seats.add(SeatHorizontal(i, this))
+        }
+        seats.forEach { stage.addActor(it) }
     }
     private fun setUpCards() {
         cards.forEach {

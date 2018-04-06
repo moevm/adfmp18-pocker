@@ -6,14 +6,14 @@ import game.poker.screens.TableScreen
 
 class TableViewVertical(game: PocketPoker, table: TableScreen) : TableViewBase(game, table) {
     init {
-        for (i in 0..8){
-            seats.add(SeatVertical(i))
-        }
-        seats.forEach { stage.addActor(it) }
         setUpCards()
         setUpButtons()
         pot.setPosition(450f,850f)
         pot.label.setPosition(-5f,450f)
+        for (i in 0..8){
+            seats.add(SeatVertical(i, this))
+        }
+        seats.forEach { stage.addActor(it) }
     }
     private fun setUpCards() {
         cards.forEach { it.setSize(100f, 140f) }
