@@ -161,7 +161,7 @@ abstract class SeatBase : Group() {
         }
         chipstack.addAction(resetChips)
     }
-    
+
     fun moveChipsFromPot(){
         chipstack.setPosition(myPotPosition.x.toFloat(), myPotPosition.y.toFloat())
         val action = MoveToAction()

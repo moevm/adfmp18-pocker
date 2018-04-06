@@ -182,7 +182,14 @@ abstract class TableViewBase(val game: PocketPoker, val table: TableScreen) : Ba
     }
 
     override fun hide() {
-
+        clearInDecision()
+        setPotCount("")
+        setPotChips(0L)
+        clearAllCards()
+        for (i in 1..9) {
+            updatePlayerInfo(i,"","","")
+            setChips(i,0)
+        }
     }
 
     fun fit(table:TableViewBase) {
