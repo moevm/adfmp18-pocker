@@ -1,7 +1,9 @@
 package game.poker.gui.table
 
+import java.awt.Point
 
-class SeatVertical(private val positionNumber:Int, private val table: TableViewBase) : SeatBase(){
+
+class SeatVertical(private val positionNumber:Int, private val potPosition: Point) : SeatBase(){
     override fun updateCardsPosition(){
         if (isCardsUp){
             card1.setPosition(0f,0f)
@@ -87,8 +89,7 @@ class SeatVertical(private val positionNumber:Int, private val table: TableViewB
             card1.setSize(100f, 140f)
             card2.setSize(100f, 140f)
         }
-        val potPos = table.getPotPosition()
-        myPotPosition.setLocation(potPos.x - x.toInt(), potPos.y - y.toInt())
+        myPotPosition.setLocation(potPosition.x - x.toInt(), potPosition.y - y.toInt())
         chipstack.setPosition(chipstackPosition.x.toFloat(), chipstackPosition.y.toFloat())
         card1.setPosition(0f,0f)
         card2.setPosition(0f,0f)

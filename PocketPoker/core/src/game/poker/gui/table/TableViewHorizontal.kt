@@ -12,7 +12,7 @@ class TableViewHorizontal(game: PocketPoker, table: TableScreen) : TableViewBase
         pot.setPosition(400f,1090f)
         pot.label.setPosition(0f,250f)
         for (i in 0..8){
-            seats.add(SeatHorizontal(i, this))
+            seats.add(SeatHorizontal(i, getPotPosition()))
         }
         seats.forEach { stage.addActor(it) }
     }

@@ -11,7 +11,7 @@ class TableViewVertical(game: PocketPoker, table: TableScreen) : TableViewBase(g
         pot.setPosition(450f,850f)
         pot.label.setPosition(-5f,450f)
         for (i in 0..8){
-            seats.add(SeatVertical(i, this))
+            seats.add(SeatVertical(i, getPotPosition()))
         }
         seats.forEach { stage.addActor(it) }
     }

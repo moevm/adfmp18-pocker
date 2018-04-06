@@ -1,6 +1,8 @@
 package game.poker.gui.table
 
-class SeatHorizontal(private val positionNumber:Int, private val table: TableViewBase) : SeatBase(){
+import java.awt.Point
+
+class SeatHorizontal(private val positionNumber:Int, private val potPosition: Point) : SeatBase(){
     override fun updateCardsPosition(){
         if (isCardsUp){
             card1.setPosition(70f,0f)
@@ -87,8 +89,7 @@ class SeatHorizontal(private val positionNumber:Int, private val table: TableVie
             card1.setSize(100f, 140f)
             card2.setSize(100f, 140f)
         }
-        val potPos = table.getPotPosition()
-        myPotPosition.setLocation(y.toInt() - potPos.y, potPos.x - x.toInt())
+        myPotPosition.setLocation(y.toInt() - potPosition.y, potPosition.x - x.toInt())
         chipstack.setPosition(chipstackPosition.x.toFloat(), chipstackPosition.y.toFloat())
         card1.setPosition(0f,0f)
         card2.setPosition(0f,0f)
