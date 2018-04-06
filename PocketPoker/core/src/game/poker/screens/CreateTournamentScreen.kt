@@ -87,7 +87,7 @@ class CreateTournamentScreen(val game: PocketPoker) : BaseScreen {
         table.add(playersLabel).pad(PADDING).expandX().fillX().left()
 
         botsLabel = Label(Settings.getText(Settings.TextKeys.BOTS), labelStyle)
-        table.add(botsLabel).pad(PADDING).expandX().fillX().left().row()
+        table.add(botsLabel).pad(PADDING).fillX().expandX().left().row()
 
         playersEdit = TextField("9", editStyle)
         playersEdit.textFieldFilter = TextFieldFilter.DigitsOnlyFilter()
@@ -102,8 +102,7 @@ class CreateTournamentScreen(val game: PocketPoker) : BaseScreen {
 
         tablePlayersEdit = SelectBox<String>(selectBoxStyle)
         tablePlayersEdit.setItems("2", "3", "4", "5", "6", "7", "8", "9")
-        tablePlayersEdit.setAlignment(Align.center)
-        table.add(tablePlayersEdit).pad(PADDING).align(Align.center).row()
+        table.add(tablePlayersEdit).pad(PADDING).align(Align.center).left().width(100f).row()
 
         chipsLabel = Label(Settings.getText(Settings.TextKeys.CHIPS), labelStyle)
         table.add(chipsLabel).pad(PADDING).fillX().expandX().left()
@@ -128,24 +127,29 @@ class CreateTournamentScreen(val game: PocketPoker) : BaseScreen {
         startBlindsEdit = SelectBox<String>(selectBoxStyle)
         startBlindsEdit.setItems("5/10, 0", "60/120, 0", "500/1000, 100")
         table.add(startBlindsEdit).pad(PADDING).colspan(2).fillX().expandX().left().row()
+        table.add(Label("", labelStyle)).expand()
 
         //passwordLabel = Label(Settings.getText(Settings.TextKeys.PASSWORD), labelStyle)
         //table.add(passwordLabel).pad(PADDING).colspan(2).fillX().expandX().left().row()
         //passwordEdit = TextField("", editStyle)
         //table.add(passwordEdit).pad(PADDING).colspan(2).fillX().expandX().left().row()
 
+        val bottomTable = Table()
+        bottomTable.setFillParent(true)
+
         toTournamentsButton = TextButton(Settings.getText(Settings.TextKeys.TOURNAMENT), buttonStyle)
         toTournamentsButton.addListener(game.switches[ScreenType.TOURNAMENT])
-        table.add(toTournamentsButton).pad(PADDING).expand().pad(PADDING).left().bottom()
+        bottomTable.add(toTournamentsButton).pad(PADDING).expandY().bottom()
         createButton = TextButton(Settings.getText(Settings.TextKeys.CREATE), buttonStyle)
         createButton.addListener(object: ClickListener() {
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
                 createTournament()
             }
         })
-        table.add(createButton).pad(PADDING).expand().pad(PADDING).right().bottom()
-
+        bottomTable.add(createButton).pad(PADDING).expandY().bottom()
+        
         stage.addActor(table)
+        stage.addActor(bottomTable)
     }
 
     override fun update(){
