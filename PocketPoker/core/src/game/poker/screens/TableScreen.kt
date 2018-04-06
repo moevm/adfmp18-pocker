@@ -129,7 +129,8 @@ class TableScreen(val game: PocketPoker) : BaseScreen {
     }
 
     override fun hide(){
-        currView.hide()
+        tableViewVertical.hide()
+        tableViewHorizontal.hide()
         deleteHandler()
     }
 
