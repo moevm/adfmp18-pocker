@@ -22,94 +22,68 @@ class SeatVertical(private val positionNumber:Int) : SeatBase(){
         }
     }
 
-    override fun moveChips(step: Float) {
-        //if (step == 1) (x + chipstack.x) = 550
-        //if (step == 1) (y + chipstack.y) = 850
-        when(positionNumber){
-            0 -> {
-                chipstack.setPosition(50f - 50f * step, 270f + 430f * step)
-            }
-            1 -> {
-                chipstack.setPosition(270f + 160f * step, 60f + 290f * step)
-            }
-            2 -> {
-                chipstack.setPosition(110f + 320f * step, -90f - 10f * step)
-            }
-            3 -> {
-                chipstack.setPosition(110f + 320f * step, -90f - 460f * step)
-            }
-            4 -> {
-                chipstack.setPosition(0f + 120f * step, -130f - 620f * step)
-            }
-            5 -> {
-                chipstack.setPosition(0f + -150f * step, -130f - 620f * step)
-            }
-            6 -> {
-                chipstack.setPosition(-150f + -250f * step, -90f - 460f * step)
-            }
-            7 -> {
-                chipstack.setPosition(-150f + -250f * step, -90f - 10f * step)
-            }
-            8 -> {
-                chipstack.setPosition(-260f + -140f * step, 60f + 290f * step)
-            }
-            else -> throw IllegalArgumentException("Bad index")
-        }
-    }
-
     init {
         when(positionNumber){
             0 -> {
                 setPosition(450f, 150f)
-                chipstack.setPosition(50f, 270f)
+                myPotPosition.setLocation(0, 700)
+                chipstackPosition.setLocation(50, 270)
                 dealerChip.setPosition(-10f,270f)
                 playerView.setPosition(-350f, 0f)
             }
             1 -> {
                 setPosition(20f, 500f)
-                chipstack.setPosition(270f, 60f)
+                myPotPosition.setLocation(430, 350)
+                chipstackPosition.setLocation(270, 60)
                 dealerChip.setPosition(210f,60f)
                 playerView.setPosition(0f, 150f)
             }
             2 -> {
                 setPosition(20f, 950f)
-                chipstack.setPosition(110f, -90f)
+                myPotPosition.setLocation(430, -100)
+                chipstackPosition.setLocation(110, -90)
                 dealerChip.setPosition(50f,-90f)
                 playerView.setPosition(0f, 150f)
             }
             3 -> {
                 setPosition(20f, 1400f)
-                chipstack.setPosition(110f, -90f)
+                myPotPosition.setLocation(430, -550)
+                chipstackPosition.setLocation(110, -90)
                 dealerChip.setPosition(50f,-90f)
                 playerView.setPosition(0f, 150f)
             }
             4 -> {
                 setPosition(330f, 1600f)
-                chipstack.setPosition(0f, -130f)
+                myPotPosition.setLocation(120, -750)
+                chipstackPosition.setLocation(0, -130)
                 dealerChip.setPosition(75f,-70f)
                 playerView.setPosition(0f, 150f)
             }
             5 -> {
                 setPosition(600f, 1600f)
-                chipstack.setPosition(0f, -130f)
+                myPotPosition.setLocation(-150, -750)
+                chipstackPosition.setLocation(0, -130)
                 dealerChip.setPosition(75f,-70f)
                 playerView.setPosition(0f, 150f)
             }
             6 -> {
                 setPosition(850f, 1400f)
-                chipstack.setPosition(-150f, -90f)
+                myPotPosition.setLocation(-400, -550)
+                chipstackPosition.setLocation(-150, -90)
                 dealerChip.setPosition(60f,-90f)
                 playerView.setPosition(-40f, 150f)
             }
             7 -> {
                 setPosition(850f, 950f)
-                chipstack.setPosition(-150f, -90f)
+                myPotPosition.setLocation(-400, -100)
+                chipstackPosition.setLocation(-150, -90)
                 dealerChip.setPosition(60f,-90f)
                 playerView.setPosition(-40f, 150f)
             }
             8 -> {
                 setPosition(850f, 500f)
-                chipstack.setPosition(-260f, 60f)
+                myPotPosition.setLocation(-400, 350)
+                chipstackPosition.setLocation(-260, 60)
                 dealerChip.setPosition(-50f,60f)
                 playerView.setPosition(-40f, 150f)
             }
@@ -122,6 +96,7 @@ class SeatVertical(private val positionNumber:Int) : SeatBase(){
             card1.setSize(100f, 140f)
             card2.setSize(100f, 140f)
         }
+        chipstack.setPosition(chipstackPosition.x.toFloat(), chipstackPosition.y.toFloat())
         card1.setPosition(0f,0f)
         card2.setPosition(0f,0f)
         updateCardsPosition()

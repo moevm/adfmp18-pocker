@@ -1,5 +1,7 @@
 package game.poker
 
+import com.badlogic.gdx.math.Interpolation
+
 object Settings{
 
     enum class Langs{ RUS, ENG }
@@ -258,6 +260,8 @@ object Settings{
     var currTournamentId = 0
     var currOrientation = TableOrientation.VERTICAL
     var currTableMode = TableMode.Game
+    val animationDuration = 0.5f
+    val animationInterpolation = Interpolation.exp5
 
     fun getText(key: TextKeys) = langMap[Pair(currLang, key)]
             ?: throw IllegalArgumentException("Bad text key")
