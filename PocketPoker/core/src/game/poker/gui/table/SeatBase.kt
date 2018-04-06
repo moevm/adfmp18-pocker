@@ -1,8 +1,9 @@
 package game.poker.gui.table
 
-import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.Sprite
+import com.badlogic.gdx.scenes.scene2d.Action
 import com.badlogic.gdx.scenes.scene2d.Group
+import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable
 import game.poker.Settings
@@ -12,6 +13,7 @@ import game.poker.core.Rank
 import game.poker.core.Suit
 import game.poker.core.Visibility
 import game.poker.staticFiles.Textures
+import java.awt.Point
 
 
 abstract class SeatBase : Group() {
@@ -32,7 +34,8 @@ abstract class SeatBase : Group() {
     var isCardsUp = false
         private set
     var isCardsEmpty = true
-    private var moveCount = 0
+    protected val myPotPosition = Point()
+    protected val chipstackPosition = Point()
 
     protected val chipstack = Chipstack()
     val playerView = PlayerView()
@@ -124,6 +127,7 @@ abstract class SeatBase : Group() {
         addActor(playerView)
         addActor(chipstack)
         addActor(dealerChip)
+        isVisible = false
     }
 
     fun update() {
@@ -132,9 +136,38 @@ abstract class SeatBase : Group() {
         }
     }
 
-    protected abstract fun moveChips(step: Float)
+    fun moveChipsToPot(){
+        val action = MoveToAction()
+        action.setPosition(myPotPosition.x.toFloat(), myPotPosition.y.toFloat())
+        action.duration = Settings.animationDuration
+        action.interpolation = Settings.animationInterpolation
+        chipstack.addAction(action)
+        val resetChips = object: Action(){
+            var curTime = 0f
+            var duration = 0.5f
+            var complete = false
+            override fun act(delta: Float): Boolean {
+                if (complete) return true
+                curTime += delta
+                if (curTime >= duration){
+                    chipstack.setChips(0L)
+                    chipstack.updateChips()
+                    chipstack.setPosition(chipstackPosition.x.toFloat(), chipstackPosition.y.toFloat())
+                    complete = true
+                    return true
+                }
+                return false
+            }
+        }
+        chipstack.addAction(resetChips)
+    }
 
-    fun moveChipsToPot(step: Float){
-        moveChips(step)
+    fun moveChipsFromPot(){
+        chipstack.setPosition(myPotPosition.x.toFloat(), myPotPosition.y.toFloat())
+        val action = MoveToAction()
+        action.setPosition(chipstackPosition.x.toFloat(), chipstackPosition.y.toFloat())
+        action.duration = Settings.animationDuration
+        action.interpolation = Settings.animationInterpolation
+        chipstack.addAction(action)
     }
 }

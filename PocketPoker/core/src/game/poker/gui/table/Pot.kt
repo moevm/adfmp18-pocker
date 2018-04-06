@@ -1,11 +1,10 @@
 package game.poker.gui.table
 
 import com.badlogic.gdx.graphics.Color
-import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.Sprite
+import com.badlogic.gdx.scenes.scene2d.Action
 import com.badlogic.gdx.scenes.scene2d.Group
 import com.badlogic.gdx.scenes.scene2d.ui.Label
-import com.badlogic.gdx.scenes.scene2d.ui.Widget
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable
 import com.badlogic.gdx.utils.Align
 import game.poker.Settings
@@ -38,5 +37,25 @@ class Pot() : Group(){
 
     fun update(){
         label.setText(Settings.getText(Settings.TextKeys.POT) + ":\n" + money)
+    }
+
+    fun setMoneyAfterAnimation(newMoney: Long) {
+        val resetChips = object: Action(){
+            var curTime = 0f
+            var duration = Settings.animationDuration
+            var complete = false
+            override fun act(delta: Float): Boolean {
+                if (complete) return true
+                curTime += delta
+                if (curTime >= duration){
+                    chipstack.setChips(newMoney)
+                    chipstack.updateChips()
+                    complete = true
+                    return true
+                }
+                return false
+            }
+        }
+        addAction(resetChips)
     }
 }
