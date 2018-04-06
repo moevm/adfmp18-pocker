@@ -167,38 +167,38 @@ abstract class Handler(val socket: WebSocketConnection,
         }
     }
 
-    open protected fun canMoveChips() = !reconnectMode
+    protected open fun canMoveChips() = !reconnectMode
 
-    open protected fun chatMessage(message: String){
+    protected open fun chatMessage(message: String){
         val json = JsonObject()
         json.addProperty("type", "chat")
         json.addProperty("text", message)
         socket.send(json.toString())
     }
 
-    open protected fun broken(data: JsonObject){
+    protected open fun broken(data: JsonObject){
         socket.close()
         inLoop = false
     }
 
-    open protected fun finish(data: JsonObject){
+    protected open fun finish(data: JsonObject){
         info.finish()
         inLoop = false
     }
 
-    open protected fun infoMessage(data: JsonObject){
+    protected open fun infoMessage(data: JsonObject){
         info.basic()
     }
 
-    open protected fun reconnectStart(data: JsonObject){
+    protected open fun reconnectStart(data: JsonObject){
         reconnectMode = true
     }
 
-    open protected fun reconnectEnd(data: JsonObject){
+    protected open fun reconnectEnd(data: JsonObject){
         reconnectMode = false
     }
 
-    open protected fun initHand(data: JsonObject){
+    protected open fun initHand(data: JsonObject){
         if(waitForInit){
             waitForInit = false
             table.currView.initTable()
@@ -240,7 +240,7 @@ abstract class Handler(val socket: WebSocketConnection,
         table.currView.setTopPlayers(top9)
     }
 
-    open protected fun ante(data: JsonObject){
+    protected open fun ante(data: JsonObject){
         val paid = data["paid"].asJsonArray
         for(player in paid){
             val json = player.asJsonObject
@@ -249,7 +249,7 @@ abstract class Handler(val socket: WebSocketConnection,
         }
     }
 
-    open protected fun collectMoney(data: JsonObject){
+    protected open fun collectMoney(data: JsonObject){
         var needMove = false
         for(seat in seats.all()){
             if(seat.gived > 0){
@@ -278,7 +278,7 @@ abstract class Handler(val socket: WebSocketConnection,
         seats.setBet(-1, seats.mainChips)
     }
 
-    open protected fun blinds(data: JsonObject){
+    protected open fun blinds(data: JsonObject){
         val buttonId = data["button"].asInt
         table.currView.setDealerPos(seats.getById(buttonId).localSeat)
         val info = data["info"].asJsonArray
@@ -297,7 +297,7 @@ abstract class Handler(val socket: WebSocketConnection,
         }
     }
 
-    open protected fun blindsIncreased(data: JsonObject){
+    protected open fun blindsIncreased(data: JsonObject){
         val bb = data["bb"].asLong.shortcut()
         val sb = data["sb"].asLong.shortcut()
         val ante = data["ante"].asLong.shortcut()
@@ -305,32 +305,32 @@ abstract class Handler(val socket: WebSocketConnection,
         table.currView.setBlinds(sb, bb, ante)
     }
 
-    open protected fun giveCards(data: JsonObject){
+    protected open fun giveCards(data: JsonObject){
         println("Handler.give_cards()")
     }
 
-    open protected fun dealCards(data: JsonObject){
+    protected open fun dealCards(data: JsonObject){
         table.currView.dealCards()
     }
 
-    open protected fun deletePlayer(data: JsonObject){
+    protected open fun deletePlayer(data: JsonObject){
         seats.deletePlayer(data["id"].asInt)
     }
 
-    open protected fun addPlayer(data: JsonObject){
+    protected open fun addPlayer(data: JsonObject){
         seats.addPlayer(data)
     }
 
-    open protected fun resit(data: JsonObject){
+    protected open fun resit(data: JsonObject){
         println("Handler.resit()")
     }
 
-    open protected fun switchDecision(data: JsonObject){
+    protected open fun switchDecision(data: JsonObject){
         seats.idInDecision = data["id"].asInt
         table.currView.switchDecision(seats.idToLocalSeat[data["id"].asInt]!!)
     }
 
-    open protected fun madeDecision(data: JsonObject){
+    protected open fun madeDecision(data: JsonObject){
         val seat = seats.getById(seats.idInDecision)
         when(data["result"].asString){
             "fold" -> {
@@ -358,13 +358,13 @@ abstract class Handler(val socket: WebSocketConnection,
         }
     }
 
-    open protected fun excessMoney(data: JsonObject){
+    protected open fun excessMoney(data: JsonObject){
         val id = data["id"].asInt
         val money = data["money"].asLong
         seats.setBet(id, seats.getById(id).gived - money)
     }
 
-    open protected fun flop(data: JsonObject){
+    protected open fun flop(data: JsonObject){
         seats.clearDecisionStates()
         seats.clearDecisions()
         val flop1 = Card.fromString(data["card1"].asString)
@@ -373,19 +373,19 @@ abstract class Handler(val socket: WebSocketConnection,
         table.currView.setFlopCards(flop1, flop2, flop3)
     }
 
-    open protected fun turn(data: JsonObject){
+    protected open fun turn(data: JsonObject){
         seats.clearDecisionStates()
         seats.clearDecisions()
         table.currView.setTurnCard(Card.fromString(data["card"].asString))
     }
 
-    open protected fun river(data: JsonObject){
+    protected open fun river(data: JsonObject){
         seats.clearDecisionStates()
         seats.clearDecisions()
         table.currView.setRiverCard(Card.fromString(data["card"].asString))
     }
 
-    open protected fun openCards(data: JsonObject){
+    protected open fun openCards(data: JsonObject){
         seats.clearDecisionStates()
         seats.clearDecisions()
         val players = data["cards"].asJsonArray
@@ -400,7 +400,7 @@ abstract class Handler(val socket: WebSocketConnection,
         }
     }
 
-    open protected fun giveMoney(data: JsonObject){
+    protected open fun giveMoney(data: JsonObject){
         seats.clearDecisionStates()
         val id = data["id"].asInt
         val money = data["money"].asLong
@@ -418,56 +418,56 @@ abstract class Handler(val socket: WebSocketConnection,
         }
     }
 
-    open protected fun moneyResults(data: JsonObject){
+    protected open fun moneyResults(data: JsonObject){
         println("Handler.money_results()")
     }
 
-    open protected fun handResults(data: JsonObject){
+    protected open fun handResults(data: JsonObject){
         // TODO
     }
 
-    open protected fun busted(data: JsonObject){
+    protected open fun busted(data: JsonObject){
         println("Handler.busted()")
     }
 
-    open protected fun clear(data: JsonObject){
+    protected open fun clear(data: JsonObject){
         seats.clear()
     }
 
-    open protected fun win(data: JsonObject){
+    protected open fun win(data: JsonObject){
         println("Handler.win()")
     }
 
-    open protected fun place(data: JsonObject){
+    protected open fun place(data: JsonObject){
         table.currView.setCurrPlace(data["place"].asLong.insertSpaces())
     }
 
-    open protected fun chat(data: JsonObject){
+    protected open fun chat(data: JsonObject){
         table.currView.addToChat(data["text"].asString)
     }
 
-    open protected fun disconnected(data: JsonObject){
+    protected open fun disconnected(data: JsonObject){
         val seat = seats.getById(data["id"].asInt)
         seat.disconnected = true
         table.currView.setPlayerDisconnected(seat.localSeat, true)
     }
 
-    open protected fun connected(data: JsonObject){
+    protected open fun connected(data: JsonObject){
         val seat = seats.getById(data["id"].asInt)
         seat.disconnected = false
         table.currView.setPlayerDisconnected(seat.localSeat, false)
     }
 
-    open protected fun kick(data: JsonObject){
+    protected open fun kick(data: JsonObject){
         println("Handler.kick()")
     }
 
-    open protected fun backCounting(data: JsonObject){
+    protected open fun backCounting(data: JsonObject){
         seats.updateInfo(data["id"].asInt,
                 data["time"].asString + " " + Settings.getText(Settings.TextKeys.SECONDS))
     }
 
-    open protected fun setDecision(data: JsonObject){
+    protected open fun setDecision(data: JsonObject){
         println("Handler.set_decision()")
     }
 

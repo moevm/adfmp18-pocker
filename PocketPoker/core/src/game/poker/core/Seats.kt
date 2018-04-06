@@ -177,7 +177,7 @@ class Seats(val table: TableScreen, data: JsonObject, gameMode: Boolean) {
             seat.gived = count
 
             if(reason != "Clear"){
-                updateInfo(id, reason, moneySpent)
+                updateInfo(id, if(reason != "Win") reason else "+", moneySpent)
             }
 
         }

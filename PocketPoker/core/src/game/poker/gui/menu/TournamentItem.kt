@@ -1,11 +1,8 @@
-package game.poker.gui
+package game.poker.gui.menu
 
 import com.badlogic.gdx.scenes.scene2d.ui.Container
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.ui.Label
-import com.badlogic.gdx.scenes.scene2d.ui.Table
-import com.badlogic.gdx.utils.Align
-import game.poker.Settings
 
 class TournamentItem(id: Int, val title: String, players: Int, totalPlayers: Int, initialStack: Int,
                      val isOpened: Boolean = true, val isStarted: Boolean = false) : ContainerItem(id) {

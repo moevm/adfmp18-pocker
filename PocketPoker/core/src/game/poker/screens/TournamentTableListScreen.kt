@@ -4,7 +4,7 @@ import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import game.poker.PocketPoker
 import game.poker.Settings
-import game.poker.gui.TournamentTableItem
+import game.poker.gui.menu.TournamentTableItem
 
 class TournamentTableListScreen(game: PocketPoker): BaseTableListScreen(game) {
 
