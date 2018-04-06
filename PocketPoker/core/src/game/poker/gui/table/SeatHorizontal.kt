@@ -26,7 +26,7 @@ class SeatHorizontal(private val positionNumber:Int, private val potPosition: Po
     init {
         when(positionNumber){
             0 -> {
-                setPosition(120f, 1100f)// (400f,1090f)
+                setPosition(120f, 1100f)
                 chipstackPosition.setLocation(350, 150)
                 dealerChip.setPosition(400f, 30f)
                 playerView.setPosition(-270f, 0f)
