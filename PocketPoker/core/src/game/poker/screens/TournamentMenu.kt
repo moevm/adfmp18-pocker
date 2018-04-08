@@ -26,7 +26,9 @@ class TournamentMenu(val game: PocketPoker) : BaseScreen {
     private val tournamentsList = ScrollableContainer()
     private val createButton: TextButton
     private val mainMenuButton: TextButton
+    private val searchEdit: TextField
     private var tournamentsData = JsonArray()
+    private var needUpadte = false
 
     init {
 
@@ -63,7 +65,9 @@ class TournamentMenu(val game: PocketPoker) : BaseScreen {
         createButton = TextButton(Settings.getText(Settings.TextKeys.CREATE_TOURNAMENT), buttonStyle)
         createButton.addListener(game.switches[ScreenType.CREATE_TOURNAMENT])
         table.add(createButton).pad(PADDING).expandX().fillX().height(100f).row()
-        table.add(TextField("", editStyle)).pad(PADDING).expandX().fillX().row()
+        searchEdit = TextField("", editStyle)
+        searchEdit.setTextFieldListener { textField, key -> updateTournaments()}
+        table.add(searchEdit).pad(PADDING).expandX().fillX().row()
         table.add(tournamentsList.actor).expandX().fillX().row()
         mainMenuButton = TextButton(Settings.getText(Settings.TextKeys.MAIN_MENU), buttonStyle)
         mainMenuButton.addListener(game.switches[ScreenType.MAIN_MENU])
@@ -83,7 +87,7 @@ class TournamentMenu(val game: PocketPoker) : BaseScreen {
     }
 
     override fun render(delta: Float) {
-        if (tournamentsData.size() != 0) updateTournaments()
+        if (needUpadte) updateTournaments()
         stage.act()
         stage.draw()
     }
@@ -111,6 +115,7 @@ class TournamentMenu(val game: PocketPoker) : BaseScreen {
     override fun receiveFromServer(json: JsonObject) {
         if (json["type"].asString == "get tournaments") {
             tournamentsData = json["info"].asJsonArray
+            needUpadte = true
         }
     }
 
@@ -134,9 +139,10 @@ class TournamentMenu(val game: PocketPoker) : BaseScreen {
             val started = item["started"].asBoolean
             val canPlay = item["can play"].asBoolean
             if (name == "") name = Settings.getText(Settings.TextKeys.TOURNAMENT) + " #" + id.toString()
-            tournamentsList.add(TournamentItem(id, name, playersLeft, players, stack,
-                    isStarted = started, canPlay = canPlay))
+            if (name.contains(searchEdit.text, true))
+                tournamentsList.add(TournamentItem(id, name, playersLeft, players, stack,
+                        isStarted = started, canPlay = canPlay))
         }
-        tournamentsData = JsonArray()
+        needUpadte = false
     }
 }

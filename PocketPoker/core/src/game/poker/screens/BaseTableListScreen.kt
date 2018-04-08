@@ -1,6 +1,7 @@
 package game.poker.screens
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.*
@@ -22,6 +23,8 @@ abstract class BaseTableListScreen(val game: PocketPoker) : BaseScreen {
     protected val tableList: ScrollableContainer
     protected var tablesData = JsonArray()
     protected val backButton: TextButton
+    protected val searchEdit: TextField
+    protected var needUpdate = false
 
     init {
 
@@ -37,6 +40,10 @@ abstract class BaseTableListScreen(val game: PocketPoker) : BaseScreen {
         val buttonDownSprite = SpriteDrawable(Sprite(Textures.menuButtonDown))
         val buttonStyle = TextButtonStyle(buttonSprite, buttonDownSprite, buttonSprite,
                 Fonts.mainMenuButtonFont)
+        val editSprite = SpriteDrawable(Sprite(Textures.edit))
+        val editCursorSprite = SpriteDrawable(Sprite(Textures.editCursor))
+        val editStyle = TextField.TextFieldStyle(Fonts.mainMenuButtonFont, Color.BLACK, editCursorSprite,
+                editSprite, editSprite)
 
         stage.addActor(Image(Textures.menuBg))
 
@@ -45,6 +52,9 @@ abstract class BaseTableListScreen(val game: PocketPoker) : BaseScreen {
         table.setFillParent(true)
         table.top()
 
+        searchEdit = TextField("", editStyle)
+        searchEdit.setTextFieldListener { textField, key -> updateList()}
+        table.add(searchEdit).pad(PADDING).expandX().fillX().row()
         table.add(tableList.actor).expandX().fillX().row()
         backButton = TextButton("", buttonStyle)
         table.add(backButton).pad(PADDING).expand().left().bottom()
@@ -60,7 +70,10 @@ abstract class BaseTableListScreen(val game: PocketPoker) : BaseScreen {
     override fun render(delta: Float) {
         stage.act()
         stage.draw()
-        if (tablesData.size() != 0) updateList()
+        if (needUpdate) {
+            updateList()
+            needUpdate = false
+        }
     }
 
     override fun resize(width: Int, height: Int){

@@ -17,13 +17,16 @@ import game.poker.staticFiles.Fonts
 import game.poker.gui.menu.*
 import game.poker.gui.menu.ScrollableContainer.ClickHandler
 
+
 class ArchiveMenu(val game: PocketPoker) : BaseScreen {
 
     private val stage = Stage(game.view)
     private val PADDING = 50f
     private val archiveList = ScrollableContainer()
     private val mainMenuButton: TextButton
+    private val searchEdit: TextField
     private var archiveData = JsonArray()
+    private var needUpdate = false
 
     init {
 
@@ -51,7 +54,9 @@ class ArchiveMenu(val game: PocketPoker) : BaseScreen {
         table.setFillParent(true)
         table.top()
 
-        table.add(TextField("", editStyle)).pad(PADDING).expandX().fillX().row()
+        searchEdit = TextField("", editStyle)
+        searchEdit.setTextFieldListener { textField, key -> updateArchive()}
+        table.add(searchEdit).pad(PADDING).expandX().fillX().row()
         table.add(archiveList.actor).expandX().fillX().row()
         mainMenuButton = TextButton(Settings.getText(Settings.TextKeys.MAIN_MENU), buttonStyle)
         mainMenuButton.addListener(game.switches[ScreenType.MAIN_MENU])
@@ -72,7 +77,7 @@ class ArchiveMenu(val game: PocketPoker) : BaseScreen {
     override fun render(delta: Float) {
         stage.act()
         stage.draw()
-        if (archiveData.size() != 0) updateArchive()
+        if (needUpdate) updateArchive()
     }
 
     override fun resize(width: Int, height: Int){
@@ -98,6 +103,7 @@ class ArchiveMenu(val game: PocketPoker) : BaseScreen {
     override fun receiveFromServer(json: JsonObject) {
         if (json["type"].asString == "replays") {
             archiveData = json["info"].asJsonArray
+            needUpdate = true
         }
     }
 
@@ -112,9 +118,10 @@ class ArchiveMenu(val game: PocketPoker) : BaseScreen {
             val hands = item["hands"].asInt
             var name = item["name"].asString
             if (name == "") name = Settings.getText(Settings.TextKeys.TOURNAMENT) + " #" + id.toString()
-            archiveList.add(ArchiveItem(id, name, date, tables, players, hands))
+            if (name.contains(searchEdit.text, true))
+                archiveList.add(ArchiveItem(id, name, date, tables, players, hands))
         }
-        archiveData = JsonArray()
+        needUpdate = false
     }
 
     private fun sendRequestForUpdateArchive() {
@@ -122,4 +129,5 @@ class ArchiveMenu(val game: PocketPoker) : BaseScreen {
         data.addProperty("type", "get replays")
         game.menuHandler.sendToServer(data)
     }
+
 }

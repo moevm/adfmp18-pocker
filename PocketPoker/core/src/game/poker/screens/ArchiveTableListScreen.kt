@@ -1,6 +1,5 @@
 package game.poker.screens
 
-import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import game.poker.PocketPoker
 import game.poker.Settings
@@ -30,15 +29,15 @@ class ArchiveTableListScreen(game: PocketPoker): BaseTableListScreen(game) {
             val hands = item["hands"].asInt
             var name = Settings.getText(Settings.TextKeys.TABLE) + " #" + id.toString()
             if (id == 0) name = Settings.getText(Settings.TextKeys.FINAL_TABLE)
-            tableList.add(ArchiveTableItem(id, name, hands))
+            if (name.contains(searchEdit.text, true)) tableList.add(ArchiveTableItem(id, name, hands))
         }
-        tablesData = JsonArray()
 
     }
 
     override fun receiveFromServer(json: JsonObject) {
         if (json["type"].asString == "replay tables") {
             tablesData = json["info"].asJsonArray
+            needUpdate = true
         }
     }
 

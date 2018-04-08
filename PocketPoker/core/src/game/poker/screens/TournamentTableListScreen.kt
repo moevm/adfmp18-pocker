@@ -1,6 +1,5 @@
 package game.poker.screens
 
-import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import game.poker.PocketPoker
 import game.poker.Settings
@@ -22,9 +21,9 @@ class TournamentTableListScreen(game: PocketPoker): BaseTableListScreen(game) {
             val id = item["id"].asInt
             var name = Settings.getText(Settings.TextKeys.TABLE) + " #" + id.toString()
             if (id == 0) name = Settings.getText(Settings.TextKeys.FINAL_TABLE)
-            tableList.add(TournamentTableItem(id, name))
+            if (name.contains(searchEdit.text, true)) tableList.add(TournamentTableItem(id, name))
         }
-        tablesData = JsonArray()
+
     }
 
     override fun sendRequestForUpdateList() {
@@ -37,6 +36,7 @@ class TournamentTableListScreen(game: PocketPoker): BaseTableListScreen(game) {
     override fun receiveFromServer(json: JsonObject) {
         if (json["type"].asString == "get tournament tables") {
             tablesData = json["info"].asJsonArray
+            needUpdate = true
         }
     }
 
