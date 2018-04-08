@@ -28,6 +28,8 @@ open class ContainerItem(val id: Int): Table() {
     protected val blindsSprite = SpriteDrawable(Sprite(Textures.blinds))
     var clickHandler = ClickHandler()
     var clickListener: ClickListener
+    var watchClickListener: ClickListener
+    var nextClickListener: ClickListener
 
     init {
         pad(PADDING * 2f)
@@ -36,7 +38,19 @@ open class ContainerItem(val id: Int): Table() {
 
         clickListener = object : ClickListener() {
             override fun clicked(event: InputEvent, x: Float, y: Float) {
-                clickHandler.click(id)
+                clickHandler.click(id, true)
+            }
+        }
+
+        watchClickListener = object : ClickListener() {
+            override fun clicked(event: InputEvent, x: Float, y: Float) {
+                clickHandler.click(id, false)
+            }
+        }
+
+        nextClickListener = object : ClickListener() {
+            override fun clicked(event: InputEvent, x: Float, y: Float) {
+                clickHandler.click(id, true)
             }
         }
     }

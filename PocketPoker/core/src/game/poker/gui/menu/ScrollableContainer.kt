@@ -17,7 +17,7 @@ class ScrollableContainer() {
         table.bottom()
         actor = ScrollPane(table)
         clickHandler = object : ClickHandler() {
-            override fun click(itemId: Int) {
+            override fun click(itemId: Int, mode: Boolean) {
             }
         }
     }
@@ -44,7 +44,7 @@ class ScrollableContainer() {
 
     open class ClickHandler {
 
-        open fun click(itemId: Int) {
+        open fun click(itemId: Int, mode: Boolean) {
 
         }
 
