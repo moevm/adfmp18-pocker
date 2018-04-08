@@ -25,6 +25,7 @@ class MainMenu(val game: PocketPoker) : BaseScreen {
 
     private val stage = Stage(game.view)
     private val PADDING = 50f
+    private val ICON_SIZE = 100f
     private var isRandomRegister = false
     private var isUserSet = false
 
@@ -62,13 +63,13 @@ class MainMenu(val game: PocketPoker) : BaseScreen {
         table.align(Align.center)
 
         val titleLabel = Label(Settings.getText(Settings.TextKeys.POCKET_POKER), logoStyle)
-        table.add(titleLabel).colspan(3).pad(PADDING).expand().fill().center().row()
+        table.add(titleLabel).colspan(2).pad(PADDING).expand().fill().center().row()
 
         nickLabel = Label(Settings.getText(Settings.TextKeys.NICK), labelStyle)
-        table.add(nickLabel).pad(PADDING)
+        table.add(nickLabel).expandX().fillX().padLeft(PADDING).row()
 
         nickEdit = TextField("", editStyle)
-        table.add(nickEdit).pad(PADDING).expand().fill()
+        table.add(nickEdit).pad(PADDING).expandX().fillX()
 
         nickEditButton = TextButton("", nextButtonStyle)
         nickEditButton.addListener(object: ClickListener() {
@@ -78,11 +79,11 @@ class MainMenu(val game: PocketPoker) : BaseScreen {
                 changeNick()
             }
         })
-        table.add(nickEditButton).pad(PADDING).height(150f).width(150f).row()
+        table.add(nickEditButton).height(ICON_SIZE).width(ICON_SIZE).padRight(PADDING).row()
 
         fun addButtonToTable(textKey: Settings.TextKeys): TextButton {
             val button = TextButton(Settings.getText(textKey), buttonStyle)
-            table.add(button).colspan(3).pad(PADDING).expand().fill().row()
+            table.add(button).colspan(2).pad(PADDING).expand().fill().row()
             return button
         }
 
