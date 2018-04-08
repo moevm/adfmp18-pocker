@@ -88,7 +88,7 @@ class ArchiveMenu(val game: PocketPoker) : BaseScreen {
     }
 
     override fun hide(){
-
+        archiveList.clear()
     }
 
     override fun dispose(){

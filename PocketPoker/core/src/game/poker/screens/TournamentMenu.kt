@@ -100,7 +100,7 @@ class TournamentMenu(val game: PocketPoker) : BaseScreen {
     }
 
     override fun hide(){
-
+        tournamentsList.clear()
     }
 
     override fun dispose(){
