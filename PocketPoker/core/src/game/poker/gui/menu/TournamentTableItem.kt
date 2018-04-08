@@ -10,7 +10,7 @@ class TournamentTableItem(id: Int, val title: String) : ContainerItem(id) {
 
     init {
         add(Label(title, labelStyle)).pad(PADDING).expandX().fillX().left()
-        val actionImage = Image(nextSprite)
+        val actionImage = Image(watchSprite)
         actionImage.addListener(clickListener)
         add(actionImage).pad(PADDING).width(ACTION_IMAGE_SIZE).height(ACTION_IMAGE_SIZE).right()
     }
