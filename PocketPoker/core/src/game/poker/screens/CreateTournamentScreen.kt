@@ -219,6 +219,12 @@ class CreateTournamentScreen(val game: PocketPoker) : BaseScreen {
     }
 
     private fun createTournament() {
+
+        if (botsEdit.text.toInt() > playersEdit.text.toInt()) {
+            alert("", Settings.getText(Settings.TextKeys.BOTS_MORE_THAN_PLAYERS))
+            return
+        }
+
         val data = JsonObject()
         data.addProperty("type", "create tournament")
         data.addProperty("name", titleEdit.text)
