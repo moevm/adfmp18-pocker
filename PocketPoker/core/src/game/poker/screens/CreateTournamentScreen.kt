@@ -23,6 +23,9 @@ import game.poker.staticFiles.Fonts
 
 class CreateTournamentScreen(val game: PocketPoker) : BaseScreen {
 
+    private val MAX_PLAYERS = 100
+    private val MAX_CHIPS = 1000000
+
     private val stage = Stage(game.view)
     private val PADDING = 20f
     private val titleLabel: Label
@@ -89,12 +92,24 @@ class CreateTournamentScreen(val game: PocketPoker) : BaseScreen {
         botsLabel = Label(Settings.getText(Settings.TextKeys.BOTS), labelStyle)
         table.add(botsLabel).pad(PADDING).fillX().expandX().left().row()
 
+        fun buildTextFieldNumberFilter(max: Int): TextFieldFilter {
+            return TextFieldFilter { textField, c ->
+                if (!c.isDigit()) return@TextFieldFilter false
+                if (textField?.text.isNullOrEmpty()) return@TextFieldFilter true
+                var text = textField.text
+                val i = textField.cursorPosition
+                text = text.substring(0, i) + c + text.substring(i, text.length);
+                text.toInt() <= max
+            }
+        }
+        val filter = buildTextFieldNumberFilter(MAX_PLAYERS)
+
         playersEdit = TextField("9", editStyle)
-        playersEdit.textFieldFilter = TextFieldFilter.DigitsOnlyFilter()
+        playersEdit.textFieldFilter = filter
         table.add(playersEdit).pad(PADDING).expandX().fillX().left()
 
         botsEdit = TextField("0", editStyle)
-        botsEdit.textFieldFilter = TextFieldFilter.DigitsOnlyFilter()
+        botsEdit.textFieldFilter = filter
         table.add(botsEdit).pad(PADDING).fillX().expandX().left().row()
 
         tablePlayersLabel = Label(Settings.getText(Settings.TextKeys.TABLE_PLAYERS), labelStyle)
@@ -107,7 +122,7 @@ class CreateTournamentScreen(val game: PocketPoker) : BaseScreen {
         chipsLabel = Label(Settings.getText(Settings.TextKeys.CHIPS), labelStyle)
         table.add(chipsLabel).pad(PADDING).fillX().expandX().left()
         chipsEdit = TextField("10000", editStyle)
-        chipsEdit.textFieldFilter = TextFieldFilter.DigitsOnlyFilter()
+        chipsEdit.textFieldFilter = buildTextFieldNumberFilter(MAX_CHIPS)
         table.add(chipsEdit).pad(PADDING).fillX().expandX().left().row()
 
         blindSpeedLabel = Label(Settings.getText(Settings.TextKeys.BLIND_SPEED), labelStyle)
