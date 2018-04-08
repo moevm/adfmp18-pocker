@@ -75,8 +75,8 @@ abstract class BaseTableListScreen(val game: PocketPoker) : BaseScreen {
 
     }
 
-    override fun hide(){
-
+    override fun hide() {
+        tableList.clear()
     }
 
     override fun dispose(){
