@@ -26,7 +26,7 @@ abstract class BaseTableListScreen(val game: PocketPoker) : BaseScreen {
     init {
 
         val clickHandler = object: ClickHandler() {
-            override fun click(itemId: Int) {
+            override fun click(itemId: Int, mode: Boolean) {
                 handleItemClick(itemId)
             }
         }

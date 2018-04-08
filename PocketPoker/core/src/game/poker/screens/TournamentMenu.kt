@@ -31,11 +31,12 @@ class TournamentMenu(val game: PocketPoker) : BaseScreen {
     init {
 
         val clickHandler = object : ClickHandler() {
-            override fun click(itemId: Int) {
+            override fun click(itemId: Int, mode: Boolean) {
                 val item = tournamentsList.get(itemId) as TournamentItem
                 Settings.currTournamentId = itemId
                 if (item.isStarted) {
-                    game.setCurrScreen(ScreenType.TOURNAMENT_TABLE_LIST)
+                    if (mode) game.setCurrScreen(ScreenType.TABLE)
+                    else game.setCurrScreen(ScreenType.TOURNAMENT_TABLE_LIST)
                 } else {
                     game.setCurrScreen(ScreenType.TABLE)
                 }
@@ -116,6 +117,8 @@ class TournamentMenu(val game: PocketPoker) : BaseScreen {
     private fun sendRequestForTournamentsUpdate() {
         val data = JsonObject()
         data.addProperty("type", "get tournaments")
+        data.addProperty("name", Settings.nick)
+        data.addProperty("token", Settings.token)
         game.menuHandler.sendToServer(data)
     }
 
@@ -129,8 +132,10 @@ class TournamentMenu(val game: PocketPoker) : BaseScreen {
             val playersLeft = item["players left"].asInt
             val stack = item["initial stack"].asInt
             val started = item["started"].asBoolean
+            val canPlay = item["can play"].asBoolean
             if (name == "") name = Settings.getText(Settings.TextKeys.TOURNAMENT) + " #" + id.toString()
-            tournamentsList.add(TournamentItem(id, name, playersLeft, players, stack, isStarted = started))
+            tournamentsList.add(TournamentItem(id, name, playersLeft, players, stack,
+                    isStarted = started, canPlay = canPlay))
         }
         tournamentsData = JsonArray()
     }
