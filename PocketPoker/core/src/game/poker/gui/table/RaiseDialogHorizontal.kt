@@ -15,14 +15,17 @@ import game.poker.staticFiles.Fonts
 import game.poker.staticFiles.Textures
 import kotlin.math.roundToInt
 
-class RaiseDialog(val stage: Stage, val handler: RaiseResultHandler) {
+open class RaiseDialogHorizontal(val stage: Stage, val handler: RaiseResultHandler) {
 
-    private val dialog: Dialog
+    protected val dialog: Dialog
     private val raiseLabel: Label
     private val raiseSlider: Slider
     private val PADDING = 10f
+    private var minRaise = 0
     private var maxRaise = 0
     private var currRaise = 0
+    private var raiseStep = 0
+    private var pot = 0
 
     init {
 
@@ -43,8 +46,8 @@ class RaiseDialog(val stage: Stage, val handler: RaiseResultHandler) {
         dialog.contentTable.add(plusButton).pad(PADDING).width(100f)
         val minusButton = TextButton("-", buttonStyle)
         dialog.contentTable.add(minusButton).pad(PADDING).width(100f)
-        val allInButton = TextButton(Settings.getText(Settings.TextKeys.ALL_IN), buttonStyle)
-        dialog.contentTable.add(allInButton).pad(PADDING).width(250f)
+        val potButton = TextButton(Settings.getText(Settings.TextKeys.POT), buttonStyle)
+        dialog.contentTable.add(potButton).pad(PADDING).width(250f)
         val closeButton = Image(SpriteDrawable(Sprite(Textures.exitButton)))
         dialog.contentTable.add(closeButton).pad(PADDING).width(100f).height(100f).row()
         raiseSlider = Slider(0f, 100f, 1f, false, sliderStyle)
@@ -57,27 +60,27 @@ class RaiseDialog(val stage: Stage, val handler: RaiseResultHandler) {
 
         plusButton.addListener(object: ClickListener() {
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                currRaise++
+                currRaise += raiseStep
                 if (currRaise > maxRaise) currRaise = maxRaise
                 raiseLabel.setText((currRaise).toString())
-                raiseSlider.value = currRaise * 100f / maxRaise
+                raiseSlider.value = (currRaise - minRaise) * 100f / (maxRaise - minRaise)
             }
         })
 
         minusButton.addListener(object: ClickListener() {
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                currRaise--
-                if (currRaise < 1) currRaise = 1
+                currRaise -= raiseStep
+                if (currRaise < minRaise) currRaise = minRaise
                 raiseLabel.setText((currRaise).toString())
-                raiseSlider.value = currRaise * 100f / maxRaise
+                raiseSlider.value = (currRaise - minRaise) * 100f / (maxRaise - minRaise)
             }
         })
 
-        allInButton.addListener(object: ClickListener() {
+        potButton.addListener(object: ClickListener() {
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                currRaise = maxRaise
-                raiseLabel.setText((maxRaise).toString())
-                raiseSlider.value = 100f
+                currRaise = pot
+                raiseLabel.setText((pot).toString())
+                raiseSlider.value = (pot - minRaise) * 100f / (maxRaise - minRaise)
             }
         })
 
@@ -96,16 +99,19 @@ class RaiseDialog(val stage: Stage, val handler: RaiseResultHandler) {
 
         raiseSlider.addListener(object : ChangeListener() {
             override fun changed(event: ChangeEvent?, actor: Actor?) {
-                currRaise = (raiseSlider.value * maxRaise / 100f).roundToInt()
+                currRaise = minRaise + (raiseSlider.value * (maxRaise - minRaise) / 100f).roundToInt()
                 raiseLabel.setText(currRaise.toString())
             }
         })
 
     }
 
-    fun show(maxRaise: Int) {
+    fun show(minRaise: Int, maxRaise: Int, raiseStep: Int, pot: Int) {
         this.maxRaise = maxRaise
-        raiseLabel.setText("0")
+        this.minRaise = minRaise
+        this.raiseStep = raiseStep
+        this.pot = pot
+        raiseLabel.setText(minRaise.toString())
         raiseSlider.value = 0f
         dialog.show(stage)
     }
