@@ -504,9 +504,18 @@ abstract class TableViewBase(val game: PocketPoker, val table: TableScreen) : Ba
         // может быть длины 2 или 3
         for ((i, text) in choices.withIndex()) {
             when (i) {
-                0 -> leftChoiceButton.setText(text)
-                1 -> cenralChoiceButton.setText(text)
-                2 -> rightChoiceButton.setText(text)
+                0 -> {
+                    leftChoiceButton.setText(text)
+                    leftChoiceButton.isVisible = true
+                }
+                1 -> {
+                    cenralChoiceButton.setText(text)
+                    cenralChoiceButton.isVisible = true
+                }
+                2 -> {
+                    rightChoiceButton.setText(text)
+                    rightChoiceButton.isVisible = true
+                }
             }
         }
     }
