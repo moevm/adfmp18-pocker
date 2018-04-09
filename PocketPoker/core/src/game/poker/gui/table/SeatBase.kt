@@ -13,7 +13,7 @@ import game.poker.core.Rank
 import game.poker.core.Suit
 import game.poker.core.Visibility
 import game.poker.staticFiles.Textures
-import java.awt.Point
+import game.poker.gui.table.TableViewBase.Point
 
 
 abstract class SeatBase : Group() {

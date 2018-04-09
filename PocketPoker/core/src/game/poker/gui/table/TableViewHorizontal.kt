@@ -1,5 +1,7 @@
 package game.poker.gui.table
 
+import com.badlogic.gdx.scenes.scene2d.InputEvent
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.google.gson.JsonObject
 import game.poker.PocketPoker
 import game.poker.screens.TableScreen
@@ -8,6 +10,15 @@ class TableViewHorizontal(game: PocketPoker, table: TableScreen) : TableViewBase
     init {
         setUpCards()
         setUpButtons()
+        //создание диалога рейза
+        val dialog = RaiseDialogHorizontal(stage, handler)
+        rightChoiceButton.addListener(object : ClickListener() {
+            override fun clicked(event: InputEvent, x: Float, y: Float) {
+                //вызов диалога рейза
+                dialog.show(minRaise = raiseInfo.minRaise, maxRaise = raiseInfo.maxRaise,
+                        raiseStep = raiseInfo.raiseStep, pot = raiseInfo.pot)
+            }
+        })
         pot.rotation = -90f
         pot.setPosition(400f,1090f)
         pot.label.setPosition(0f,250f)
@@ -33,12 +44,12 @@ class TableViewHorizontal(game: PocketPoker, table: TableScreen) : TableViewBase
         chatButton.setSize(200f, 90f)
         infoButton.setPosition(20f, 280f)
         infoButton.setSize(200f, 90f)
-        foldButton.setPosition(20f, 1700f)
-        foldButton.setSize(250f, 90f)
-        callButton.setPosition(20f, 1300f)
-        callButton.setSize(350f, 90f)
-        raiseButton.setPosition(20f, 880f)
-        raiseButton.setSize(250f, 90f)
+        leftChoiceButton.setPosition(20f, 1700f)
+        leftChoiceButton.setSize(250f, 90f)
+        cenralChoiceButton.setPosition(20f, 1300f)
+        cenralChoiceButton.setSize(350f, 90f)
+        rightChoiceButton.setPosition(20f, 880f)
+        rightChoiceButton.setSize(250f, 90f)
         nextHandButton.setPosition(20f, 820f)
         nextStepButton.setPosition(20f, 940f)
         prevHandButton.setPosition(20f, 1180f)
@@ -50,9 +61,9 @@ class TableViewHorizontal(game: PocketPoker, table: TableScreen) : TableViewBase
         exitButton.rotation = -90f
         chatButton.rotation = -90f
         infoButton.rotation = -90f
-        foldButton.rotation = -90f
-        callButton.rotation = -90f
-        raiseButton.rotation = -90f
+        leftChoiceButton.rotation = -90f
+        cenralChoiceButton.rotation = -90f
+        rightChoiceButton.rotation = -90f
         nextHandButton.rotation = -90f
         nextStepButton.rotation = -90f
         prevHandButton.rotation = -90f
