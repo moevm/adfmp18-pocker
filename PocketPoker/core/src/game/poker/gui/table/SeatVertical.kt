@@ -1,6 +1,6 @@
 package game.poker.gui.table
 
-import java.awt.Point
+import game.poker.gui.table.TableViewBase.Point
 
 
 class SeatVertical(private val positionNumber:Int, private val potPosition: Point) : SeatBase(){
@@ -28,55 +28,55 @@ class SeatVertical(private val positionNumber:Int, private val potPosition: Poin
         when(positionNumber){
             0 -> {
                 setPosition(450f, 150f)
-                chipstackPosition.setLocation(50, 270)
+                chipstackPosition.setLocation(50f, 270f)
                 dealerChip.setPosition(-10f,270f)
                 playerView.setPosition(-350f, 0f)
             }
             1 -> {
                 setPosition(20f, 500f)
-                chipstackPosition.setLocation(270, 60)
+                chipstackPosition.setLocation(270f, 60f)
                 dealerChip.setPosition(210f,60f)
                 playerView.setPosition(0f, 150f)
             }
             2 -> {
                 setPosition(20f, 950f)
-                chipstackPosition.setLocation(110, -90)
+                chipstackPosition.setLocation(110f, -90f)
                 dealerChip.setPosition(50f,-90f)
                 playerView.setPosition(0f, 150f)
             }
             3 -> {
                 setPosition(20f, 1400f)
-                chipstackPosition.setLocation(110, -90)
+                chipstackPosition.setLocation(110f, -90f)
                 dealerChip.setPosition(50f,-90f)
                 playerView.setPosition(0f, 150f)
             }
             4 -> {
                 setPosition(330f, 1600f)
-                chipstackPosition.setLocation(0, -130)
+                chipstackPosition.setLocation(0f, -130f)
                 dealerChip.setPosition(75f,-70f)
                 playerView.setPosition(0f, 150f)
             }
             5 -> {
                 setPosition(600f, 1600f)
-                chipstackPosition.setLocation(0, -130)
+                chipstackPosition.setLocation(0f, -130f)
                 dealerChip.setPosition(75f,-70f)
                 playerView.setPosition(0f, 150f)
             }
             6 -> {
                 setPosition(850f, 1400f)
-                chipstackPosition.setLocation(-150, -90)
+                chipstackPosition.setLocation(-150f, -90f)
                 dealerChip.setPosition(60f,-90f)
                 playerView.setPosition(-40f, 150f)
             }
             7 -> {
                 setPosition(850f, 950f)
-                chipstackPosition.setLocation(-150, -90)
+                chipstackPosition.setLocation(-150f, -90f)
                 dealerChip.setPosition(60f,-90f)
                 playerView.setPosition(-40f, 150f)
             }
             8 -> {
                 setPosition(850f, 500f)
-                chipstackPosition.setLocation(-260, 60)
+                chipstackPosition.setLocation(-260f, 60f)
                 dealerChip.setPosition(-50f,60f)
                 playerView.setPosition(-40f, 150f)
             }
@@ -89,8 +89,8 @@ class SeatVertical(private val positionNumber:Int, private val potPosition: Poin
             card1.setSize(100f, 140f)
             card2.setSize(100f, 140f)
         }
-        myPotPosition.setLocation(potPosition.x - x.toInt(), potPosition.y - y.toInt())
-        chipstack.setPosition(chipstackPosition.x.toFloat(), chipstackPosition.y.toFloat())
+        myPotPosition.setLocation(potPosition.x - x, potPosition.y - y)
+        chipstack.setPosition(chipstackPosition.x, chipstackPosition.y)
         card1.setPosition(0f,0f)
         card2.setPosition(0f,0f)
         updateCardsPosition()

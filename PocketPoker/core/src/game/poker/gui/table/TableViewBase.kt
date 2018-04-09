@@ -21,7 +21,6 @@ import game.poker.screens.ScreenType
 import game.poker.core.Rank
 import game.poker.core.Suit
 import game.poker.screens.TableScreen
-import java.awt.Point
 
 
 abstract class TableViewBase(val game: PocketPoker, val table: TableScreen) : BaseScreen {
@@ -35,14 +34,14 @@ abstract class TableViewBase(val game: PocketPoker, val table: TableScreen) : Ba
     protected val seats = mutableListOf<SeatBase>()
     protected val pot = Pot()
     protected val cards = Array(5){ Image(SpriteDrawable(Sprite(Textures.cardPlaceholder))) }
-    protected val cardsObjects = Array(5) { Card(Rank.Ace, Suit.Hearts, Visibility.Open) }
+    private val cardsObjects = Array(5) { Card(Rank.Ace, Suit.Hearts, Visibility.Open) }
     protected val chatButton= ImageButton(SpriteDrawable(Sprite(Textures.chatButton)),
             SpriteDrawable(Sprite(Textures.chatButtonDown)))
     protected val infoButton= ImageButton(SpriteDrawable(Sprite(Textures.infoButton)),
             SpriteDrawable(Sprite(Textures.infoButtonDown)))
-    protected val foldButton: TextButton
-    protected val callButton: TextButton
-    protected val raiseButton: TextButton
+    protected val leftChoiceButton: TextButton
+    protected val cenralChoiceButton: TextButton
+    protected val rightChoiceButton: TextButton
     protected val exitButton = ImageButton(SpriteDrawable(Sprite(Textures.exitButton)),
             SpriteDrawable(Sprite(Textures.exitButtonDown)))
     protected val nextHandButton = ImageButton(SpriteDrawable(Sprite(Textures.nextHand)),
@@ -54,6 +53,20 @@ abstract class TableViewBase(val game: PocketPoker, val table: TableScreen) : Ba
     protected val pausePlayButton = ImageButton(SpriteDrawable(Sprite(Textures.pauseButton)),
             SpriteDrawable(Sprite(Textures.pauseButtonDown)))
     private val bg =  Image(Textures.menuBg)
+    protected val handler = object: RaiseDialogBase.RaiseResultHandler() {
+        override fun handle(raiseValue: Int) {
+            //вызывается, когда пользователь нажал ОК на диалоге рейза
+            //raiseValue - выбранное им значение рейза
+            println("Raise " + raiseValue.toString())
+        }
+    }
+    class RaiseInfo {
+        var minRaise = 10
+        var maxRaise = 1000
+        var raiseStep = 10
+        var pot = 500
+    }
+    val raiseInfo = RaiseInfo()
 
     var needUpdateFlop = false
         private set
@@ -61,6 +74,18 @@ abstract class TableViewBase(val game: PocketPoker, val table: TableScreen) : Ba
         private set
     var needUpdateRiver = false
         private set
+    class Point {
+        var x = 0f
+        var y = 0f
+        fun setLocation(nx:Float, ny:Float) {
+            x = nx
+            y = ny
+        }
+        fun setLocation(nx:Double, ny:Double) {
+            x = nx.toFloat()
+            y = ny.toFloat()
+        }
+    }
 
     init {
         val tableSprite = Sprite(Textures.pokerTable)
@@ -74,14 +99,14 @@ abstract class TableViewBase(val game: PocketPoker, val table: TableScreen) : Ba
         val buttonDownSprite = SpriteDrawable(Sprite(Textures.menuButtonDown))
         val buttonStyle = TextButton.TextButtonStyle(buttonSprite, buttonDownSprite, buttonSprite,
                 Fonts.mainMenuButtonFont)
-        foldButton = TextButton(Settings.getText(Settings.TextKeys.FOLD), buttonStyle)
-        callButton = TextButton(Settings.getText(Settings.TextKeys.CALL), buttonStyle)
-        raiseButton = TextButton(Settings.getText(Settings.TextKeys.RAISE), buttonStyle)
+        leftChoiceButton = TextButton(Settings.getText(Settings.TextKeys.FOLD), buttonStyle)
+        cenralChoiceButton = TextButton(Settings.getText(Settings.TextKeys.CALL), buttonStyle)
+        rightChoiceButton = TextButton(Settings.getText(Settings.TextKeys.RAISE), buttonStyle)
         chatButton.isTransform = true
         infoButton.isTransform = true
-        foldButton.isTransform = true
-        callButton.isTransform = true
-        raiseButton.isTransform = true
+        leftChoiceButton.isTransform = true
+        cenralChoiceButton.isTransform = true
+        rightChoiceButton.isTransform = true
         exitButton.isTransform = true
         nextHandButton.isTransform = true
         nextStepButton.isTransform = true
@@ -119,15 +144,25 @@ abstract class TableViewBase(val game: PocketPoker, val table: TableScreen) : Ba
                 table.handler?.socket?.send("next step")
             }
         })
+        leftChoiceButton.addListener(object : ClickListener() {
+            override fun clicked(event: InputEvent, x: Float, y: Float) {
+                //fold
+            }
+        })
+        cenralChoiceButton.addListener(object : ClickListener() {
+            override fun clicked(event: InputEvent, x: Float, y: Float) {
+                //call
+            }
+        })
         stage.addActor(bg)
         stage.addActor(pokerTable)
         stage.addActor(pot)
         cards.forEach { stage.addActor(it) }
         stage.addActor(chatButton)
         stage.addActor(infoButton)
-        stage.addActor(foldButton)
-        stage.addActor(callButton)
-        stage.addActor(raiseButton)
+        stage.addActor(leftChoiceButton)
+        stage.addActor(cenralChoiceButton)
+        stage.addActor(rightChoiceButton)
         stage.addActor(nextHandButton)
         stage.addActor(nextStepButton)
         stage.addActor(prevHandButton)
@@ -137,9 +172,9 @@ abstract class TableViewBase(val game: PocketPoker, val table: TableScreen) : Ba
     }
 
     override fun update() {
-        foldButton.setText(Settings.getText(Settings.TextKeys.FOLD))
-        callButton.setText(Settings.getText(Settings.TextKeys.CALL))
-        raiseButton.setText(Settings.getText(Settings.TextKeys.RAISE))
+        leftChoiceButton.setText(Settings.getText(Settings.TextKeys.FOLD))
+        cenralChoiceButton.setText(Settings.getText(Settings.TextKeys.CALL))
+        rightChoiceButton.setText(Settings.getText(Settings.TextKeys.RAISE))
         pot.update()
         seats.forEach { it.update() }
     }
@@ -208,21 +243,23 @@ abstract class TableViewBase(val game: PocketPoker, val table: TableScreen) : Ba
         for ((i,card) in cards.withIndex()) {
             card.drawable = table.cards[i].drawable
         }
+        raiseInfo.minRaise = table.raiseInfo.minRaise
+        raiseInfo.maxRaise = table.raiseInfo.maxRaise
+        raiseInfo.raiseStep = table.raiseInfo.raiseStep
+        raiseInfo.pot = table.raiseInfo.pot
     }
 
     private fun updateButtons(){
-        foldButton.isVisible = false
-        callButton.isVisible = false
-        raiseButton.isVisible = false
+        leftChoiceButton.isVisible = false
+        cenralChoiceButton.isVisible = false
+        rightChoiceButton.isVisible = false
         nextHandButton.isVisible = false
         nextStepButton.isVisible = false
         prevHandButton.isVisible = false
         pausePlayButton.isVisible = false
         when (mode){
             Settings.TableMode.Game -> {
-                foldButton.isVisible = true
-                callButton.isVisible = true
-                raiseButton.isVisible = true
+
             }
             Settings.TableMode.Replay -> {
                 nextHandButton.isVisible = true
@@ -238,9 +275,9 @@ abstract class TableViewBase(val game: PocketPoker, val table: TableScreen) : Ba
         }
     }
 
-    fun getPotPosition(): Point {
+    protected fun getPotPosition(): Point {
         val point = Point()
-        point.setLocation(pot.x.toInt(), pot.y.toInt())
+        point.setLocation(pot.x, pot.y)
         return point
     }
 
@@ -456,12 +493,22 @@ abstract class TableViewBase(val game: PocketPoker, val table: TableScreen) : Ba
     }
 
     fun removePlayingChoices(){
-        // Убирает 2 или три кнопки выбора текущео решения
+        // Убирает две или три кнопки выбора текущео решения
+        rightChoiceButton.isVisible = false
+        cenralChoiceButton.isVisible = false
+        leftChoiceButton.isVisible = false
     }
 
     fun setPlayingChoices(choices: List<String>){
         // Наступил ход игрока. Показать варианты выбора
         // может быть длины 2 или 3
+        for ((i, text) in choices.withIndex()) {
+            when (i) {
+                0 -> leftChoiceButton.setText(text)
+                1 -> cenralChoiceButton.setText(text)
+                2 -> rightChoiceButton.setText(text)
+            }
+        }
     }
 
     override fun receiveFromServer(json: JsonObject) {

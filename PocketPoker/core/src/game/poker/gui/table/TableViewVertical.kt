@@ -1,5 +1,7 @@
 package game.poker.gui.table
 
+import com.badlogic.gdx.scenes.scene2d.InputEvent
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.google.gson.JsonObject
 import game.poker.PocketPoker
 import game.poker.screens.TableScreen
@@ -8,6 +10,15 @@ class TableViewVertical(game: PocketPoker, table: TableScreen) : TableViewBase(g
     init {
         setUpCards()
         setUpButtons()
+        //создание диалога рейза
+        val dialog = RaiseDialogVertical(stage, handler)
+        rightChoiceButton.addListener(object : ClickListener() {
+            override fun clicked(event: InputEvent, x: Float, y: Float) {
+                //вызов диалога рейза
+                dialog.show(minRaise = raiseInfo.minRaise, maxRaise = raiseInfo.maxRaise,
+                        raiseStep = raiseInfo.raiseStep, pot = raiseInfo.pot)
+            }
+        })
         pot.setPosition(450f,850f)
         pot.label.setPosition(-5f,450f)
         for (i in 0..8){
@@ -29,12 +40,12 @@ class TableViewVertical(game: PocketPoker, table: TableScreen) : TableViewBase(g
         chatButton.setSize(100f, 100f)
         infoButton.setPosition(960f, 170f)
         infoButton.setSize(100f, 100f)
-        foldButton.setPosition(20f, 20f)
-        foldButton.setSize(250f, 90f)
-        callButton.setPosition(370f, 20f)
-        callButton.setSize(350f, 90f)
-        raiseButton.setPosition(800f, 20f)
-        raiseButton.setSize(250f, 90f)
+        leftChoiceButton.setPosition(20f, 20f)
+        leftChoiceButton.setSize(250f, 90f)
+        cenralChoiceButton.setPosition(370f, 20f)
+        cenralChoiceButton.setSize(350f, 90f)
+        rightChoiceButton.setPosition(800f, 20f)
+        rightChoiceButton.setSize(250f, 90f)
         nextHandButton.setPosition(680f, 20f)
         nextStepButton.setPosition(560f, 20f)
         prevHandButton.setPosition(320f, 20f)
