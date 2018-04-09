@@ -170,4 +170,9 @@ abstract class SeatBase : Group() {
         action.interpolation = Settings.animationInterpolation
         chipstack.addAction(action)
     }
+
+    fun resetChips() {
+        setChips(0L)
+        chipstack.setPosition(chipstackPosition.x.toFloat(), chipstackPosition.y.toFloat())
+    }
 }

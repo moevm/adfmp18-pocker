@@ -105,11 +105,13 @@ abstract class TableViewBase(val game: PocketPoker, val table: TableScreen) : Ba
         prevHandButton.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent, x: Float, y: Float) {
                 table.handler?.socket?.send("prev hand")
+                resetTable()
             }
         })
         nextHandButton.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent, x: Float, y: Float) {
                 table.handler?.socket?.send("next hand")
+                resetTable()
             }
         })
         nextStepButton.addListener(object : ClickListener() {
@@ -240,6 +242,18 @@ abstract class TableViewBase(val game: PocketPoker, val table: TableScreen) : Ba
         val point = Point()
         point.setLocation(pot.x.toInt(), pot.y.toInt())
         return point
+    }
+
+    fun resetTable() {
+        pot.actions.clear()
+        setPotChips(0L)
+        seats.forEach {
+            it.actions.clear()
+            it.resetChips()
+        }
+        clearAllCards()
+        clearInDecision()
+        removeDecisions()
     }
 
     // all events that received from handler
