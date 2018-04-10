@@ -31,6 +31,14 @@ abstract class TableViewBase(val game: PocketPoker, val table: TableScreen) : Ba
             updateButtons()
         }
     var isFinal = false
+        set(value) {
+            field = value
+            seats.forEach {
+                if (it.isEmpty) {
+                    it.isVisible = !isFinal
+                }
+            }
+        }
     protected val seats = mutableListOf<SeatBase>()
     protected val pot = Pot()
     protected val cards = Array(5){ Image(SpriteDrawable(Sprite(Textures.cardPlaceholder))) }
