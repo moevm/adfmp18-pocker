@@ -452,6 +452,7 @@ abstract class TableViewBase(val game: PocketPoker, val table: TableScreen) : Ba
         seats[localSeat-1].playerView.playerName = name
         seats[localSeat-1].playerView.money = stack
         seats[localSeat-1].playerView.info = ""
+        seats[localSeat-1].playerView.isDisabled = isDisconnected
         seats[localSeat-1].isEmpty = false
         seats[localSeat-1].isVisible = true
     }
