@@ -21,11 +21,11 @@ open class RaiseDialogBase(val stage: Stage, val handler: RaiseResultHandler) {
     private val raiseLabel: Label
     private val raiseSlider: Slider
     private val PADDING = 10f
-    private var minRaise = 0
-    private var maxRaise = 0
-    private var currRaise = 0
-    private var raiseStep = 0
-    private var pot = 0
+    private var minRaise: Long = 0
+    private var maxRaise: Long = 0
+    private var currRaise: Long = 0
+    private var raiseStep: Long = 0
+    private var pot: Long = 0
 
     init {
 
@@ -88,7 +88,6 @@ open class RaiseDialogBase(val stage: Stage, val handler: RaiseResultHandler) {
 
         closeButton.addListener(object: ClickListener() {
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                //dialog.hide()
                 dialog.remove()
             }
         })
@@ -96,7 +95,6 @@ open class RaiseDialogBase(val stage: Stage, val handler: RaiseResultHandler) {
         okButton.addListener(object: ClickListener() {
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
                 handler.handle(currRaise)
-                //dialog.hide()
                 dialog.remove()
             }
         })
@@ -110,7 +108,7 @@ open class RaiseDialogBase(val stage: Stage, val handler: RaiseResultHandler) {
 
     }
 
-    fun show(minRaise: Int, maxRaise: Int, raiseStep: Int, pot: Int) {
+    fun show(minRaise: Long, maxRaise: Long, raiseStep: Long, pot: Long) {
         this.maxRaise = maxRaise
         this.minRaise = minRaise
         this.raiseStep = raiseStep
@@ -118,11 +116,10 @@ open class RaiseDialogBase(val stage: Stage, val handler: RaiseResultHandler) {
         raiseLabel.setText(minRaise.toString())
         raiseSlider.value = 0f
         stage.addActor(dialog)
-        //dialog.show(stage)
     }
 
     open class RaiseResultHandler {
-        open fun handle(raiseValue: Int) {}
+        open fun handle(raiseValue: Long) {}
     }
 
 }
