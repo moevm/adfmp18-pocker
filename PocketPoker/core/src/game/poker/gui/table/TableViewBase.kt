@@ -62,17 +62,17 @@ abstract class TableViewBase(val game: PocketPoker, val table: TableScreen) : Ba
             SpriteDrawable(Sprite(Textures.pauseButtonDown)))
     private val bg =  Image(Textures.menuBg)
     protected val handler = object: RaiseDialogBase.RaiseResultHandler() {
-        override fun handle(raiseValue: Int) {
+        fun handle(raiseValue: Int) {
             //вызывается, когда пользователь нажал ОК на диалоге рейза
             //raiseValue - выбранное им значение рейза
             println("Raise " + raiseValue.toString())
         }
     }
     class RaiseInfo {
-        var minRaise = 10
-        var maxRaise = 1000
-        var raiseStep = 10
-        var pot = 500
+        var minRaise: Long = 10
+        var maxRaise: Long = 1000
+        var raiseStep: Long = 10
+        var pot: Long = 500
     }
     val raiseInfo = RaiseInfo()
 
@@ -527,6 +527,13 @@ abstract class TableViewBase(val game: PocketPoker, val table: TableScreen) : Ba
                 }
             }
         }
+    }
+
+    fun setRaiseInfo(minRaise: Long, maxRaise: Long, step: Long, pot: Long){
+        raiseInfo.minRaise = minRaise
+        raiseInfo.maxRaise = maxRaise
+        raiseInfo.raiseStep = step
+        raiseInfo.pot = pot
     }
 
     override fun receiveFromServer(json: JsonObject) {

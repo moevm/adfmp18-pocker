@@ -272,7 +272,25 @@ class GameHandler(val name: String,
                     seats.toCall = money
                 }
                 "raise" -> {
-                    TODO()
+                    choicesToShow.add(Settings.getText(Settings.TextKeys.RAISE))
+
+                    val minVal = curr["from"].asLong
+                    val maxVal = curr["to"].asLong
+                    val step = minVal
+
+                    var inPot = seats.mainChips;
+
+                    for(seat in seats.all()){
+                        inPot += seat.gived
+                    }
+
+                    var potAmount = inPot + 2 * seats.toCall
+
+                    if(potAmount > maxVal){
+                        potAmount = maxVal
+                    }
+
+                    table.currView.setRaiseInfo(minVal, maxVal, step, potAmount)
                 }
                 "all in" -> {
                     val money = curr["money"].asLong
