@@ -7,8 +7,7 @@ import game.poker.core.*
 import game.poker.gui.table.TableViewBase
 import game.poker.gui.table.TableViewVertical
 import game.poker.gui.table.TableViewHorizontal
-import game.poker.core.handle.Handler
-import game.poker.core.handle.ReplayHandler
+import game.poker.core.handle.*
 import java.util.*
 
 class TableScreen(val game: PocketPoker) : BaseScreen {
@@ -92,7 +91,11 @@ class TableScreen(val game: PocketPoker) : BaseScreen {
         }
         when(mode){
             Settings.TableMode.Game -> {
-                TODO()
+                val queue: Queue<String> = LinkedList<String>()
+                val socket = WebSocketConnection(queue)
+                handler = GameHandler(Settings.nick, socket, queue, this)
+                handler?.open()
+                Thread(Runnable { handler?.handle() }).start()
             }
             Settings.TableMode.Spectate -> {
                 TODO()

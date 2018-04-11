@@ -46,6 +46,7 @@ class TournamentTableListScreen(game: PocketPoker): BaseTableListScreen(game) {
 
     override fun handleItemClick(id: Int) {
         Settings.currTableId = id
+        Settings.currTableMode = Settings.TableMode.Spectate
         game.setCurrScreen(ScreenType.TABLE)
     }
 

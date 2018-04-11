@@ -20,6 +20,8 @@ import game.poker.PocketPoker
 import game.poker.screens.ScreenType
 import game.poker.core.Rank
 import game.poker.core.Suit
+import game.poker.core.handle.GameHandler
+import game.poker.core.handle.ReplayHandler
 import game.poker.screens.TableScreen
 
 
@@ -62,10 +64,14 @@ abstract class TableViewBase(val game: PocketPoker, val table: TableScreen) : Ba
             SpriteDrawable(Sprite(Textures.pauseButtonDown)))
     private val bg =  Image(Textures.menuBg)
     protected val handler = object: RaiseDialogBase.RaiseResultHandler() {
-        fun handle(raiseValue: Int) {
+        override fun handle(raiseValue: Long) {
             //вызывается, когда пользователь нажал ОК на диалоге рейза
             //raiseValue - выбранное им значение рейза
             println("Raise " + raiseValue.toString())
+            val gameHandler = table.handler
+            if(gameHandler is GameHandler){
+                gameHandler.sendDecision("3 " + raiseValue.toString())
+            }
         }
     }
     class RaiseInfo {
@@ -126,40 +132,61 @@ abstract class TableViewBase(val game: PocketPoker, val table: TableScreen) : Ba
                     pausePlayButton.style.imageUp = SpriteDrawable(Sprite(Textures.pauseButton))
                     pausePlayButton.style.imageDown = SpriteDrawable(Sprite(Textures.pauseButtonDown))
                     nextStepButton.isVisible = false
-                    table.handler?.socket?.send("play")
+                    val replayHandler = table.handler
+                    if(replayHandler is ReplayHandler){
+                        replayHandler.socket.send("play")
+                    }
                 } else {
                     pausePlayButton.style.imageUp = SpriteDrawable(Sprite(Textures.playButton))
                     pausePlayButton.style.imageDown = SpriteDrawable(Sprite(Textures.playButtonDown))
                     nextStepButton.isVisible = true
-                    table.handler?.socket?.send("pause")
+                    val replayHandler = table.handler
+                    if(replayHandler is ReplayHandler){
+                        replayHandler.socket.send("pause")
+                    }
                 }
             }
         })
         prevHandButton.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent, x: Float, y: Float) {
-                table.handler?.socket?.send("prev hand")
+                val replayHandler = table.handler
+                if(replayHandler is ReplayHandler){
+                    replayHandler.socket.send("prev hand")
+                }
                 resetTable()
             }
         })
         nextHandButton.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent, x: Float, y: Float) {
-                table.handler?.socket?.send("next hand")
+                val replayHandler = table.handler
+                if(replayHandler is ReplayHandler){
+                    replayHandler.socket.send("next hand")
+                }
                 resetTable()
             }
         })
         nextStepButton.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                table.handler?.socket?.send("next step")
+                val replayHandler = table.handler
+                if(replayHandler is ReplayHandler){
+                    replayHandler.socket.send("next step")
+                }
             }
         })
         leftChoiceButton.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent, x: Float, y: Float) {
-                //fold
+                val gameHandler = table.handler
+                if(gameHandler is GameHandler){
+                    gameHandler.sendDecision("1")
+                }
             }
         })
         cenralChoiceButton.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent, x: Float, y: Float) {
-                //call
+                val gameHandler = table.handler
+                if(gameHandler is GameHandler){
+                    gameHandler.sendDecision("2")
+                }
             }
         })
         stage.addActor(bg)

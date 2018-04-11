@@ -25,7 +25,8 @@ class GameHandler(val name: String,
         val json = JsonObject()
         json.addProperty("type", "js")
         json.addProperty("name", name)
-        TODO("Добавить поле ID из настроек")
+        json.addProperty("id", Settings.currTournamentId)
+        json.addProperty("password", "")
         socket.connectToServer(json.toString())
         info.waitWhileAllPlayersRegister()
     }
@@ -188,7 +189,7 @@ class GameHandler(val name: String,
     }
 
     override fun handResults(data: JsonObject) {
-        TODO()
+        //TODO()
         super.handResults(data)
     }
 

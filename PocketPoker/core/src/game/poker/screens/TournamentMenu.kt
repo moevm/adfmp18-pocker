@@ -33,13 +33,19 @@ class TournamentMenu(val game: PocketPoker) : BaseScreen {
     init {
 
         val clickHandler = object : ClickHandler() {
-            override fun click(itemId: Int, mode: Boolean) {
+            override fun click(itemId: Int, isGameMode: Boolean) {
                 val item = tournamentsList.get(itemId) as TournamentItem
                 Settings.currTournamentId = itemId
                 if (item.isStarted) {
-                    if (mode) game.setCurrScreen(ScreenType.TABLE)
-                    else game.setCurrScreen(ScreenType.TOURNAMENT_TABLE_LIST)
+                    if (isGameMode){
+                        Settings.currTableMode = Settings.TableMode.Game
+                        game.setCurrScreen(ScreenType.TABLE)
+                    }
+                    else {
+                        game.setCurrScreen(ScreenType.TOURNAMENT_TABLE_LIST)
+                    }
                 } else {
+                    Settings.currTableMode = Settings.TableMode.Game
                     game.setCurrScreen(ScreenType.TABLE)
                 }
             }

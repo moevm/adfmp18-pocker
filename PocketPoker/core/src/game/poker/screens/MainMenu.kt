@@ -242,8 +242,8 @@ class MainMenu(val game: PocketPoker) : BaseScreen {
         var token = prefs.getString("token", "")
 
         //dummy data
-        nick = "User #735067"
-        token = "Pid2gYVEZPNnw6vAX5HptFKC50Dph1S8PkQRs9KGgfwPo3xE05tTdQJfmEuB7Ntp"
+        nick = "Владимир"
+        token = "4I23z0Dg2g1l5mcldKlOba410ajHmQI1uayFY97HWon5LDb0iNn0ZQ22jUSlGDN2"
 
         Settings.nick = nick
         Settings.token = token
