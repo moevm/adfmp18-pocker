@@ -279,6 +279,7 @@ abstract class Handler(val socket: WebSocketConnection,
     }
 
     protected open fun blinds(data: JsonObject){
+        seats.movingBets = false
         val buttonId = data["button"].asInt
         table.currView.setDealerPos(seats.getById(buttonId).localSeat)
         val info = data["info"].asJsonArray

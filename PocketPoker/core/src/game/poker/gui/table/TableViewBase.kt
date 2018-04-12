@@ -134,7 +134,7 @@ abstract class TableViewBase(val game: PocketPoker, val table: TableScreen) : Ba
                     nextStepButton.isVisible = false
                     val replayHandler = table.handler
                     if(replayHandler is ReplayHandler){
-                        replayHandler.socket.send("play")
+                        replayHandler.pausePlay()
                     }
                 } else {
                     pausePlayButton.style.imageUp = SpriteDrawable(Sprite(Textures.playButton))
@@ -142,34 +142,34 @@ abstract class TableViewBase(val game: PocketPoker, val table: TableScreen) : Ba
                     nextStepButton.isVisible = true
                     val replayHandler = table.handler
                     if(replayHandler is ReplayHandler){
-                        replayHandler.socket.send("pause")
+                        replayHandler.pausePlay()
                     }
                 }
             }
         })
         prevHandButton.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent, x: Float, y: Float) {
+                resetTable()
                 val replayHandler = table.handler
                 if(replayHandler is ReplayHandler){
-                    replayHandler.socket.send("prev hand")
+                    replayHandler.prevHand()
                 }
-                resetTable()
             }
         })
         nextHandButton.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent, x: Float, y: Float) {
+                resetTable()
                 val replayHandler = table.handler
                 if(replayHandler is ReplayHandler){
-                    replayHandler.socket.send("next hand")
+                    replayHandler.nextHand()
                 }
-                resetTable()
             }
         })
         nextStepButton.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
                 val replayHandler = table.handler
                 if(replayHandler is ReplayHandler){
-                    replayHandler.socket.send("next step")
+                    replayHandler.nextStep()
                 }
             }
         })

@@ -35,6 +35,7 @@ class ReplayHandler(val replayId: String,
         else{
             inPause = true
             socket.send("pause")
+            seats.movingBets = false
         }
     }
 
@@ -43,11 +44,13 @@ class ReplayHandler(val replayId: String,
     }
 
     fun prevHand(){
-        TODO()
+        socket.send("prev hand")
+        seats.movingBets = false
     }
 
     fun nextHand(){
-        TODO()
+        socket.send("next hand")
+        seats.movingBets = false
     }
 
     override fun initHand(data: JsonObject) {
