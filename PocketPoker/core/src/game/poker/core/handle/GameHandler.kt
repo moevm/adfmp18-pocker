@@ -113,7 +113,7 @@ class GameHandler(val name: String,
             table.currView.setTableNum("${Settings.getText(Settings.TextKeys.TABLE)} #$tableNumber")
         }
 
-        seats = Seats(table, data, gameMode)
+        //seats = Seats(table, data, gameMode)
     }
 
     override fun madeDecision(data: JsonObject) {
@@ -294,9 +294,9 @@ class GameHandler(val name: String,
                     table.currView.setRaiseInfo(minVal, maxVal, step, potAmount)
                 }
                 "all in" -> {
-                    val money = curr["money"].asLong
-                    val needToAdd = money - seats.me.gived
-                    choicesToShow.add("${Settings.getText(Settings.TextKeys.ALL_IN)} $needToAdd")
+                    //val money = curr["money"].asLong
+                    //val needToAdd = money - seats.me.gived
+                    choicesToShow.add(Settings.getText(Settings.TextKeys.ALL_IN))
                 }
             }
 
