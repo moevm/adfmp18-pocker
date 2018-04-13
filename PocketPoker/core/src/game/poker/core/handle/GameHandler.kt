@@ -4,6 +4,7 @@ import com.google.gson.JsonObject
 import game.poker.Settings
 import game.poker.core.*
 import game.poker.screens.TableScreen
+import game.poker.staticFiles.Sounds
 import game.poker.staticFiles.Texts
 import game.poker.staticFiles.Texts.TextKeys
 import java.util.*
@@ -267,6 +268,8 @@ class GameHandler(val name: String,
         }
 
         premoves.hide()
+
+        Sounds.play(Sounds.SoundType.ATTENTION)
 
         val choicesToShow = mutableListOf<String>()
 

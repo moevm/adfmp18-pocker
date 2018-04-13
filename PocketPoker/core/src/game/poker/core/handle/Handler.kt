@@ -5,6 +5,7 @@ import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import game.poker.core.*
 import game.poker.screens.TableScreen
+import game.poker.staticFiles.Sounds
 import game.poker.staticFiles.Texts
 import game.poker.staticFiles.Texts.TextKeys
 
@@ -245,6 +246,7 @@ abstract class Handler(val socket: WebSocketConnection,
             seats.setBet(json["id"].asInt, json["paid"].asLong,
                     Texts[TextKeys.ANTE])
         }
+        Sounds.play(Sounds.SoundType.CHIPS)
     }
 
     protected open fun collectMoney(data: JsonObject){
@@ -274,6 +276,8 @@ abstract class Handler(val socket: WebSocketConnection,
             }
         }
         seats.setBet(-1, seats.mainChips)
+        seats.clearDecisionStates()
+        Sounds.play(Sounds.SoundType.COLLECT)
     }
 
     protected open fun blinds(data: JsonObject){
@@ -294,6 +298,7 @@ abstract class Handler(val socket: WebSocketConnection,
                     info[1].asJsonObject["paid"].asLong,
                     Texts[TextKeys.BIG_BLIND])
         }
+        Sounds.play(Sounds.SoundType.CHIPS)
     }
 
     protected open fun blindsIncreased(data: JsonObject){
@@ -335,21 +340,26 @@ abstract class Handler(val socket: WebSocketConnection,
             "fold" -> {
                 table.currView.hideCards(seat.localSeat)
                 seats.updateInfo(seat.id, Texts[TextKeys.FOLD])
+                Sounds.play(Sounds.SoundType.FOLD)
             }
             "check" -> {
                 seats.updateInfo(seat.id, Texts[TextKeys.CHECK])
+                Sounds.play(Sounds.SoundType.CHECK)
             }
             "call" -> {
                 seats.setBet(seat.id, data["money"].asLong,
                         Texts[TextKeys.CALL])
+                Sounds.play(Sounds.SoundType.CHIPS)
             }
             "raise" -> {
                 seats.setBet(seat.id, data["money"].asLong,
                         Texts[TextKeys.RAISE])
+                Sounds.play(Sounds.SoundType.CHIPS)
             }
             "all in" -> {
                 seats.setBet(seat.id, data["money"].asLong,
                         Texts[TextKeys.ALL_IN])
+                Sounds.play(Sounds.SoundType.CHIPS)
             }
             else -> {
                 throw IllegalArgumentException("bad result")
@@ -370,18 +380,21 @@ abstract class Handler(val socket: WebSocketConnection,
         val flop2 = Card.fromString(data["card2"].asString)
         val flop3 = Card.fromString(data["card3"].asString)
         table.currView.setFlopCards(flop1, flop2, flop3)
+        Sounds.play(Sounds.SoundType.FOLD)
     }
 
     protected open fun turn(data: JsonObject){
         seats.clearDecisionStates()
         seats.clearDecisions()
         table.currView.setTurnCard(Card.fromString(data["card"].asString))
+        Sounds.play(Sounds.SoundType.FOLD)
     }
 
     protected open fun river(data: JsonObject){
         seats.clearDecisionStates()
         seats.clearDecisions()
         table.currView.setRiverCard(Card.fromString(data["card"].asString))
+        Sounds.play(Sounds.SoundType.FOLD)
     }
 
     protected open fun openCards(data: JsonObject){
@@ -415,6 +428,7 @@ abstract class Handler(val socket: WebSocketConnection,
         if(canMoveChips()){
             table.currView.moveChipsFromPot(seat.localSeat, money)
         }
+        Sounds.play(Sounds.SoundType.GRAB)
     }
 
     protected open fun moneyResults(data: JsonObject){

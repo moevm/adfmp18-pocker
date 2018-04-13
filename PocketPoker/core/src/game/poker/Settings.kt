@@ -21,6 +21,8 @@ object Settings{
     var currTournamentId = 0
     var currOrientation = TableOrientation.VERTICAL
     var currTableMode = TableMode.Game
+    var soundVolume = 0.5f
+
     val animationDuration = 0.5f
     val animationInterpolation: Interpolation = Interpolation.exp5
 }
