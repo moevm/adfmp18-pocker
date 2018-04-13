@@ -10,9 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable
 import com.badlogic.gdx.utils.Align
-import game.poker.Settings
-import game.poker.staticFiles.Fonts
-import game.poker.staticFiles.Textures
+import game.poker.staticFiles.*
+import game.poker.staticFiles.Texts.TextKeys
 import kotlin.math.roundToInt
 
 open class RaiseDialogBase(val stage: Stage, val handler: RaiseResultHandler) {
@@ -48,7 +47,7 @@ open class RaiseDialogBase(val stage: Stage, val handler: RaiseResultHandler) {
         dialog.contentTable.add(plusButton).pad(PADDING).width(100f)
         val minusButton = TextButton("-", buttonStyle)
         dialog.contentTable.add(minusButton).pad(PADDING).width(100f)
-        val potButton = TextButton(Settings.getText(Settings.TextKeys.POT), buttonStyle)
+        val potButton = TextButton(Texts[TextKeys.POT], buttonStyle)
         dialog.contentTable.add(potButton).pad(PADDING).width(250f)
         val closeButton = Image(SpriteDrawable(Sprite(Textures.exitButton)))
         dialog.contentTable.add(closeButton).pad(PADDING).width(100f).height(100f).row()

@@ -3,12 +3,14 @@ package game.poker.screens
 import com.google.gson.JsonObject
 import game.poker.PocketPoker
 import game.poker.Settings
+import game.poker.staticFiles.Texts
+import game.poker.staticFiles.Texts.TextKeys
 import game.poker.gui.menu.TournamentTableItem
 
 class TournamentTableListScreen(game: PocketPoker): BaseTableListScreen(game) {
 
     init {
-        backButton.setText(Settings.getText(Settings.TextKeys.TOURNAMENT))
+        backButton.setText(Texts[TextKeys.TOURNAMENT])
         backButton.addListener(game.switches[ScreenType.TOURNAMENT])
     }
 
@@ -19,8 +21,8 @@ class TournamentTableListScreen(game: PocketPoker): BaseTableListScreen(game) {
         for (field in tablesData) {
             val item = field.asJsonObject
             val id = item["id"].asInt
-            var name = Settings.getText(Settings.TextKeys.TABLE) + " #" + id.toString()
-            if (id == 0) name = Settings.getText(Settings.TextKeys.FINAL_TABLE)
+            var name = Texts[TextKeys.TABLE] + " #" + id.toString()
+            if (id == 0) name = Texts[TextKeys.FINAL_TABLE]
             if (name.contains(searchEdit.text, true)) tableList.add(TournamentTableItem(id, name))
         }
 

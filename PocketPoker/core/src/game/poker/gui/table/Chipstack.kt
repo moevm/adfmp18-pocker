@@ -8,7 +8,7 @@ import game.poker.core.Chip
 import game.poker.staticFiles.Textures
 
 
-class Chipstack() : Group() {
+class Chipstack : Group() {
     var money: Long = 0
         private set
 

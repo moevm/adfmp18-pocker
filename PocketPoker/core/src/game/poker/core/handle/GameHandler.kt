@@ -4,6 +4,8 @@ import com.google.gson.JsonObject
 import game.poker.Settings
 import game.poker.core.*
 import game.poker.screens.TableScreen
+import game.poker.staticFiles.Texts
+import game.poker.staticFiles.Texts.TextKeys
 import java.util.*
 
 
@@ -119,11 +121,11 @@ class GameHandler(val name: String,
         val tableNumber = data["table_number"].asLong.insertSpaces()
 
         if(data["is_final"].asBoolean){
-            table.currView.setTableNum(Settings.getText(Settings.TextKeys.FINAL_TABLE))
+            table.currView.setTableNum(Texts[TextKeys.FINAL_TABLE])
             table.isFinal = true
         }
         else{
-            table.currView.setTableNum("${Settings.getText(Settings.TextKeys.TABLE)} #$tableNumber")
+            table.currView.setTableNum("${Texts[TextKeys.TABLE]} #$tableNumber")
         }
 
         //seats = Seats(table, data, gameMode)
@@ -227,7 +229,7 @@ class GameHandler(val name: String,
 
     override fun kick(data: JsonObject) {
         socket.clean = true
-        info.kick();
+        info.kick()
         table.currView.removeDecisions()
         inLoop = false
     }
@@ -274,25 +276,25 @@ class GameHandler(val name: String,
 
             when (type) {
                 "fold" -> {
-                    choicesToShow.add(Settings.getText(Settings.TextKeys.FOLD))
+                    choicesToShow.add(Texts[TextKeys.FOLD])
                 }
                 "check" -> {
-                    choicesToShow.add(Settings.getText(Settings.TextKeys.CHECK))
+                    choicesToShow.add(Texts[TextKeys.CHECK])
                 }
                 "call" -> {
                     val money = curr["money"].asLong
                     val needToAdd = money - seats.me.gived
-                    choicesToShow.add("${Settings.getText(Settings.TextKeys.CALL)} $needToAdd")
+                    choicesToShow.add("${Texts[TextKeys.CALL]} $needToAdd")
                     seats.toCall = money
                 }
                 "raise" -> {
-                    choicesToShow.add(Settings.getText(Settings.TextKeys.RAISE))
+                    choicesToShow.add(Texts[TextKeys.RAISE])
 
                     val minVal = curr["from"].asLong
                     val maxVal = curr["to"].asLong
                     val step = minVal
 
-                    var inPot = seats.mainChips;
+                    var inPot = seats.mainChips
 
                     for(seat in seats.all()){
                         inPot += seat.gived
@@ -311,7 +313,7 @@ class GameHandler(val name: String,
                     val money = curr["money"].asLong
                     val needToAdd = money - seats.me.gived
                     table.currView.setRaiseInfo(needToAdd, needToAdd, 0, 0)
-                    choicesToShow.add(Settings.getText(Settings.TextKeys.ALL_IN))
+                    choicesToShow.add(Texts[TextKeys.ALL_IN])
                 }
             }
 

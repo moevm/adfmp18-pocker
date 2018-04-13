@@ -14,8 +14,8 @@ import game.poker.Settings
 import game.poker.core.Card
 import game.poker.core.Visibility
 import game.poker.screens.BaseScreen
-import game.poker.staticFiles.Fonts
-import game.poker.staticFiles.Textures
+import game.poker.staticFiles.*
+import game.poker.staticFiles.Texts.TextKeys
 import game.poker.PocketPoker
 import game.poker.screens.ScreenType
 import game.poker.core.Rank
@@ -108,9 +108,9 @@ abstract class TableViewBase(val game: PocketPoker, val table: TableScreen) : Ba
         val buttonDownSprite = SpriteDrawable(Sprite(Textures.menuButtonDown))
         val buttonStyle = TextButton.TextButtonStyle(buttonSprite, buttonDownSprite, buttonSprite,
                 Fonts.mainMenuButtonFont)
-        leftChoiceButton = TextButton(Settings.getText(Settings.TextKeys.FOLD), buttonStyle)
-        cenralChoiceButton = TextButton(Settings.getText(Settings.TextKeys.CALL), buttonStyle)
-        rightChoiceButton = TextButton(Settings.getText(Settings.TextKeys.RAISE), buttonStyle)
+        leftChoiceButton = TextButton(Texts[TextKeys.FOLD], buttonStyle)
+        cenralChoiceButton = TextButton(Texts[TextKeys.CALL], buttonStyle)
+        rightChoiceButton = TextButton(Texts[TextKeys.RAISE], buttonStyle)
         chatButton.isTransform = true
         infoButton.isTransform = true
         leftChoiceButton.isTransform = true
@@ -189,9 +189,9 @@ abstract class TableViewBase(val game: PocketPoker, val table: TableScreen) : Ba
     }
 
     override fun update() {
-        leftChoiceButton.setText(Settings.getText(Settings.TextKeys.FOLD))
-        cenralChoiceButton.setText(Settings.getText(Settings.TextKeys.CALL))
-        rightChoiceButton.setText(Settings.getText(Settings.TextKeys.RAISE))
+        leftChoiceButton.setText(Texts[TextKeys.FOLD])
+        cenralChoiceButton.setText(Texts[TextKeys.CALL])
+        rightChoiceButton.setText(Texts[TextKeys.RAISE])
         pot.update()
         seats.forEach { it.update() }
     }

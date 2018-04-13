@@ -3,12 +3,10 @@ package game.poker.core.handle
 import java.util.*
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
-import game.poker.Settings
-import game.poker.core.Card
-import game.poker.core.InfoCreator
-import game.poker.core.Seats
-import game.poker.core.WebSocketConnection
+import game.poker.core.*
 import game.poker.screens.TableScreen
+import game.poker.staticFiles.Texts
+import game.poker.staticFiles.Texts.TextKeys
 
 fun Long.insertSpaces(): String{
     val num = this.toString()
@@ -208,10 +206,10 @@ abstract class Handler(val socket: WebSocketConnection,
 
         if(data.has("is_final") && data["is_final"].asBoolean ||
                 data["table_number"].asInt == 0){
-            table.currView.setTableNum(Settings.getText(Settings.TextKeys.FINAL_TABLE))
+            table.currView.setTableNum(Texts[TextKeys.FINAL_TABLE])
         }
         else{
-            table.currView.setTableNum("${Settings.getText(Settings.TextKeys.TABLE)} #$tableNumber")
+            table.currView.setTableNum("${Texts[TextKeys.TABLE]} #$tableNumber")
         }
 
         val handNumber = data["hand_number"].asLong.insertSpaces()
@@ -245,7 +243,7 @@ abstract class Handler(val socket: WebSocketConnection,
         for(player in paid){
             val json = player.asJsonObject
             seats.setBet(json["id"].asInt, json["paid"].asLong,
-                    Settings.getText(Settings.TextKeys.ANTE))
+                    Texts[TextKeys.ANTE])
         }
     }
 
@@ -286,15 +284,15 @@ abstract class Handler(val socket: WebSocketConnection,
         if(info.size() == 1){
             seats.setBet(info[0].asJsonObject["id"].asInt,
                     info[0].asJsonObject["paid"].asLong,
-                    Settings.getText(Settings.TextKeys.BIG_BLIND))
+                    Texts[TextKeys.BIG_BLIND])
         }
         else{
             seats.setBet(info[0].asJsonObject["id"].asInt,
                     info[0].asJsonObject["paid"].asLong,
-                    Settings.getText(Settings.TextKeys.SMALL_BLIND))
+                    Texts[TextKeys.SMALL_BLIND])
             seats.setBet(info[1].asJsonObject["id"].asInt,
                     info[1].asJsonObject["paid"].asLong,
-                    Settings.getText(Settings.TextKeys.BIG_BLIND))
+                    Texts[TextKeys.BIG_BLIND])
         }
     }
 
@@ -336,22 +334,22 @@ abstract class Handler(val socket: WebSocketConnection,
         when(data["result"].asString){
             "fold" -> {
                 table.currView.hideCards(seat.localSeat)
-                seats.updateInfo(seat.id, Settings.getText(Settings.TextKeys.FOLD))
+                seats.updateInfo(seat.id, Texts[TextKeys.FOLD])
             }
             "check" -> {
-                seats.updateInfo(seat.id, Settings.getText(Settings.TextKeys.CHECK))
+                seats.updateInfo(seat.id, Texts[TextKeys.CHECK])
             }
             "call" -> {
                 seats.setBet(seat.id, data["money"].asLong,
-                        Settings.getText(Settings.TextKeys.CALL))
+                        Texts[TextKeys.CALL])
             }
             "raise" -> {
                 seats.setBet(seat.id, data["money"].asLong,
-                        Settings.getText(Settings.TextKeys.RAISE))
+                        Texts[TextKeys.RAISE])
             }
             "all in" -> {
                 seats.setBet(seat.id, data["money"].asLong,
-                        Settings.getText(Settings.TextKeys.ALL_IN))
+                        Texts[TextKeys.ALL_IN])
             }
             else -> {
                 throw IllegalArgumentException("bad result")
@@ -465,7 +463,7 @@ abstract class Handler(val socket: WebSocketConnection,
 
     protected open fun backCounting(data: JsonObject){
         seats.updateInfo(data["id"].asInt,
-                data["time"].asString + " " + Settings.getText(Settings.TextKeys.SECONDS))
+                data["time"].asString + " " + Texts[TextKeys.SECONDS])
     }
 
     protected open fun setDecision(data: JsonObject){

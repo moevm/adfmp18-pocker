@@ -4,11 +4,13 @@ import com.google.gson.JsonObject
 import game.poker.PocketPoker
 import game.poker.Settings
 import game.poker.gui.menu.*
+import game.poker.staticFiles.Texts
+import game.poker.staticFiles.Texts.TextKeys
 
 class ArchiveTableListScreen(game: PocketPoker): BaseTableListScreen(game) {
 
     init {
-        backButton.setText(Settings.getText(Settings.TextKeys.ARCHIVE))
+        backButton.setText(Texts[TextKeys.ARCHIVE])
         backButton.addListener(game.switches[ScreenType.ARCHIVE])
     }
 
@@ -27,8 +29,8 @@ class ArchiveTableListScreen(game: PocketPoker): BaseTableListScreen(game) {
             val item = field.asJsonObject
             val id = item["id"].asInt
             val hands = item["hands"].asInt
-            var name = Settings.getText(Settings.TextKeys.TABLE) + " #" + id.toString()
-            if (id == 0) name = Settings.getText(Settings.TextKeys.FINAL_TABLE)
+            var name = Texts[TextKeys.TABLE] + " #" + id.toString()
+            if (id == 0) name = Texts[TextKeys.FINAL_TABLE]
             if (name.contains(searchEdit.text, true)) tableList.add(ArchiveTableItem(id, name, hands))
         }
 

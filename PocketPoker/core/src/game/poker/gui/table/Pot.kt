@@ -8,10 +8,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable
 import com.badlogic.gdx.utils.Align
 import game.poker.Settings
-import game.poker.staticFiles.Fonts
-import game.poker.staticFiles.Textures
+import game.poker.staticFiles.*
+import game.poker.staticFiles.Texts.TextKeys
 
-class Pot() : Group(){
+class Pot : Group(){
     var money = 0L
         set(value) {
             field = value
@@ -20,9 +20,9 @@ class Pot() : Group(){
     var count = "0"
         set(value) {
             field = value
-            label.setText(Settings.getText(Settings.TextKeys.POT) + ":\n" + count)
+            label.setText(Texts[TextKeys.POT] + ":\n" + count)
         }
-    val label = Label(Settings.getText(Settings.TextKeys.POT) + ":\n" + count,
+    val label = Label(Texts[TextKeys.POT] + ":\n" + count,
                         Label.LabelStyle(Fonts.gameLabelFont, Color.BLACK))
     val chipstack = Chipstack()
 
@@ -36,7 +36,7 @@ class Pot() : Group(){
     }
 
     fun update(){
-        label.setText(Settings.getText(Settings.TextKeys.POT) + ":\n" + money)
+        label.setText(Texts[TextKeys.POT] + ":\n" + money)
     }
 
     fun setMoneyAfterAnimation(newMoney: Long) {

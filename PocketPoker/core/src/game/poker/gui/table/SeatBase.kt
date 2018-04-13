@@ -7,12 +7,9 @@ import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable
 import game.poker.Settings
-import game.poker.core.Card
-import game.poker.core.Chip
-import game.poker.core.Rank
-import game.poker.core.Suit
-import game.poker.core.Visibility
-import game.poker.staticFiles.Textures
+import game.poker.core.*
+import game.poker.staticFiles.*
+import game.poker.staticFiles.Texts.TextKeys
 import game.poker.gui.table.TableViewBase.Point
 
 
@@ -21,7 +18,7 @@ abstract class SeatBase : Group() {
         set(value) {
             field = value
             if (value) {
-                playerView.setText(Settings.getText(Settings.TextKeys.EMPTY_SEAT))
+                playerView.setText(Texts[TextKeys.EMPTY_SEAT])
                 clearCards()
                 setChips(0)
             }
@@ -136,13 +133,13 @@ abstract class SeatBase : Group() {
 
     fun update() {
         if (isEmpty) {
-            playerView.playerName = Settings.getText(Settings.TextKeys.EMPTY_SEAT)
+            playerView.playerName = Texts[TextKeys.EMPTY_SEAT]
         }
     }
 
     fun moveChipsToPot(){
         val action = MoveToAction()
-        action.setPosition(myPotPosition.x.toFloat(), myPotPosition.y.toFloat())
+        action.setPosition(myPotPosition.x, myPotPosition.y)
         action.duration = Settings.animationDuration
         action.interpolation = Settings.animationInterpolation
         chipstack.addAction(action)
@@ -156,7 +153,7 @@ abstract class SeatBase : Group() {
                 if (curTime >= duration){
                     chipstack.setChips(0L)
                     chipstack.updateChips()
-                    chipstack.setPosition(chipstackPosition.x.toFloat(), chipstackPosition.y.toFloat())
+                    chipstack.setPosition(chipstackPosition.x, chipstackPosition.y)
                     complete = true
                     return true
                 }
@@ -167,9 +164,9 @@ abstract class SeatBase : Group() {
     }
 
     fun moveChipsFromPot(){
-        chipstack.setPosition(myPotPosition.x.toFloat(), myPotPosition.y.toFloat())
+        chipstack.setPosition(myPotPosition.x, myPotPosition.y)
         val action = MoveToAction()
-        action.setPosition(chipstackPosition.x.toFloat(), chipstackPosition.y.toFloat())
+        action.setPosition(chipstackPosition.x, chipstackPosition.y)
         action.duration = Settings.animationDuration
         action.interpolation = Settings.animationInterpolation
         chipstack.addAction(action)
@@ -178,6 +175,6 @@ abstract class SeatBase : Group() {
     fun resetChips() {
         setChips(0L)
         chipstack.actions.clear()
-        chipstack.setPosition(chipstackPosition.x.toFloat(), chipstackPosition.y.toFloat())
+        chipstack.setPosition(chipstackPosition.x, chipstackPosition.y)
     }
 }

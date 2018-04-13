@@ -1,17 +1,17 @@
 package game.poker.core
 
-import game.poker.Settings
 import game.poker.core.handle.shortcut
 import game.poker.screens.TableScreen
-
+import game.poker.staticFiles.Texts
+import game.poker.staticFiles.Texts.TextKeys
 
 class Premoves(val table: TableScreen) {
 
     var first = false
     var second = false
     var third = false
-    var isVisible = false
-    var inTwoChoices = false
+    private var isVisible = false
+    private var inTwoChoices = false
 
     fun hide(){
         if(isVisible){
@@ -31,30 +31,30 @@ class Premoves(val table: TableScreen) {
 
     fun checkFold(){
         show()
-        table.currView.setPremoveText(Settings.getText(Settings.TextKeys.CHECK) + "/" +
-                Settings.getText(Settings.TextKeys.FOLD),
-                Settings.getText(Settings.TextKeys.CHECK),
-                Settings.getText(Settings.TextKeys.CALL) + " " +
-                        Settings.getText(Settings.TextKeys.ANY))
+        table.currView.setPremoveText(Texts[TextKeys.CHECK] + "/" +
+                Texts[TextKeys.FOLD],
+                Texts[TextKeys.CHECK],
+                Texts[TextKeys.CALL] + " " +
+                        Texts[TextKeys.ANY])
     }
 
     fun callFold(money: Long){
         show()
-        table.currView.setPremoveText(Settings.getText(Settings.TextKeys.FOLD),
-                Settings.getText(Settings.TextKeys.CALL) + " " + money.shortcut(),
-                Settings.getText(Settings.TextKeys.CALL) + " " +
-                        Settings.getText(Settings.TextKeys.ANY))
+        table.currView.setPremoveText(Texts[TextKeys.FOLD],
+                Texts[TextKeys.CALL] + " " + money.shortcut(),
+                Texts[TextKeys.CALL] + " " +
+                        Texts[TextKeys.ANY])
     }
 
     fun allInFold(money: Long){
         show()
         twoChoicesMode()
-        table.currView.setPremoveText(Settings.getText(Settings.TextKeys.FOLD),
-                Settings.getText(Settings.TextKeys.CALL) + " " + money.shortcut(),
+        table.currView.setPremoveText(Texts[TextKeys.FOLD],
+                Texts[TextKeys.CALL] + " " + money.shortcut(),
                 "")
     }
 
-    fun twoChoicesMode(){
+    private fun twoChoicesMode(){
         if(!inTwoChoices){
             inTwoChoices = true
             if(third){
@@ -67,7 +67,7 @@ class Premoves(val table: TableScreen) {
         }
     }
 
-    fun threeChoicesMode(){
+    private fun threeChoicesMode(){
         if(inTwoChoices){
             inTwoChoices = false
             table.currView.setThirdPremoveHidden(false)

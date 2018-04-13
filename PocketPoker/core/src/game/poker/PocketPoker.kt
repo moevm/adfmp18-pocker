@@ -24,6 +24,10 @@ class PocketPoker : Game() {
     lateinit var menuHandler: MenuHandler private set
 
     override fun create() {
+
+        println(Gdx.graphics.height)
+        println(Gdx.graphics.width)
+
         view = StretchViewport(gameWidth, gameHeight)
 
         fun switchTo(screen: ScreenType) = object : ClickListener() {

@@ -17,8 +17,8 @@ import com.google.gson.JsonObject
 
 import game.poker.PocketPoker
 import game.poker.Settings
-import game.poker.staticFiles.Textures
-import game.poker.staticFiles.Fonts
+import game.poker.staticFiles.*
+import game.poker.staticFiles.Texts.TextKeys
 
 
 class SettingsMenu(val game: PocketPoker) : BaseScreen {
@@ -69,29 +69,29 @@ class SettingsMenu(val game: PocketPoker) : BaseScreen {
         table.setFillParent(true)
         table.align(Align.bottom)
 
-        soundLabel = Label(Settings.getText(Settings.TextKeys.SOUND_LEVEL), labelStyle)
+        soundLabel = Label(Texts[TextKeys.SOUND_LEVEL], labelStyle)
         table.add(soundLabel).colspan(2).pad(PADDING).row()
 
         val soundScroll = Slider(0f, 100f, 1f, false, sliderStyle)
         table.add(soundScroll).colspan(2).pad(PADDING).fill().width(game.gameWidth * 0.8f).row()
 
-        musicLabel = Label(Settings.getText(Settings.TextKeys.MUSIC_LEVEL), labelStyle)
+        musicLabel = Label(Texts[TextKeys.MUSIC_LEVEL], labelStyle)
         table.add(musicLabel).colspan(2).pad(PADDING).row()
 
         val musicScroll = Slider(0f, 100f, 1f, false, sliderStyle)
         table.add(musicScroll).colspan(2).pad(PADDING).width(game.gameWidth * 0.8f).fill().row()
 
-        languageLabel = Label(Settings.getText(Settings.TextKeys.LANGUAGE), labelStyle)
+        languageLabel = Label(Texts[TextKeys.LANGUAGE], labelStyle)
         table.add(languageLabel).pad(PADDING).width(game.gameWidth * 0.25f)
 
         languageSelect = SelectBox<String>(selectBoxStyle)
-        languageSelect.setItems(Settings.getText(Settings.TextKeys.LANG_RUS),
-                Settings.getText(Settings.TextKeys.LANG_ENG))
+        languageSelect.setItems(Texts[TextKeys.LANG_RUS],
+                Texts[TextKeys.LANG_ENG])
         languageSelect.addListener(object : ChangeListener() {
             override fun changed(event: ChangeEvent?, actor: Actor?) {
                 val newLang = when(languageSelect.selectedIndex){
-                    0 -> Settings.Langs.RUS
-                    1 -> Settings.Langs.ENG
+                    0 -> Texts.Langs.RUS
+                    1 -> Texts.Langs.ENG
                     else -> throw IllegalArgumentException("Bad index at languageSelect")
                 }
                 if(newLang != Settings.currLang){
@@ -103,12 +103,12 @@ class SettingsMenu(val game: PocketPoker) : BaseScreen {
         languageSelect.setAlignment(Align.center)
         table.add(languageSelect).pad(PADDING).width(game.gameWidth * 0.55f).row()
 
-        cardsLabel = Label(Settings.getText(Settings.TextKeys.CARDS), labelStyle)
+        cardsLabel = Label(Texts[TextKeys.CARDS], labelStyle)
         table.add(cardsLabel).pad(PADDING).width(game.gameWidth * 0.25f)
 
         cardSelect = SelectBox<String>(selectBoxStyle)
-        cardSelect.setItems(Settings.getText(Settings.TextKeys.CARD_2_COLOR),
-                Settings.getText(Settings.TextKeys.CARD_4_COLOR))
+        cardSelect.setItems(Texts[TextKeys.CARD_2_COLOR],
+                Texts[TextKeys.CARD_4_COLOR])
         cardSelect.addListener(object : ChangeListener() {
             override fun changed(event: ChangeEvent?, actor: Actor?) {
                 when(cardSelect.selectedIndex){
@@ -121,13 +121,13 @@ class SettingsMenu(val game: PocketPoker) : BaseScreen {
         cardSelect.setAlignment(Align.center)
         table.add(cardSelect).pad(PADDING).width(game.gameWidth * 0.55f).row()
 
-        orientLabel = Label(Settings.getText(Settings.TextKeys.ORIENTATION),labelStyle)
+        orientLabel = Label(Texts[TextKeys.ORIENTATION],labelStyle)
         table.add(orientLabel).pad(PADDING).colspan(2).row()
 
         orientSelect = SelectBox<String>(selectBoxStyle)
-        orientSelect.setItems(Settings.getText(Settings.TextKeys.ORIENT_VERT),
-                Settings.getText(Settings.TextKeys.ORIENT_HOR),
-                Settings.getText(Settings.TextKeys.ORIENT_GYRO))
+        orientSelect.setItems(Texts[TextKeys.ORIENT_VERT],
+                Texts[TextKeys.ORIENT_HOR],
+                Texts[TextKeys.ORIENT_GYRO])
         orientSelect.addListener(object : ChangeListener() {
             override fun changed(event: ChangeEvent?, actor: Actor?) {
                 when(orientSelect.selectedIndex){
@@ -141,7 +141,7 @@ class SettingsMenu(val game: PocketPoker) : BaseScreen {
         orientSelect.setAlignment(Align.center)
         table.add(orientSelect).pad(PADDING).width(game.gameWidth * 0.55f).colspan(2).row()
 
-        mainMenuButton = TextButton(Settings.getText(Settings.TextKeys.MAIN_MENU), buttonStyle)
+        mainMenuButton = TextButton(Texts[TextKeys.MAIN_MENU], buttonStyle)
         mainMenuButton.addListener(game.switches[ScreenType.MAIN_MENU])
         table.add(mainMenuButton).colspan(2).pad(PADDING).padTop(100f).
                 padRight(game.gameWidth * 0.3f).fill().height(100f)
@@ -149,24 +149,24 @@ class SettingsMenu(val game: PocketPoker) : BaseScreen {
     }
 
     override fun update(){
-        soundLabel.setText(Settings.getText(Settings.TextKeys.SOUND_LEVEL))
-        musicLabel.setText(Settings.getText(Settings.TextKeys.MUSIC_LEVEL))
-        languageLabel.setText(Settings.getText(Settings.TextKeys.LANGUAGE))
-        cardsLabel.setText(Settings.getText(Settings.TextKeys.CARDS))
-        mainMenuButton.setText(Settings.getText(Settings.TextKeys.MAIN_MENU))
-        orientLabel.setText(Settings.getText(Settings.TextKeys.ORIENTATION))
+        soundLabel.setText(Texts[TextKeys.SOUND_LEVEL])
+        musicLabel.setText(Texts[TextKeys.MUSIC_LEVEL])
+        languageLabel.setText(Texts[TextKeys.LANGUAGE])
+        cardsLabel.setText(Texts[TextKeys.CARDS])
+        mainMenuButton.setText(Texts[TextKeys.MAIN_MENU])
+        orientLabel.setText(Texts[TextKeys.ORIENTATION])
         val currCardColor = cardSelect.selectedIndex
         val currLang = languageSelect.selectedIndex
         val currOrient = orientSelect.selectedIndex
-        cardSelect.setItems(Settings.getText(Settings.TextKeys.CARD_2_COLOR),
-                Settings.getText(Settings.TextKeys.CARD_4_COLOR))
+        cardSelect.setItems(Texts[TextKeys.CARD_2_COLOR],
+                Texts[TextKeys.CARD_4_COLOR])
         cardSelect.selectedIndex = currCardColor
-        languageSelect.setItems(Settings.getText(Settings.TextKeys.LANG_RUS),
-                Settings.getText(Settings.TextKeys.LANG_ENG))
+        languageSelect.setItems(Texts[TextKeys.LANG_RUS],
+                Texts[TextKeys.LANG_ENG])
         languageSelect.selectedIndex = currLang
-        orientSelect.setItems(Settings.getText(Settings.TextKeys.ORIENT_VERT),
-                Settings.getText(Settings.TextKeys.ORIENT_HOR),
-                Settings.getText(Settings.TextKeys.ORIENT_GYRO))
+        orientSelect.setItems(Texts[TextKeys.ORIENT_VERT],
+                Texts[TextKeys.ORIENT_HOR],
+                Texts[TextKeys.ORIENT_GYRO])
         orientSelect.selectedIndex = currOrient
     }
 

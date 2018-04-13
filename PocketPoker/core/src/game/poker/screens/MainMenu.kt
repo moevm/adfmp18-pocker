@@ -16,8 +16,8 @@ import com.google.gson.JsonObject
 
 import game.poker.PocketPoker
 import game.poker.Settings
-import game.poker.staticFiles.Textures
-import game.poker.staticFiles.Fonts
+import game.poker.staticFiles.*
+import game.poker.staticFiles.Texts.TextKeys
 import java.util.*
 
 
@@ -63,10 +63,10 @@ class MainMenu(val game: PocketPoker) : BaseScreen {
         table.setFillParent(true)
         table.align(Align.center)
 
-        val titleLabel = Label(Settings.getText(Settings.TextKeys.POCKET_POKER), logoStyle)
+        val titleLabel = Label(Texts[TextKeys.POCKET_POKER], logoStyle)
         table.add(titleLabel).colspan(2).pad(PADDING).expand().fill().center().row()
 
-        nickLabel = Label(Settings.getText(Settings.TextKeys.NICK), labelStyle)
+        nickLabel = Label(Texts[TextKeys.NICK], labelStyle)
         table.add(nickLabel).expandX().fillX().padLeft(PADDING).row()
 
         nickEdit = TextField("", editStyle)
@@ -82,17 +82,17 @@ class MainMenu(val game: PocketPoker) : BaseScreen {
         })
         table.add(nickEditButton).height(ICON_SIZE).width(ICON_SIZE).padRight(PADDING).row()
 
-        fun addButtonToTable(textKey: Settings.TextKeys): TextButton {
-            val button = TextButton(Settings.getText(textKey), buttonStyle)
+        fun addButtonToTable(textKey: TextKeys): TextButton {
+            val button = TextButton(Texts[textKey], buttonStyle)
             table.add(button).colspan(2).pad(PADDING).expand().fill().row()
             return button
         }
 
-        quickGameButton = addButtonToTable(Settings.TextKeys.QUICK_GAME)
-        tournamentButton = addButtonToTable(Settings.TextKeys.TOURNAMENT)
-        archiveButton = addButtonToTable(Settings.TextKeys.ARCHIVE)
-        settingsButton = addButtonToTable(Settings.TextKeys.SETTINGS)
-        exitButton = addButtonToTable(Settings.TextKeys.EXIT)
+        quickGameButton = addButtonToTable(TextKeys.QUICK_GAME)
+        tournamentButton = addButtonToTable(TextKeys.TOURNAMENT)
+        archiveButton = addButtonToTable(TextKeys.ARCHIVE)
+        settingsButton = addButtonToTable(TextKeys.SETTINGS)
+        exitButton = addButtonToTable(TextKeys.EXIT)
 
         tournamentButton.addListener(game.switches[ScreenType.TOURNAMENT])
         archiveButton.addListener(game.switches[ScreenType.ARCHIVE])
@@ -146,12 +146,12 @@ class MainMenu(val game: PocketPoker) : BaseScreen {
     }
 
     override fun update() {
-        nickLabel.setText(Settings.getText(Settings.TextKeys.NICK))
-        quickGameButton.setText(Settings.getText(Settings.TextKeys.QUICK_GAME))
-        tournamentButton.setText(Settings.getText(Settings.TextKeys.TOURNAMENT))
-        archiveButton.setText(Settings.getText(Settings.TextKeys.ARCHIVE))
-        settingsButton.setText(Settings.getText(Settings.TextKeys.SETTINGS))
-        exitButton.setText(Settings.getText(Settings.TextKeys.EXIT))
+        nickLabel.setText(Texts[TextKeys.NICK])
+        quickGameButton.setText(Texts[TextKeys.QUICK_GAME])
+        tournamentButton.setText(Texts[TextKeys.TOURNAMENT])
+        archiveButton.setText(Texts[TextKeys.ARCHIVE])
+        settingsButton.setText(Texts[TextKeys.SETTINGS])
+        exitButton.setText(Texts[TextKeys.EXIT])
     }
 
     override fun receiveFromServer(json: JsonObject) {
@@ -175,8 +175,8 @@ class MainMenu(val game: PocketPoker) : BaseScreen {
                 else {
                     nickEditButton.isDisabled = false
                     nickEdit.isDisabled = false
-                    alert(Settings.getText(Settings.TextKeys.REGISTRATION_ERROR),
-                            Settings.getText(Settings.TextKeys.NICK_IS_USED))
+                    alert(Texts[TextKeys.REGISTRATION_ERROR],
+                            Texts[TextKeys.NICK_IS_USED])
                 }
             }
         }
@@ -207,8 +207,8 @@ class MainMenu(val game: PocketPoker) : BaseScreen {
             }
             else if (json["answer"].asString == "fail") {
                 nickEdit.text = Settings.nick
-                alert(Settings.getText(Settings.TextKeys.REGISTRATION_ERROR),
-                        Settings.getText(Settings.TextKeys.NICK_IS_USED))
+                alert(Texts[TextKeys.REGISTRATION_ERROR],
+                        Texts[TextKeys.NICK_IS_USED])
             }
         }
         else if(json["type"].asString == "quick game is ready"){

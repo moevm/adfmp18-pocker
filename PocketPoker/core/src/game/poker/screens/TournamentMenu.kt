@@ -12,8 +12,8 @@ import com.google.gson.JsonObject
 
 import game.poker.PocketPoker
 import game.poker.Settings
-import game.poker.staticFiles.Textures
-import game.poker.staticFiles.Fonts
+import game.poker.staticFiles.*
+import game.poker.staticFiles.Texts.TextKeys
 import game.poker.gui.menu.ScrollableContainer
 import game.poker.gui.menu.ScrollableContainer.ClickHandler
 import game.poker.gui.menu.TournamentItem
@@ -68,14 +68,14 @@ class TournamentMenu(val game: PocketPoker) : BaseScreen {
         table.setFillParent(true)
         table.top()
 
-        createButton = TextButton(Settings.getText(Settings.TextKeys.CREATE_TOURNAMENT), buttonStyle)
+        createButton = TextButton(Texts[TextKeys.CREATE_TOURNAMENT], buttonStyle)
         createButton.addListener(game.switches[ScreenType.CREATE_TOURNAMENT])
         table.add(createButton).pad(PADDING).expandX().fillX().height(100f).row()
         searchEdit = TextField("", editStyle)
         searchEdit.setTextFieldListener { textField, key -> updateTournaments()}
         table.add(searchEdit).pad(PADDING).expandX().fillX().row()
         table.add(tournamentsList.actor).expandX().fillX().row()
-        mainMenuButton = TextButton(Settings.getText(Settings.TextKeys.MAIN_MENU), buttonStyle)
+        mainMenuButton = TextButton(Texts[TextKeys.MAIN_MENU], buttonStyle)
         mainMenuButton.addListener(game.switches[ScreenType.MAIN_MENU])
         table.add(mainMenuButton).pad(PADDING).expand().left().bottom()
         stage.addActor(table)
@@ -83,8 +83,8 @@ class TournamentMenu(val game: PocketPoker) : BaseScreen {
     }
 
     override fun update(){
-        createButton.setText(Settings.getText(Settings.TextKeys.CREATE_TOURNAMENT))
-        mainMenuButton.setText(Settings.getText(Settings.TextKeys.MAIN_MENU))
+        createButton.setText(Texts[TextKeys.CREATE_TOURNAMENT])
+        mainMenuButton.setText(Texts[TextKeys.MAIN_MENU])
     }
 
     override fun show(){
@@ -144,7 +144,7 @@ class TournamentMenu(val game: PocketPoker) : BaseScreen {
             val stack = item["initial stack"].asInt
             val started = item["started"].asBoolean
             val canPlay = item["can play"].asBoolean
-            if (name == "") name = Settings.getText(Settings.TextKeys.TOURNAMENT) + " #" + id.toString()
+            if (name == "") name = Texts[TextKeys.TOURNAMENT] + " #" + id.toString()
             if (name.contains(searchEdit.text, true))
                 tournamentsList.add(TournamentItem(id, name, playersLeft, players, stack,
                         isStarted = started, canPlay = canPlay))

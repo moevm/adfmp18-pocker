@@ -12,8 +12,8 @@ import com.google.gson.JsonObject
 
 import game.poker.PocketPoker
 import game.poker.Settings
-import game.poker.staticFiles.Textures
-import game.poker.staticFiles.Fonts
+import game.poker.staticFiles.*
+import game.poker.staticFiles.Texts.TextKeys
 import game.poker.gui.menu.*
 import game.poker.gui.menu.ScrollableContainer.ClickHandler
 
@@ -58,7 +58,7 @@ class ArchiveMenu(val game: PocketPoker) : BaseScreen {
         searchEdit.setTextFieldListener { textField, key -> updateArchive()}
         table.add(searchEdit).pad(PADDING).expandX().fillX().row()
         table.add(archiveList.actor).expandX().fillX().row()
-        mainMenuButton = TextButton(Settings.getText(Settings.TextKeys.MAIN_MENU), buttonStyle)
+        mainMenuButton = TextButton(Texts[TextKeys.MAIN_MENU], buttonStyle)
         mainMenuButton.addListener(game.switches[ScreenType.MAIN_MENU])
         table.add(mainMenuButton).pad(PADDING).expand().left().bottom()
         stage.addActor(table)
@@ -66,7 +66,7 @@ class ArchiveMenu(val game: PocketPoker) : BaseScreen {
     }
 
     override fun update(){
-        mainMenuButton.setText(Settings.getText(Settings.TextKeys.MAIN_MENU))
+        mainMenuButton.setText(Texts[TextKeys.MAIN_MENU])
     }
 
     override fun show(){
@@ -117,7 +117,7 @@ class ArchiveMenu(val game: PocketPoker) : BaseScreen {
             val players = item["players"].asInt
             val hands = item["hands"].asInt
             var name = item["name"].asString
-            if (name == "") name = Settings.getText(Settings.TextKeys.TOURNAMENT) + " #" + id.toString()
+            if (name == "") name = Texts[TextKeys.TOURNAMENT] + " #" + id.toString()
             if (name.contains(searchEdit.text, true))
                 archiveList.add(ArchiveItem(id, name, date, tables, players, hands))
         }

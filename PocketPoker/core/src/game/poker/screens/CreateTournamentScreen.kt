@@ -17,8 +17,8 @@ import com.google.gson.JsonObject
 
 import game.poker.PocketPoker
 import game.poker.Settings
-import game.poker.staticFiles.Textures
-import game.poker.staticFiles.Fonts
+import game.poker.staticFiles.*
+import game.poker.staticFiles.Texts.TextKeys
 
 
 class CreateTournamentScreen(val game: PocketPoker) : BaseScreen {
@@ -81,15 +81,15 @@ class CreateTournamentScreen(val game: PocketPoker) : BaseScreen {
         table.pad(PADDING)
         table.setFillParent(true)
 
-        titleLabel = Label(Settings.getText(Settings.TextKeys.TITLE), labelStyle)
+        titleLabel = Label(Texts[TextKeys.TITLE], labelStyle)
         table.add(titleLabel).pad(PADDING).colspan(2).fillX().expandX().left().row()
         titleEdit = TextField("", editStyle)
         table.add(titleEdit).pad(PADDING).colspan(2).fillX().expandX().left().row()
 
-        playersLabel = Label(Settings.getText(Settings.TextKeys.PLAYERS), labelStyle)
+        playersLabel = Label(Texts[TextKeys.PLAYERS], labelStyle)
         table.add(playersLabel).pad(PADDING).expandX().fillX().left()
 
-        botsLabel = Label(Settings.getText(Settings.TextKeys.BOTS), labelStyle)
+        botsLabel = Label(Texts[TextKeys.BOTS], labelStyle)
         table.add(botsLabel).pad(PADDING).fillX().expandX().left().row()
 
         fun buildTextFieldNumberFilter(max: Int): TextFieldFilter {
@@ -112,31 +112,31 @@ class CreateTournamentScreen(val game: PocketPoker) : BaseScreen {
         botsEdit.textFieldFilter = filter
         table.add(botsEdit).pad(PADDING).fillX().expandX().left().row()
 
-        tablePlayersLabel = Label(Settings.getText(Settings.TextKeys.TABLE_PLAYERS), labelStyle)
+        tablePlayersLabel = Label(Texts[TextKeys.TABLE_PLAYERS], labelStyle)
         table.add(tablePlayersLabel).pad(PADDING).fillX().expandX().left()
 
         tablePlayersEdit = SelectBox<String>(selectBoxStyle)
         tablePlayersEdit.setItems("2", "3", "4", "5", "6", "7", "8", "9")
         table.add(tablePlayersEdit).pad(PADDING).align(Align.center).left().width(100f).row()
 
-        chipsLabel = Label(Settings.getText(Settings.TextKeys.CHIPS), labelStyle)
+        chipsLabel = Label(Texts[TextKeys.CHIPS], labelStyle)
         table.add(chipsLabel).pad(PADDING).fillX().expandX().left()
         chipsEdit = TextField("10000", editStyle)
         chipsEdit.textFieldFilter = buildTextFieldNumberFilter(MAX_CHIPS)
         table.add(chipsEdit).pad(PADDING).fillX().expandX().left().row()
 
-        blindSpeedLabel = Label(Settings.getText(Settings.TextKeys.BLIND_SPEED), labelStyle)
+        blindSpeedLabel = Label(Texts[TextKeys.BLIND_SPEED], labelStyle)
         table.add(blindSpeedLabel).pad(PADDING).colspan(2).fillX().expandX().left().row()
 
         blindSpeedEdit = SelectBox<String>(selectBoxStyle)
-        blindSpeedEdit.setItems(Settings.getText(Settings.TextKeys.STANDARD),
-                Settings.getText(Settings.TextKeys.FAST),
-                Settings.getText(Settings.TextKeys.RAPID),
-                Settings.getText(Settings.TextKeys.BULLET)
+        blindSpeedEdit.setItems(Texts[TextKeys.STANDARD],
+                Texts[TextKeys.FAST],
+                Texts[TextKeys.RAPID],
+                Texts[TextKeys.BULLET]
         )
         table.add(blindSpeedEdit).pad(PADDING).colspan(2).fillX().expandX().left().row()
 
-        startBlindsLabel = Label(Settings.getText(Settings.TextKeys.START_BLINDS), labelStyle)
+        startBlindsLabel = Label(Texts[TextKeys.START_BLINDS], labelStyle)
         table.add(startBlindsLabel).pad(PADDING).colspan(2).fillX().expandX().left().row()
 
         startBlindsEdit = SelectBox<String>(selectBoxStyle)
@@ -144,7 +144,7 @@ class CreateTournamentScreen(val game: PocketPoker) : BaseScreen {
         table.add(startBlindsEdit).pad(PADDING).colspan(2).fillX().expandX().left().row()
         table.add(Label("", labelStyle)).expand()
 
-        //passwordLabel = Label(Settings.getText(Settings.TextKeys.PASSWORD), labelStyle)
+        //passwordLabel = Label(Texts[TextKeys.PASSWORD), labelStyle)
         //table.add(passwordLabel).pad(PADDING).colspan(2).fillX().expandX().left().row()
         //passwordEdit = TextField("", editStyle)
         //table.add(passwordEdit).pad(PADDING).colspan(2).fillX().expandX().left().row()
@@ -152,10 +152,10 @@ class CreateTournamentScreen(val game: PocketPoker) : BaseScreen {
         val bottomTable = Table()
         bottomTable.setFillParent(true)
 
-        toTournamentsButton = TextButton(Settings.getText(Settings.TextKeys.TOURNAMENT), buttonStyle)
+        toTournamentsButton = TextButton(Texts[TextKeys.TOURNAMENT], buttonStyle)
         toTournamentsButton.addListener(game.switches[ScreenType.TOURNAMENT])
         bottomTable.add(toTournamentsButton).pad(PADDING).expandY().bottom()
-        createButton = TextButton(Settings.getText(Settings.TextKeys.CREATE), buttonStyle)
+        createButton = TextButton(Texts[TextKeys.CREATE], buttonStyle)
         createButton.addListener(object: ClickListener() {
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
                 createTournament()
@@ -168,20 +168,20 @@ class CreateTournamentScreen(val game: PocketPoker) : BaseScreen {
     }
 
     override fun update(){
-        titleLabel.setText(Settings.getText(Settings.TextKeys.TITLE))
-        playersLabel.setText(Settings.getText(Settings.TextKeys.PLAYERS))
-        tablePlayersLabel.setText(Settings.getText(Settings.TextKeys.TABLE_PLAYERS))
-        botsLabel.setText(Settings.getText(Settings.TextKeys.BOTS))
-        chipsLabel.setText(Settings.getText(Settings.TextKeys.CHIPS))
-        blindSpeedLabel.setText(Settings.getText(Settings.TextKeys.BLIND_SPEED))
-        startBlindsLabel.setText(Settings.getText(Settings.TextKeys.START_BLINDS))
-        //passwordLabel.setText(Settings.getText(Settings.TextKeys.PASSWORD))
-        toTournamentsButton.setText(Settings.getText(Settings.TextKeys.TOURNAMENT))
-        createButton.setText(Settings.getText(Settings.TextKeys.CREATE))
-        blindSpeedEdit.setItems(Settings.getText(Settings.TextKeys.STANDARD),
-                Settings.getText(Settings.TextKeys.FAST),
-                Settings.getText(Settings.TextKeys.RAPID),
-                Settings.getText(Settings.TextKeys.BULLET)
+        titleLabel.setText(Texts[TextKeys.TITLE])
+        playersLabel.setText(Texts[TextKeys.PLAYERS])
+        tablePlayersLabel.setText(Texts[TextKeys.TABLE_PLAYERS])
+        botsLabel.setText(Texts[TextKeys.BOTS])
+        chipsLabel.setText(Texts[TextKeys.CHIPS])
+        blindSpeedLabel.setText(Texts[TextKeys.BLIND_SPEED])
+        startBlindsLabel.setText(Texts[TextKeys.START_BLINDS])
+        //passwordLabel.setText(Texts[TextKeys.PASSWORD))
+        toTournamentsButton.setText(Texts[TextKeys.TOURNAMENT])
+        createButton.setText(Texts[TextKeys.CREATE])
+        blindSpeedEdit.setItems(Texts[TextKeys.STANDARD],
+                Texts[TextKeys.FAST],
+                Texts[TextKeys.RAPID],
+                Texts[TextKeys.BULLET]
         )
     }
 
@@ -221,7 +221,7 @@ class CreateTournamentScreen(val game: PocketPoker) : BaseScreen {
     private fun createTournament() {
 
         if (botsEdit.text.toInt() > playersEdit.text.toInt()) {
-            alert("", Settings.getText(Settings.TextKeys.BOTS_MORE_THAN_PLAYERS))
+            alert("", Texts[TextKeys.BOTS_MORE_THAN_PLAYERS])
             return
         }
 
