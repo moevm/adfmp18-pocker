@@ -212,6 +212,7 @@ class Seats(val table: TableScreen, data: JsonObject, gameMode: Boolean) {
 
     fun clear(){
         table.currView.clearAllCards()
+        table.currView.resetTable()
 
         clearDecisionStates()
 
