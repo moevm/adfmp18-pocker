@@ -12,7 +12,7 @@ object Settings{
     enum class TableMode { Game, Spectate, Replay }
 
     var currLang = Texts.Langs.RUS
-    var currCards = CardsType.COLOR_4
+    var currCards = CardsType.COLOR_2
 
     var nick = ""
     var token = ""

@@ -54,20 +54,14 @@ object Textures{
 
     private fun createCards() : Map<Pair<Settings.CardsType, Card>, Lazy<Texture>>{
         val map = mutableMapOf<Pair<Settings.CardsType, Card>, Lazy<Texture>>()
-        for (packPath in arrayOf("4color")){ // todo: add 2color
+        for ((cardsType, packPath) in mapOf(Settings.CardsType.COLOR_2 to "2color",
+                                            Settings.CardsType.COLOR_4 to "4color")){
             for(rank in Rank.values()){
                 for (suit in Suit.values()){
-
-                    map[Pair(Settings.CardsType.COLOR_4, Card(rank, suit, Visibility.Open))] =
+                    map[Pair(cardsType, Card(rank, suit, Visibility.Open))] =
                         lazy { Texture("pics/cards/$packPath/open/${rank.r}${suit.s}.png") }
-                    map[Pair(Settings.CardsType.COLOR_4, Card(rank, suit, Visibility.Hidden))] =
+                    map[Pair(cardsType, Card(rank, suit, Visibility.Hidden))] =
                         lazy { Texture("pics/cards/$packPath/hidden/${rank.r}${suit.s}.png") }
-
-                    map[Pair(Settings.CardsType.COLOR_2, Card(rank, suit, Visibility.Open))] =
-                        lazy { map[Pair(Settings.CardsType.COLOR_4, Card(rank, suit, Visibility.Open))]!!.value }
-                    map[Pair(Settings.CardsType.COLOR_2, Card(rank, suit, Visibility.Hidden))] =
-                        lazy { map[Pair(Settings.CardsType.COLOR_4, Card(rank, suit, Visibility.Hidden))]!!.value }
-
                 }
             }
         }
