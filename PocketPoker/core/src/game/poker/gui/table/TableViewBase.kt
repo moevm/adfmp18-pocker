@@ -330,7 +330,7 @@ abstract class TableViewBase(val game: PocketPoker, val table: TableScreen) : Ba
     }
 
     fun moveChipsToPot(){
-        var potMoney = 0L
+        var potMoney = pot.chipstack.money
         seats.forEach {
             it.moveChipsToPot()
             potMoney += it.getChips()
