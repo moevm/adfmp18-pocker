@@ -46,19 +46,12 @@ class PlayerView : Label("",Label.LabelStyle(Fonts.gameLabelFont, Color.BLACK)) 
         set(value) {
             field = value
             needUpdateBackground = true
-            style.background = if (value){
-                SpriteDrawable(Sprite(Textures.labelBgDisabled))
-            } else {
-                if (isActive) SpriteDrawable(Sprite(Textures.labelBgActive))
-                else SpriteDrawable(Sprite(Textures.labelBg))
-            }
         }
 
     var isActive = false // yellow background - playerView is thinking
         set(value) {
             field = value
             needUpdateBackground = true
-
         }
 
     fun updateBackground(){
