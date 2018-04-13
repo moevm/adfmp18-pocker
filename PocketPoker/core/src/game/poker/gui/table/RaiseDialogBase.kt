@@ -116,7 +116,12 @@ open class RaiseDialogBase(val stage: Stage, val handler: RaiseResultHandler) {
         raiseLabel.setText(minRaise.toString())
         raiseSlider.value = 0f
         currRaise = minRaise
-        stage.addActor(dialog)
+        if(maxRaise == minRaise){
+            handler.handle(currRaise)
+        }
+        else{
+            stage.addActor(dialog)
+        }
     }
 
     open class RaiseResultHandler {

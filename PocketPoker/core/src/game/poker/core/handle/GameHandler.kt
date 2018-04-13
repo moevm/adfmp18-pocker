@@ -308,8 +308,9 @@ class GameHandler(val name: String,
                             maxVal - seats.me.gived, step, potAmount)
                 }
                 "all in" -> {
-                    //val money = curr["money"].asLong
-                    //val needToAdd = money - seats.me.gived
+                    val money = curr["money"].asLong
+                    val needToAdd = money - seats.me.gived
+                    table.currView.setRaiseInfo(needToAdd, needToAdd, 0, 0)
                     choicesToShow.add(Settings.getText(Settings.TextKeys.ALL_IN))
                 }
             }
