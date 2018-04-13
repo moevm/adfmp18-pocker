@@ -177,6 +177,7 @@ abstract class SeatBase : Group() {
 
     fun resetChips() {
         setChips(0L)
+        chipstack.actions.clear()
         chipstack.setPosition(chipstackPosition.x.toFloat(), chipstackPosition.y.toFloat())
     }
 }

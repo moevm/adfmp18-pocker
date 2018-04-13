@@ -67,7 +67,6 @@ abstract class TableViewBase(val game: PocketPoker, val table: TableScreen) : Ba
         override fun handle(raiseValue: Long) {
             //вызывается, когда пользователь нажал ОК на диалоге рейза
             //raiseValue - выбранное им значение рейза
-            println("Raise " + raiseValue.toString())
             val gameHandler = table.handler
             if(gameHandler is GameHandler){
                 gameHandler.sendRaise(raiseValue)
@@ -94,10 +93,6 @@ abstract class TableViewBase(val game: PocketPoker, val table: TableScreen) : Ba
         fun setLocation(nx:Float, ny:Float) {
             x = nx
             y = ny
-        }
-        fun setLocation(nx:Double, ny:Double) {
-            x = nx.toFloat()
-            y = ny.toFloat()
         }
     }
 
@@ -128,28 +123,15 @@ abstract class TableViewBase(val game: PocketPoker, val table: TableScreen) : Ba
         pausePlayButton.isTransform = true
         pausePlayButton.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent, x: Float, y: Float) {
-                if (pausePlayButton.isChecked) {
-                    pausePlayButton.style.imageUp = SpriteDrawable(Sprite(Textures.pauseButton))
-                    pausePlayButton.style.imageDown = SpriteDrawable(Sprite(Textures.pauseButtonDown))
-                    nextStepButton.isVisible = false
-                    val replayHandler = table.handler
-                    if(replayHandler is ReplayHandler){
-                        replayHandler.pausePlay()
-                    }
-                } else {
-                    pausePlayButton.style.imageUp = SpriteDrawable(Sprite(Textures.playButton))
-                    pausePlayButton.style.imageDown = SpriteDrawable(Sprite(Textures.playButtonDown))
-                    nextStepButton.isVisible = true
-                    val replayHandler = table.handler
-                    if(replayHandler is ReplayHandler){
-                        replayHandler.pausePlay()
-                    }
+                val replayHandler = table.handler
+                if(replayHandler is ReplayHandler){
+                    replayHandler.pausePlay()
                 }
+                changeReplayButtonStyle(!pausePlayButton.isChecked)
             }
         })
         prevHandButton.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent, x: Float, y: Float) {
-                resetTable()
                 val replayHandler = table.handler
                 if(replayHandler is ReplayHandler){
                     replayHandler.prevHand()
@@ -158,7 +140,6 @@ abstract class TableViewBase(val game: PocketPoker, val table: TableScreen) : Ba
         })
         nextHandButton.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent, x: Float, y: Float) {
-                resetTable()
                 val replayHandler = table.handler
                 if(replayHandler is ReplayHandler){
                     replayHandler.nextHand()
@@ -265,6 +246,20 @@ abstract class TableViewBase(val game: PocketPoker, val table: TableScreen) : Ba
             setChips(i,0)
         }
         seats.forEach { it.isVisible = false }
+        pausePlayButton.isChecked = true
+        changeReplayButtonStyle(false)
+    }
+
+    private fun changeReplayButtonStyle (isPlay: Boolean) {
+        if (isPlay) {
+            pausePlayButton.style.imageUp = SpriteDrawable(Sprite(Textures.playButton))
+            pausePlayButton.style.imageDown = SpriteDrawable(Sprite(Textures.playButtonDown))
+            nextStepButton.isVisible = true
+        } else {
+            pausePlayButton.style.imageUp = SpriteDrawable(Sprite(Textures.pauseButton))
+            pausePlayButton.style.imageDown = SpriteDrawable(Sprite(Textures.pauseButtonDown))
+            nextStepButton.isVisible = false
+        }
     }
 
     fun fit(table:TableViewBase) {
@@ -321,7 +316,6 @@ abstract class TableViewBase(val game: PocketPoker, val table: TableScreen) : Ba
         pot.actions.clear()
         setPotChips(0L)
         seats.forEach {
-            it.actions.clear()
             it.resetChips()
         }
         clearAllCards()
