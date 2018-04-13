@@ -95,7 +95,14 @@ class MainMenu(val game: PocketPoker) : BaseScreen {
 
         tournamentButton.addListener(game.switches[ScreenType.TOURNAMENT])
         archiveButton.addListener(game.switches[ScreenType.ARCHIVE])
-        quickGameButton.addListener(game.switches[ScreenType.TABLE])
+        quickGameButton.addListener(object : ClickListener() {
+            override fun clicked(event: InputEvent, x: Float, y: Float) {
+                val data = JsonObject()
+                data.addProperty("type", "create quick game")
+                data.addProperty("name", Settings.nick)
+                game.menuHandler.sendToServer(data)
+            }
+        })
         settingsButton.addListener(game.switches[ScreenType.SETTINGS])
         exitButton.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent, x: Float, y: Float) {
@@ -202,6 +209,11 @@ class MainMenu(val game: PocketPoker) : BaseScreen {
                 alert(Settings.getText(Settings.TextKeys.REGISTRATION_ERROR),
                         Settings.getText(Settings.TextKeys.NICK_IS_USED))
             }
+        }
+        else if(json["type"].asString == "quick game is ready"){
+            Settings.currTableMode = Settings.TableMode.Game
+            Settings.currTournamentId = -1
+            game.setCurrScreen(ScreenType.TABLE)
         }
     }
 

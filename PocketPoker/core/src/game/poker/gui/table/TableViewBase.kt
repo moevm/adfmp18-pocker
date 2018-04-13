@@ -204,6 +204,7 @@ abstract class TableViewBase(val game: PocketPoker, val table: TableScreen) : Ba
         stage.addActor(pausePlayButton)
         stage.addActor(exitButton)
         updateButtons()
+        resetTable()
     }
 
     override fun update() {

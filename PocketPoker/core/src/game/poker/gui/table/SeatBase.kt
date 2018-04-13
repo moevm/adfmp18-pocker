@@ -17,7 +17,7 @@ import game.poker.gui.table.TableViewBase.Point
 
 
 abstract class SeatBase : Group() {
-    var isEmpty = false
+    var isEmpty = true
         set(value) {
             field = value
             if (value) {
@@ -31,7 +31,7 @@ abstract class SeatBase : Group() {
             field = value
             dealerChip.isVisible = value
         }
-    var isCardsUp = false
+    var isCardsUp = true
         private set
     var isCardsEmpty = true
     protected val myPotPosition = Point()
@@ -44,6 +44,10 @@ abstract class SeatBase : Group() {
     protected val dealerChip = Image(SpriteDrawable(Sprite(Textures.getChip(Chip.DEALER))))
     var cardName1 = Card(Rank.Ace, Suit.Spades, Visibility.Open)
     var cardName2 = Card(Rank.Ace, Suit.Spades, Visibility.Open)
+
+    init {
+        clearCards()
+    }
 
     fun checkUpdates(){
         if(needUpdateCards){
