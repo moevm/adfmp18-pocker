@@ -28,6 +28,7 @@ class MainMenu(val game: PocketPoker) : BaseScreen {
     private val ICON_SIZE = 100f
     private var isRandomRegister = false
     private var isUserSet = false
+    private var connectedToServer = false
 
     private val nickLabel: Label
     private val nickEdit: TextField
@@ -116,7 +117,7 @@ class MainMenu(val game: PocketPoker) : BaseScreen {
 
     override fun show(){
         Gdx.input.inputProcessor = stage
-        if (!isUserSet) setUser()
+        if (!isUserSet && connectedToServer) setUser()
     }
 
     override fun render(delta: Float) {
@@ -214,6 +215,10 @@ class MainMenu(val game: PocketPoker) : BaseScreen {
             Settings.currTableMode = Settings.TableMode.Game
             Settings.currTournamentId = -1
             game.setCurrScreen(ScreenType.TABLE)
+        }
+        else if(json["type"].asString == "connected"){
+            connectedToServer = true
+            setUser()
         }
     }
 
