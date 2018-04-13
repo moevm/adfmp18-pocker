@@ -115,6 +115,7 @@ open class RaiseDialogBase(val stage: Stage, val handler: RaiseResultHandler) {
         this.pot = pot
         raiseLabel.setText(minRaise.toString())
         raiseSlider.value = 0f
+        currRaise = minRaise
         stage.addActor(dialog)
     }
 

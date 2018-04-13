@@ -35,12 +35,25 @@ class GameHandler(val name: String,
         premoves.set(ans, isChecked)
     }
 
-    fun sendDecision(toSend: String){
+    private fun sendDecision(toSend: String){
         table.currView.removePlayingChoices()
         val json = JsonObject()
         json.addProperty("type", "decision")
         json.addProperty("text", toSend)
         socket.send(json.toString())
+    }
+
+    fun sendFold(){
+        sendDecision("1")
+    }
+
+    fun sendMiddle(){
+        sendDecision("2")
+    }
+
+    fun sendRaise(amount: Long){
+        val raiseValue: Long = amount + seats.me.gived
+        sendDecision("3 " + raiseValue.toString())
     }
 
     override fun reconnectEnd(data: JsonObject){
@@ -291,7 +304,8 @@ class GameHandler(val name: String,
                         potAmount = maxVal
                     }
 
-                    table.currView.setRaiseInfo(minVal, maxVal, step, potAmount)
+                    table.currView.setRaiseInfo(minVal - seats.me.gived,
+                            maxVal - seats.me.gived, step, potAmount)
                 }
                 "all in" -> {
                     //val money = curr["money"].asLong

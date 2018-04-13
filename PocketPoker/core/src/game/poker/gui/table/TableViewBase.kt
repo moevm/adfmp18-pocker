@@ -70,7 +70,7 @@ abstract class TableViewBase(val game: PocketPoker, val table: TableScreen) : Ba
             println("Raise " + raiseValue.toString())
             val gameHandler = table.handler
             if(gameHandler is GameHandler){
-                gameHandler.sendDecision("3 " + raiseValue.toString())
+                gameHandler.sendRaise(raiseValue)
             }
         }
     }
@@ -177,7 +177,7 @@ abstract class TableViewBase(val game: PocketPoker, val table: TableScreen) : Ba
             override fun clicked(event: InputEvent, x: Float, y: Float) {
                 val gameHandler = table.handler
                 if(gameHandler is GameHandler){
-                    gameHandler.sendDecision("1")
+                    gameHandler.sendFold()
                 }
             }
         })
@@ -185,7 +185,7 @@ abstract class TableViewBase(val game: PocketPoker, val table: TableScreen) : Ba
             override fun clicked(event: InputEvent, x: Float, y: Float) {
                 val gameHandler = table.handler
                 if(gameHandler is GameHandler){
-                    gameHandler.sendDecision("2")
+                    gameHandler.sendMiddle()
                 }
             }
         })
