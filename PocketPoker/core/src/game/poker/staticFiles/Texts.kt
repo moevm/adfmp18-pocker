@@ -66,6 +66,7 @@ object Texts {
         RAPID,
         BULLET,
         BOTS_MORE_THAN_PLAYERS,
+        OK,
     }
 
     private fun generateLanguages() : Map<Pair<Langs, TextKeys>, String>{
@@ -241,6 +242,9 @@ object Texts {
 
         map[Pair(Langs.RUS, TextKeys.BULLET)] = "Молниеносная"
         map[Pair(Langs.ENG, TextKeys.BULLET)] = "Bullet"
+
+        map[Pair(Langs.RUS, TextKeys.OK)] = "Ок"
+        map[Pair(Langs.ENG, TextKeys.OK)] = "Оk"
 
         map[Pair(Langs.RUS, TextKeys.BOTS_MORE_THAN_PLAYERS)] = "Количество ботов не должно\nпревышать количество игроков"
         map[Pair(Langs.ENG, TextKeys.BOTS_MORE_THAN_PLAYERS)] = "Bots amount must not be greater\nthan players amount"
