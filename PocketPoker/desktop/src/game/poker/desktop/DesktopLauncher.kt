@@ -11,8 +11,8 @@ object DesktopLauncher {
         config.title = "PocketPoker"
         config.forceExit = false
         // so height/width == 1920/1080
-        config.height = 576//950
-        config.width = 324//534
+        config.height = 640//950
+        config.width = 360//534
         LwjglApplication(PocketPoker(), config)
     }
 }
