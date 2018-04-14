@@ -256,7 +256,6 @@ class CreateTournamentScreen(val game: PocketPoker) : BaseScreen {
     }
 
     override fun setPreviousScreen() {
-        println("Set prev screen to tournament")
         game.setCurrScreen(ScreenType.TOURNAMENT)
     }
 

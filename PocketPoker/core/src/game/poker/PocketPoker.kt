@@ -58,7 +58,6 @@ class PocketPoker : Game() {
         Gdx.gl.glClearColor(0f, 0f, 0f, 1f)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
         if(Gdx.input.isKeyJustPressed(Input.Keys.BACK)){
-            println("Set prev screen")
             currScreen?.setPreviousScreen()
         }
         screen.render(0f)
