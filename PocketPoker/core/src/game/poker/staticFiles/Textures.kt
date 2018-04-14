@@ -1,6 +1,6 @@
 package game.poker.staticFiles
-import com.badlogic.gdx.graphics.Texture
 
+import com.badlogic.gdx.graphics.Texture
 import game.poker.Settings
 import game.poker.core.Rank
 import game.poker.core.Suit

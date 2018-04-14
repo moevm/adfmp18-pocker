@@ -10,9 +10,7 @@ import com.badlogic.gdx.utils.viewport.Viewport
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.google.gson.JsonObject
 import game.poker.core.handle.MenuHandler
-
 import game.poker.screens.*
-import java.util.*
 
 class PocketPoker : Game() {
 

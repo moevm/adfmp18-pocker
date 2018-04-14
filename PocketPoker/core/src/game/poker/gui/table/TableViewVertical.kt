@@ -2,7 +2,6 @@ package game.poker.gui.table
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
-import com.google.gson.JsonObject
 import game.poker.PocketPoker
 import game.poker.screens.TableScreen
 

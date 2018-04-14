@@ -84,9 +84,9 @@ fun Long.shortcut(): String{
 }
 
 
-abstract class Handler(val socket: WebSocketConnection,
-                       val table: TableScreen,
-                       val queue: Queue<String>) {
+abstract class Handler(protected val socket: WebSocketConnection,
+                       protected val table: TableScreen,
+                       private val queue: Queue<String>) {
 
     var inLoop = false
     var reconnectMode = false
@@ -95,17 +95,17 @@ abstract class Handler(val socket: WebSocketConnection,
     lateinit var seats: Seats
     val info = InfoCreator(table)
 
-    val parser = JsonParser()
+    private val parser = JsonParser()
 
-    val systemHandle = mapOf<String, (JsonObject) -> Unit>(
-        "broken" to  ::broken,
+    private val systemHandle = mapOf<String, (JsonObject) -> Unit>(
+            "broken" to  ::broken,
             "finish" to ::finish,
             "info" to ::infoMessage,
             "reconnect start" to ::reconnectStart,
             "reconnect end" to ::reconnectEnd
     )
 
-    val gameHandle = mapOf<String, (JsonObject) -> Unit>(
+    private val gameHandle = mapOf<String, (JsonObject) -> Unit>(
             "init hand" to ::initHand,
             "ante" to ::ante,
             "collect money" to ::collectMoney,
@@ -139,6 +139,11 @@ abstract class Handler(val socket: WebSocketConnection,
     )
 
     abstract fun open()
+
+    fun close(){
+        inLoop = false
+        socket.close()
+    }
 
     fun handle(){
         inLoop = true

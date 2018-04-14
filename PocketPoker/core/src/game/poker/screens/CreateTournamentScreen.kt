@@ -16,7 +16,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.google.gson.JsonObject
 
 import game.poker.PocketPoker
-import game.poker.Settings
 import game.poker.staticFiles.*
 import game.poker.staticFiles.Texts.TextKeys
 

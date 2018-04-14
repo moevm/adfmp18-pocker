@@ -10,8 +10,7 @@ import game.poker.staticFiles.Texts.TextKeys
 import java.util.*
 
 
-class GameHandler(val name: String,
-                  conn: WebSocketConnection,
+class GameHandler(conn: WebSocketConnection,
                   queue: Queue<String>,
                   table: TableScreen) : Handler(conn, table, queue) {
 
@@ -27,7 +26,7 @@ class GameHandler(val name: String,
     override fun open(){
         val json = JsonObject()
         json.addProperty("type", "js")
-        json.addProperty("name", name)
+        json.addProperty("name", Settings.nick)
         json.addProperty("id", Settings.currTournamentId)
         json.addProperty("password", "")
         socket.connectToServer(json.toString())

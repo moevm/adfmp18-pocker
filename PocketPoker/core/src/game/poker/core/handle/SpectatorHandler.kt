@@ -6,8 +6,7 @@ import game.poker.core.WebSocketConnection
 import game.poker.screens.TableScreen
 import java.util.*
 
-class SpectatorHandler(val nick: String,
-                       conn: WebSocketConnection,
+class SpectatorHandler(conn: WebSocketConnection,
                        queue: Queue<String>,
                        table: TableScreen) : Handler(conn, table, queue) {
 
@@ -25,7 +24,7 @@ class SpectatorHandler(val nick: String,
             info.watchingTable()
             val json = JsonObject()
             json.addProperty("type", "nick")
-            json.addProperty("nick", nick)
+            json.addProperty("nick", Settings.nick)
             socket.send(json.toString())
         }
         table.currView.setPlayersLeft(data["players_left"].asLong.insertSpaces())

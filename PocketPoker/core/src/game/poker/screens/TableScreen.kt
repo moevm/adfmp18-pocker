@@ -72,8 +72,7 @@ class TableScreen(val game: PocketPoker) : BaseScreen {
     }
 
     fun deleteHandler(){
-        handler?.inLoop = false
-        handler?.socket?.close()
+        handler?.close()
         handler = null
     }
 
@@ -89,31 +88,15 @@ class TableScreen(val game: PocketPoker) : BaseScreen {
             tableViewHorizontal.mode = mode
             tableViewVertical.mode = mode
         }
-        when(mode){
-            Settings.TableMode.Game -> {
-                val queue: Queue<String> = LinkedList<String>()
-                val socket = WebSocketConnection(queue)
-                handler = GameHandler(Settings.nick, socket, queue, this)
-                handler?.open()
-                Thread(Runnable { handler?.handle() }).start()
-            }
-            Settings.TableMode.Spectate -> {
-                val queue: Queue<String> = LinkedList<String>()
-                val socket = WebSocketConnection(queue)
-                handler = SpectatorHandler(Settings.nick, socket, queue, this)
-                handler?.open()
-                Thread(Runnable { handler?.handle() }).start()
-            }
-            Settings.TableMode.Replay -> {
-                val queue: Queue<String> = LinkedList<String>()
-                val socket = WebSocketConnection(queue)
-                val replayId = (Settings.currArchiveTournamentId.toString()
-                                + ":" + Settings.currTableId)
-                handler = ReplayHandler(replayId, socket, queue, this)
-                handler?.open()
-                Thread(Runnable { handler?.handle() }).start()
-            }
+        val queue: Queue<String> = LinkedList<String>()
+        val socket = WebSocketConnection(queue)
+        handler = when(mode){
+            Settings.TableMode.Game -> GameHandler(socket, queue, this)
+            Settings.TableMode.Spectate -> SpectatorHandler(socket, queue, this)
+            Settings.TableMode.Replay -> ReplayHandler(socket, queue, this)
         }
+        handler?.open()
+        Thread(Runnable { handler?.handle() }).start()
         currView.show()
     }
 
