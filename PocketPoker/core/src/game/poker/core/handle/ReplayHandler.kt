@@ -55,8 +55,10 @@ class ReplayHandler(conn: WebSocketConnection,
     }
 
     override fun initHand(data: JsonObject) {
-        if(waitForInit){
-            info.watchingTable()
+        if(waitForInit) {
+            val tableNum = data["table_number"].asLong.insertSpaces()
+            val isFinal = data.has("is_final") && data["is_final"].asBoolean || tableNum == "0"
+            info.watchingTable(tableNum, isFinal)
         }
         table.currView.setPlayersLeft(data["players_left"].asLong.insertSpaces())
         super.initHand(data)

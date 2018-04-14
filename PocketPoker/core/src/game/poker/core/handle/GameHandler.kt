@@ -116,11 +116,13 @@ class GameHandler(conn: WebSocketConnection,
 
     override fun resit(data: JsonObject) {
         resitMode = true
-        info.resit()
 
         val tableNumber = data["table_number"].asLong.insertSpaces()
+        val isFinal = data["is_final"].asBoolean
 
-        if(data["is_final"].asBoolean){
+        info.resit(tableNumber, isFinal)
+
+        if(isFinal){
             table.currView.setTableNum(Texts[TextKeys.FINAL_TABLE])
             table.isFinal = true
         }
@@ -210,7 +212,7 @@ class GameHandler(conn: WebSocketConnection,
 
     override fun busted(data: JsonObject) {
         socket.clean = true
-        info.busted()
+        info.busted(data["place"].asInt)
         inLoop = false
     }
 

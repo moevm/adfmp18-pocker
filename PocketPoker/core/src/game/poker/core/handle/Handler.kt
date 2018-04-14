@@ -192,12 +192,12 @@ abstract class Handler(protected val socket: WebSocketConnection,
     }
 
     protected open fun finish(data: JsonObject){
-        info.finish()
+        info.finish(data["msg"].asString)
         inLoop = false
     }
 
     protected open fun infoMessage(data: JsonObject){
-        info.basic()
+        info.basic(data["msg"].asString)
     }
 
     protected open fun reconnectStart(data: JsonObject){
@@ -316,7 +316,7 @@ abstract class Handler(protected val socket: WebSocketConnection,
         val bb = data["bb"].asLong.shortcut()
         val sb = data["sb"].asLong.shortcut()
         val ante = data["ante"].asLong.shortcut()
-        info.blindsIncreasing()
+        info.blindsIncreasing(bb, sb, ante)
         table.currView.setBlinds(sb, bb, ante)
     }
 

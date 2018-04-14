@@ -21,7 +21,9 @@ class SpectatorHandler(conn: WebSocketConnection,
 
     override fun initHand(data: JsonObject) {
         if(waitForInit){
-            info.watchingTable()
+            val tableNum = data["table_number"].asLong.insertSpaces()
+            val isFinal = data["is_final"].asBoolean
+            info.watchingTable(tableNum, isFinal)
             val json = JsonObject()
             json.addProperty("type", "nick")
             json.addProperty("nick", Settings.nick)

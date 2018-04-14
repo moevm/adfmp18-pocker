@@ -67,6 +67,15 @@ object Texts {
         BULLET,
         BOTS_MORE_THAN_PLAYERS,
         OK,
+        GAME_STARTED,
+        WATCHING,
+        WAS_RESIT,
+        PLACE,
+        YOU_FINISHED,
+        WINNER,
+        KICKED,
+        SUCCESS_RECONNECTION,
+        WAIT_REGISTER,
     }
 
     private fun generateLanguages() : Map<Pair<Langs, TextKeys>, String>{
@@ -248,6 +257,33 @@ object Texts {
 
         map[Pair(Langs.RUS, TextKeys.BOTS_MORE_THAN_PLAYERS)] = "Количество ботов не должно\nпревышать количество игроков"
         map[Pair(Langs.ENG, TextKeys.BOTS_MORE_THAN_PLAYERS)] = "Bots amount must not be greater\nthan players amount"
+
+        map[Pair(Langs.RUS, TextKeys.GAME_STARTED)] = "Игра началась. Удачи!"
+        map[Pair(Langs.ENG, TextKeys.GAME_STARTED)] = "Game started. Good luck!"
+
+        map[Pair(Langs.RUS, TextKeys.WATCHING)] = "Ты смотришь"
+        map[Pair(Langs.ENG, TextKeys.WATCHING)] = "You are watching"
+
+        map[Pair(Langs.RUS, TextKeys.WAS_RESIT)] = "Тебя пересадили на"
+        map[Pair(Langs.ENG, TextKeys.WAS_RESIT)] = "You was resit on"
+
+        map[Pair(Langs.RUS, TextKeys.PLACE)] = "место"
+        map[Pair(Langs.ENG, TextKeys.PLACE)] = "place"
+
+        map[Pair(Langs.RUS, TextKeys.YOU_FINISHED)] = "Ты звнял"
+        map[Pair(Langs.ENG, TextKeys.YOU_FINISHED)] = "You finished"
+
+        map[Pair(Langs.RUS, TextKeys.WINNER)] = "Позздравляю! Ты победитель!"
+        map[Pair(Langs.ENG, TextKeys.WINNER)] = "Congratulations! You are winner!"
+
+        map[Pair(Langs.RUS, TextKeys.KICKED)] = "Тебя исключили из игры"
+        map[Pair(Langs.ENG, TextKeys.KICKED)] = "You was kicked"
+
+        map[Pair(Langs.RUS, TextKeys.SUCCESS_RECONNECTION)] = "Успешное переподключение"
+        map[Pair(Langs.ENG, TextKeys.SUCCESS_RECONNECTION)] = "Reconnection was successful"
+
+        map[Pair(Langs.RUS, TextKeys.WAIT_REGISTER)] = "Идёт регистрация, подождите"
+        map[Pair(Langs.ENG, TextKeys.WAIT_REGISTER)] = "Wait while all players register"
 
         return map
     }
