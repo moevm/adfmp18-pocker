@@ -206,7 +206,13 @@ class CreateTournamentScreen(val game: PocketPoker) : BaseScreen {
     }
 
     override fun hide(){
-
+        titleEdit.text = ""
+        playersEdit.text = "9"
+        tablePlayersEdit.selectedIndex = 0
+        botsEdit.text = "0"
+        chipsEdit.text = "10000"
+        blindSpeedEdit.selectedIndex = 0
+        startBlindsEdit.selectedIndex = 0
     }
 
     override fun dispose(){
