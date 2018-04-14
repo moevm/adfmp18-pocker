@@ -72,14 +72,23 @@ class SettingsMenu(val game: PocketPoker) : BaseScreen {
         soundLabel = Label(Texts[TextKeys.SOUND_LEVEL], labelStyle)
         table.add(soundLabel).colspan(2).pad(PADDING).row()
 
-        val soundScroll = Slider(0f, 100f, 1f, false, sliderStyle)
+        val soundScroll = Slider(0f, 1f, 0.01f, false, sliderStyle)
+        soundScroll.value = Settings.soundVolume
+        soundScroll.addListener(object : ChangeListener() {
+            override fun changed(event: ChangeEvent?, actor: Actor?) {
+                println("sound " + soundScroll.value)
+                Settings.soundVolume = soundScroll.value
+            }
+        })
         table.add(soundScroll).colspan(2).pad(PADDING).fill().width(game.gameWidth * 0.8f).row()
 
         musicLabel = Label(Texts[TextKeys.MUSIC_LEVEL], labelStyle)
         table.add(musicLabel).colspan(2).pad(PADDING).row()
+        musicLabel.isVisible = false //reason: not used
 
-        val musicScroll = Slider(0f, 100f, 1f, false, sliderStyle)
+        val musicScroll = Slider(0f, 1f, 0.01f, false, sliderStyle)
         table.add(musicScroll).colspan(2).pad(PADDING).width(game.gameWidth * 0.8f).fill().row()
+        musicScroll.isVisible = false //reason: not used
 
         languageLabel = Label(Texts[TextKeys.LANGUAGE], labelStyle)
         table.add(languageLabel).pad(PADDING).width(game.gameWidth * 0.25f)
