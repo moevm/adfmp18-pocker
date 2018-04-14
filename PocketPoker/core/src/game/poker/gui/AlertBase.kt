@@ -50,7 +50,7 @@ open class AlertBase(val stage: Stage) {
 
     }
 
-    open fun show(text: String, action: () -> Unit = {}) {
+    open fun show(text: String, action: () -> Unit) {
         textLabel.setText(text)
         dialog.pack()
         stage.addActor(dialog)

@@ -22,6 +22,7 @@ import game.poker.core.Rank
 import game.poker.core.Suit
 import game.poker.core.handle.GameHandler
 import game.poker.core.handle.ReplayHandler
+import game.poker.gui.AlertBase
 import game.poker.screens.TableScreen
 
 
@@ -95,6 +96,8 @@ abstract class TableViewBase(val game: PocketPoker, val table: TableScreen) : Ba
             y = ny
         }
     }
+
+    abstract val alert: AlertBase
 
     init {
         val tableSprite = Sprite(Textures.pokerTable)
@@ -560,6 +563,14 @@ abstract class TableViewBase(val game: PocketPoker, val table: TableScreen) : Ba
         raiseInfo.maxRaise = maxRaise
         raiseInfo.raiseStep = step
         raiseInfo.pot = pot
+    }
+
+    fun showAlert(text: String){
+        alert.show(text, { })
+    }
+
+    fun showLastAlert(text: String){
+        alert.show(text, { this@TableViewBase.setPreviousScreen() })
     }
 
     override fun receiveFromServer(json: JsonObject) {

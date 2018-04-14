@@ -4,8 +4,12 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import game.poker.PocketPoker
 import game.poker.screens.TableScreen
+import game.poker.gui.AlertHorizontal
 
 class TableViewHorizontal(game: PocketPoker, table: TableScreen) : TableViewBase(game, table) {
+
+    override val alert = AlertHorizontal(stage)
+
     init {
         setUpCards()
         setUpButtons()

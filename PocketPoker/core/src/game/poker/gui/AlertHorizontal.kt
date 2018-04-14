@@ -9,8 +9,8 @@ class AlertHorizontal(stage: Stage): AlertBase(stage) {
         dialog.setKeepWithinStage(false)
     }
 
-    override fun show(text: String) {
-        super.show(text)
+    override fun show(text: String, action: ()->Unit) {
+        super.show(text, action)
         dialog.setPosition(Math.round((stage.width - dialog.height) / 2f).toFloat(),
                 Math.round((stage.height - dialog.width) / 2f + dialog.width).toFloat());
     }
