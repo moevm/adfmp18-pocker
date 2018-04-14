@@ -55,9 +55,4 @@ class TableViewVertical(game: PocketPoker, table: TableScreen) : TableViewBase(g
         prevHandButton.setSize(100f, 100f)
         pausePlayButton.setSize(100f, 100f)
     }
-
-    override fun receiveFromServer(json: JsonObject) {
-
-    }
-
 }

@@ -130,4 +130,8 @@ class ArchiveMenu(val game: PocketPoker) : BaseScreen {
         game.menuHandler.sendToServer(data)
     }
 
+    override fun setPreviousScreen() {
+        game.setCurrScreen(ScreenType.MAIN_MENU)
+    }
+
 }

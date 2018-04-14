@@ -151,4 +151,9 @@ class TournamentMenu(val game: PocketPoker) : BaseScreen {
         }
         needUpadte = false
     }
+
+    override fun setPreviousScreen() {
+        println("Set prev screen to main from tournament")
+        game.setCurrScreen(ScreenType.MAIN_MENU)
+    }
 }

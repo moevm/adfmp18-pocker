@@ -9,17 +9,16 @@ import java.util.*
 
 class MenuHandler(private val game: PocketPoker) {
 
-    val queue: Queue<String> = LinkedList<String>()
-    val socket: WebSocketConnection = WebSocketConnection(queue)
-    var inLoop = false
-    val parser = JsonParser()
+    private val queue: Queue<String> = LinkedList<String>()
+    private val socket: WebSocketConnection = WebSocketConnection(queue)
+    private var inLoop = false
+    private val parser = JsonParser()
 
     init {
         val json = JsonObject()
         json.addProperty("type", "kt")
         socket.connectToServer(json.toString())
         Thread(Runnable { handle() }).start()
-        Thread.sleep(100) //TODO: wipe this shit
     }
 
     fun handle(){
@@ -40,6 +39,14 @@ class MenuHandler(private val game: PocketPoker) {
     fun sendToServer(json: JsonObject){
         val message = json.toString()
         socket.send(message)
+    }
+
+    fun close(){
+        inLoop = false
+        val json = JsonObject()
+        json.addProperty("type", "close")
+        sendToServer(json)
+        socket.close()
     }
 
 }

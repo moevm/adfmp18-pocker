@@ -144,4 +144,8 @@ class TableScreen(val game: PocketPoker) : BaseScreen {
     override fun receiveFromServer(json: JsonObject) {
 
     }
+
+    override fun setPreviousScreen() {
+        currView.setPreviousScreen()
+    }
 }

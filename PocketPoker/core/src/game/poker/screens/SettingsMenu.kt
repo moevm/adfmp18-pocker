@@ -202,4 +202,8 @@ class SettingsMenu(val game: PocketPoker) : BaseScreen {
     override fun receiveFromServer(json: JsonObject) {
 
     }
+
+    override fun setPreviousScreen() {
+        game.setCurrScreen(ScreenType.MAIN_MENU)
+    }
 }

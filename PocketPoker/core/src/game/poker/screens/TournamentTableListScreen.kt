@@ -16,16 +16,20 @@ class TournamentTableListScreen(game: PocketPoker): BaseTableListScreen(game) {
 
     override fun updateList() {
 
-        if (tablesData.size() == 1) handleItemClick(tablesData[0].asJsonObject["id"].asInt)
-        tableList.clear()
-        for (field in tablesData) {
-            val item = field.asJsonObject
-            val id = item["id"].asInt
-            var name = Texts[TextKeys.TABLE] + " #" + id.toString()
-            if (id == 0) name = Texts[TextKeys.FINAL_TABLE]
-            if (name.contains(searchEdit.text, true)) tableList.add(TournamentTableItem(id, name))
+        if (tablesData.size() == 1) {
+            Settings.isOnlyOneTable = true
+            handleItemClick(tablesData[0].asJsonObject["id"].asInt)
         }
-
+        else{
+            Settings.isOnlyOneTable = false
+            tableList.clear()
+            for (field in tablesData) {
+                val item = field.asJsonObject
+                val id = item["id"].asInt
+                val name = if(id != 0) "${Texts[TextKeys.TABLE]} #$id" else Texts[TextKeys.FINAL_TABLE]
+                if (name.contains(searchEdit.text, true)) tableList.add(TournamentTableItem(id, name))
+            }
+        }
     }
 
     override fun sendRequestForUpdateList() {
@@ -50,6 +54,10 @@ class TournamentTableListScreen(game: PocketPoker): BaseTableListScreen(game) {
         Settings.currTableId = id
         Settings.currTableMode = Settings.TableMode.Spectate
         game.setCurrScreen(ScreenType.TABLE)
+    }
+
+    override fun setPreviousScreen() {
+        game.setCurrScreen(ScreenType.TOURNAMENT)
     }
 
 }

@@ -23,17 +23,23 @@ class ArchiveTableListScreen(game: PocketPoker): BaseTableListScreen(game) {
 
     override fun updateList() {
 
-        if (tablesData.size() == 1) handleItemClick(tablesData[0].asJsonObject["id"].asInt)
-        tableList.clear()
-        for (field in tablesData) {
-            val item = field.asJsonObject
-            val id = item["id"].asInt
-            val hands = item["hands"].asInt
-            var name = Texts[TextKeys.TABLE] + " #" + id.toString()
-            if (id == 0) name = Texts[TextKeys.FINAL_TABLE]
-            if (name.contains(searchEdit.text, true)) tableList.add(ArchiveTableItem(id, name, hands))
+        if (tablesData.size() == 1) {
+            Settings.isOnlyOneTable = true
+            handleItemClick(tablesData[0].asJsonObject["id"].asInt)
         }
-
+        else{
+            Settings.isOnlyOneTable = false
+            tableList.clear()
+            for (field in tablesData) {
+                val item = field.asJsonObject
+                val id = item["id"].asInt
+                val hands = item["hands"].asInt
+                val name = if(id != 0) "${Texts[TextKeys.TABLE]} #$id" else Texts[TextKeys.FINAL_TABLE]
+                if (name.contains(searchEdit.text, true)) {
+                    tableList.add(ArchiveTableItem(id, name, hands))
+                }
+            }
+        }
     }
 
     override fun receiveFromServer(json: JsonObject) {
@@ -51,6 +57,10 @@ class ArchiveTableListScreen(game: PocketPoker): BaseTableListScreen(game) {
         Settings.currTableId = id
         Settings.currTableMode = Settings.TableMode.Replay
         game.setCurrScreen(ScreenType.TABLE)
+    }
+
+    override fun setPreviousScreen() {
+        game.setCurrScreen(ScreenType.ARCHIVE)
     }
 
 }

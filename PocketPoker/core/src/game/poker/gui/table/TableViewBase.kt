@@ -102,7 +102,11 @@ abstract class TableViewBase(val game: PocketPoker, val table: TableScreen) : Ba
         val pokerTable = Image(SpriteDrawable(tableSprite))
         pokerTable.setPosition(game.gameWidth * 0.05f, game.gameHeight * 0.05f)
         pokerTable.setSize(game.gameWidth * 0.9f, game.gameHeight * 0.9f)
-        exitButton.addListener(game.switches[ScreenType.MAIN_MENU])
+        exitButton.addListener(object : ClickListener() {
+            override fun clicked(event: InputEvent, x: Float, y: Float) {
+                this@TableViewBase.setPreviousScreen()
+            }
+        })
         exitButton.setSize(120f, 120f)
         val buttonSprite = SpriteDrawable(Sprite(Textures.menuButton))
         val buttonDownSprite = SpriteDrawable(Sprite(Textures.menuButtonDown))
@@ -560,5 +564,34 @@ abstract class TableViewBase(val game: PocketPoker, val table: TableScreen) : Ba
 
     override fun receiveFromServer(json: JsonObject) {
 
+    }
+
+    override fun setPreviousScreen() {
+        when(mode){
+            Settings.TableMode.Game -> {
+                if(Settings.currTournamentId == -1){
+                    game.setCurrScreen(ScreenType.MAIN_MENU)
+                }
+                else{
+                    game.setCurrScreen(ScreenType.TOURNAMENT)
+                }
+            }
+            Settings.TableMode.Spectate -> {
+                if(Settings.isOnlyOneTable){
+                    game.setCurrScreen(ScreenType.TOURNAMENT)
+                }
+                else{
+                    game.setCurrScreen(ScreenType.TOURNAMENT_TABLE_LIST)
+                }
+            }
+            Settings.TableMode.Replay -> {
+                if(Settings.isOnlyOneTable){
+                    game.setCurrScreen(ScreenType.ARCHIVE)
+                }
+                else{
+                    game.setCurrScreen(ScreenType.ARCHIVE_TABLE_LIST)
+                }
+            }
+        }
     }
 }

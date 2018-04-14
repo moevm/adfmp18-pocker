@@ -69,8 +69,4 @@ class TableViewHorizontal(game: PocketPoker, table: TableScreen) : TableViewBase
         prevHandButton.rotation = -90f
         pausePlayButton.rotation = -90f
     }
-
-    override fun receiveFromServer(json: JsonObject) {
-
-    }
 }

@@ -22,6 +22,7 @@ object Settings{
     var currOrientation = TableOrientation.VERTICAL
     var currTableMode = TableMode.Game
     var soundVolume = 0.5f
+    var isOnlyOneTable = false
 
     val animationDuration = 0.5f
     val animationInterpolation: Interpolation = Interpolation.exp5

@@ -2,6 +2,7 @@ package game.poker
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Game
+import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.viewport.StretchViewport
@@ -11,6 +12,7 @@ import com.google.gson.JsonObject
 import game.poker.core.handle.MenuHandler
 
 import game.poker.screens.*
+import java.util.*
 
 class PocketPoker : Game() {
 
@@ -25,9 +27,7 @@ class PocketPoker : Game() {
 
     override fun create() {
 
-        println(Gdx.graphics.height)
-        println(Gdx.graphics.width)
-
+        Gdx.input.isCatchBackKey = true
         view = StretchViewport(gameWidth, gameHeight)
 
         fun switchTo(screen: ScreenType) = object : ClickListener() {
@@ -55,8 +55,12 @@ class PocketPoker : Game() {
     }
 
     override fun render() {
-        Gdx.gl.glClearColor(0.9f, 0.9f, 0.9f, 1f)
+        Gdx.gl.glClearColor(0f, 0f, 0f, 1f)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
+        if(Gdx.input.isKeyJustPressed(Input.Keys.BACK)){
+            println("Set prev screen")
+            currScreen?.setPreviousScreen()
+        }
         screen.render(0f)
     }
 
@@ -73,11 +77,7 @@ class PocketPoker : Game() {
 
     override fun dispose() {
         screens.forEach { it.value.dispose() }
-        menuHandler.inLoop = false
-        val json = JsonObject()
-        json.addProperty("type", "close")
-        menuHandler.sendToServer(json)
-        menuHandler.socket.close()
+        menuHandler.close()
         Gdx.app.exit()
     }
 

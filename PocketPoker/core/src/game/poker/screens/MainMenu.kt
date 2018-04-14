@@ -287,4 +287,8 @@ class MainMenu(val game: PocketPoker) : BaseScreen {
         game.menuHandler.sendToServer(data)
     }
 
+    override fun setPreviousScreen() {
+
+    }
+
 }
