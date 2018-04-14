@@ -269,7 +269,7 @@ class GameHandler(val name: String,
 
         premoves.hide()
 
-        Sounds.play(Sounds.SoundType.ATTENTION)
+        playSound(Sounds.SoundType.ATTENTION)
 
         val choicesToShow = mutableListOf<String>()
 

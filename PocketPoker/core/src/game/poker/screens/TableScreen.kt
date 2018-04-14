@@ -98,7 +98,11 @@ class TableScreen(val game: PocketPoker) : BaseScreen {
                 Thread(Runnable { handler?.handle() }).start()
             }
             Settings.TableMode.Spectate -> {
-                TODO()
+                val queue: Queue<String> = LinkedList<String>()
+                val socket = WebSocketConnection(queue)
+                handler = SpectatorHandler(Settings.nick, socket, queue, this)
+                handler?.open()
+                Thread(Runnable { handler?.handle() }).start()
             }
             Settings.TableMode.Replay -> {
                 val queue: Queue<String> = LinkedList<String>()
