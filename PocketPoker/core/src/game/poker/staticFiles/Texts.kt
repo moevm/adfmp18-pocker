@@ -255,8 +255,8 @@ object Texts {
         map[Pair(Langs.RUS, TextKeys.OK)] = "Ок"
         map[Pair(Langs.ENG, TextKeys.OK)] = "Оk"
 
-        map[Pair(Langs.RUS, TextKeys.BOTS_MORE_THAN_PLAYERS)] = "Количество ботов не должно\nпревышать количество игроков"
-        map[Pair(Langs.ENG, TextKeys.BOTS_MORE_THAN_PLAYERS)] = "Bots amount must not be greater\nthan players amount"
+        map[Pair(Langs.RUS, TextKeys.BOTS_MORE_THAN_PLAYERS)] = "Количество ботов не должно превышать количество игроков"
+        map[Pair(Langs.ENG, TextKeys.BOTS_MORE_THAN_PLAYERS)] = "Bots amount must not be greater than players amount"
 
         map[Pair(Langs.RUS, TextKeys.GAME_STARTED)] = "Игра началась. Удачи!"
         map[Pair(Langs.ENG, TextKeys.GAME_STARTED)] = "Game started. Good luck!"

@@ -67,7 +67,7 @@ class SettingsMenu(val game: PocketPoker) : BaseScreen {
         val table = Table()
         table.pad(PADDING)
         table.setFillParent(true)
-        table.align(Align.bottom)
+        table.align(Align.top)
 
         soundLabel = Label(Texts[TextKeys.SOUND_LEVEL], labelStyle)
         table.add(soundLabel).colspan(2).pad(PADDING).row()
@@ -76,18 +76,17 @@ class SettingsMenu(val game: PocketPoker) : BaseScreen {
         soundScroll.value = Settings.soundVolume
         soundScroll.addListener(object : ChangeListener() {
             override fun changed(event: ChangeEvent?, actor: Actor?) {
-                println("sound " + soundScroll.value)
                 Settings.soundVolume = soundScroll.value
             }
         })
         table.add(soundScroll).colspan(2).pad(PADDING).fill().width(game.gameWidth * 0.8f).row()
 
         musicLabel = Label(Texts[TextKeys.MUSIC_LEVEL], labelStyle)
-        table.add(musicLabel).colspan(2).pad(PADDING).row()
+        //table.add(musicLabel).colspan(2).pad(PADDING).row()
         musicLabel.isVisible = false //reason: not used
 
         val musicScroll = Slider(0f, 1f, 0.01f, false, sliderStyle)
-        table.add(musicScroll).colspan(2).pad(PADDING).width(game.gameWidth * 0.8f).fill().row()
+        //table.add(musicScroll).colspan(2).pad(PADDING).width(game.gameWidth * 0.8f).fill().row()
         musicScroll.isVisible = false //reason: not used
 
         languageLabel = Label(Texts[TextKeys.LANGUAGE], labelStyle)
@@ -135,8 +134,9 @@ class SettingsMenu(val game: PocketPoker) : BaseScreen {
 
         orientSelect = SelectBox<String>(selectBoxStyle)
         orientSelect.setItems(Texts[TextKeys.ORIENT_VERT],
-                Texts[TextKeys.ORIENT_HOR],
-                Texts[TextKeys.ORIENT_GYRO])
+                Texts[TextKeys.ORIENT_HOR]
+                //Texts[TextKeys.ORIENT_GYRO]
+        )
         orientSelect.addListener(object : ChangeListener() {
             override fun changed(event: ChangeEvent?, actor: Actor?) {
                 when(orientSelect.selectedIndex){
@@ -152,8 +152,7 @@ class SettingsMenu(val game: PocketPoker) : BaseScreen {
 
         mainMenuButton = TextButton(Texts[TextKeys.MAIN_MENU], buttonStyle)
         mainMenuButton.addListener(game.switches[ScreenType.MAIN_MENU])
-        table.add(mainMenuButton).colspan(2).pad(PADDING).padTop(100f).
-                padRight(game.gameWidth * 0.3f).fill().height(100f)
+        table.add(mainMenuButton).colspan(2).pad(PADDING).expand().bottom().left()
         stage.addActor(table)
     }
 
@@ -174,8 +173,9 @@ class SettingsMenu(val game: PocketPoker) : BaseScreen {
                 Texts[TextKeys.LANG_ENG])
         languageSelect.selectedIndex = currLang
         orientSelect.setItems(Texts[TextKeys.ORIENT_VERT],
-                Texts[TextKeys.ORIENT_HOR],
-                Texts[TextKeys.ORIENT_GYRO])
+                Texts[TextKeys.ORIENT_HOR]
+                //Texts[TextKeys.ORIENT_GYRO]
+        )
         orientSelect.selectedIndex = currOrient
     }
 

@@ -206,10 +206,6 @@ class Seats(val table: TableScreen, data: JsonObject, gameMode: Boolean) {
 
     }
 
-    fun clearBets(){
-        TODO("work around chipstack timeout")
-    }
-
     fun clear(){
         table.currView.clearAllCards()
         table.currView.resetTable()
