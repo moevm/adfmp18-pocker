@@ -270,10 +270,10 @@ object Texts {
         map[Pair(Langs.RUS, TextKeys.PLACE)] = "место"
         map[Pair(Langs.ENG, TextKeys.PLACE)] = "place"
 
-        map[Pair(Langs.RUS, TextKeys.YOU_FINISHED)] = "Ты звнял"
+        map[Pair(Langs.RUS, TextKeys.YOU_FINISHED)] = "Ты занял"
         map[Pair(Langs.ENG, TextKeys.YOU_FINISHED)] = "You finished"
 
-        map[Pair(Langs.RUS, TextKeys.WINNER)] = "Позздравляю! Ты победитель!"
+        map[Pair(Langs.RUS, TextKeys.WINNER)] = "Поздравляю! Ты победитель!"
         map[Pair(Langs.ENG, TextKeys.WINNER)] = "Congratulations! You are winner!"
 
         map[Pair(Langs.RUS, TextKeys.KICKED)] = "Тебя исключили из игры"
@@ -282,7 +282,7 @@ object Texts {
         map[Pair(Langs.RUS, TextKeys.SUCCESS_RECONNECTION)] = "Успешное переподключение"
         map[Pair(Langs.ENG, TextKeys.SUCCESS_RECONNECTION)] = "Reconnection was successful"
 
-        map[Pair(Langs.RUS, TextKeys.WAIT_REGISTER)] = "Идёт регистрация, подождите"
+        map[Pair(Langs.RUS, TextKeys.WAIT_REGISTER)] = "Идет регистрация, подождите"
         map[Pair(Langs.ENG, TextKeys.WAIT_REGISTER)] = "Wait while all players register"
 
         return map
